@@ -8,7 +8,7 @@ const ProjectCard = ({ data }: { data: Project }) => {
   return (
     <article className="mb-6">
       <ImageWrapper
-        src={data?.images[0]?.url || "/team/1.png"} // Dynamic image URL
+        src={"/team/1.png"} // Dynamic image URL
         alt={data?.title || "Project Image"}
         
         width={500}
