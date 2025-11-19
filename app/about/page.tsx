@@ -76,7 +76,7 @@ const About = async () => {
         {data.map((item, index) => (
           <article
             key={index}
-            className={`p-10 md:border-none border-b-2 md:p-0 ${
+            className={` md:p-10 py-10  border-b ${
               index % 2 === 0 ? "md:border-r-2 " : ""
             } ${index >= 2 ? "md:border-t-2 " : ""}`}
           >
