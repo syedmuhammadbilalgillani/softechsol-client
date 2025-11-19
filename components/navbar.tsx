@@ -52,7 +52,7 @@ const Navbar = () => {
           : "bg-white"
       }`}
     >
-      <div className="flex justify-between items-center max-w-7xl mx-auto md:px-0 px-10 py-3">
+      <div className="flex justify-between items-center max-w-[85vw] mx-auto py-3">
         <Link href="/">
           <Image
             src="/logo.png"

@@ -145,13 +145,12 @@ body {
     @apply border-border outline-ring/50;
   }
   .main {
-    @apply max-w-7xl mx-auto px-6 md:px-10;
+    @apply md:max-w-[85vw] max-w-[90vw] mx-auto;
   }
   body {
     @apply bg-background text-foreground;
   }
 }
-
 
 /* Skeleton loader style */
 .skeleton-loader {
