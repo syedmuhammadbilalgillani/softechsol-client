@@ -1,5 +1,6 @@
 import { GalleryItem, Team } from "@/app/generated/prisma/browser";
 import ImageWrapper from "./image-wrapper";
+import { Linkedin } from "lucide-react";
 
 const TeamCard = ({
   data,
@@ -12,7 +13,7 @@ const TeamCard = ({
         src={data.featured_image.url}
         alt={data.title}
         width={500}
-        isZoom  
+        isZoom
         height={500}
         className="rounded-xl h-[350px] object-cover"
       />
@@ -21,6 +22,13 @@ const TeamCard = ({
           <h3 className="text-2xl font-bold">{data.title}</h3>
           <p>{data.position}</p>
         </header>
+        <a
+          href={data.linkedinUrl || ""}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Linkedin />
+        </a>
       </div>
     </article>
   );

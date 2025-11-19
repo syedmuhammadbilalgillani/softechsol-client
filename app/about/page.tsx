@@ -85,9 +85,9 @@ const About = async () => {
           </article>
         ))}
       </section>
-      <section className="grid md:grid-cols-5 grid-cols-1 place-items-start py-10 gap-5">
+      <section className="space-y-5">
         <Heading title="The Team" className="md:col-span-1 col-span-5" />
-        <div className="md:col-span-4 col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="md:col-span-4 col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {teams.map(
             (
               team: Team & { featured_image: GalleryItem | null | undefined },
