@@ -36,6 +36,7 @@ export type JobCategorySumAggregateOutputType = {
 
 export type JobCategoryMinAggregateOutputType = {
   category_id: number | null
+  slug: string | null
   name: string | null
   created_at: Date | null
   updated_at: Date | null
@@ -43,6 +44,7 @@ export type JobCategoryMinAggregateOutputType = {
 
 export type JobCategoryMaxAggregateOutputType = {
   category_id: number | null
+  slug: string | null
   name: string | null
   created_at: Date | null
   updated_at: Date | null
@@ -50,6 +52,7 @@ export type JobCategoryMaxAggregateOutputType = {
 
 export type JobCategoryCountAggregateOutputType = {
   category_id: number
+  slug: number
   name: number
   created_at: number
   updated_at: number
@@ -67,6 +70,7 @@ export type JobCategorySumAggregateInputType = {
 
 export type JobCategoryMinAggregateInputType = {
   category_id?: true
+  slug?: true
   name?: true
   created_at?: true
   updated_at?: true
@@ -74,6 +78,7 @@ export type JobCategoryMinAggregateInputType = {
 
 export type JobCategoryMaxAggregateInputType = {
   category_id?: true
+  slug?: true
   name?: true
   created_at?: true
   updated_at?: true
@@ -81,6 +86,7 @@ export type JobCategoryMaxAggregateInputType = {
 
 export type JobCategoryCountAggregateInputType = {
   category_id?: true
+  slug?: true
   name?: true
   created_at?: true
   updated_at?: true
@@ -175,6 +181,7 @@ export type JobCategoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type JobCategoryGroupByOutputType = {
   category_id: number
+  slug: string
   name: string
   created_at: Date
   updated_at: Date
@@ -205,6 +212,7 @@ export type JobCategoryWhereInput = {
   OR?: Prisma.JobCategoryWhereInput[]
   NOT?: Prisma.JobCategoryWhereInput | Prisma.JobCategoryWhereInput[]
   category_id?: Prisma.IntFilter<"JobCategory"> | number
+  slug?: Prisma.StringFilter<"JobCategory"> | string
   name?: Prisma.StringFilter<"JobCategory"> | string
   created_at?: Prisma.DateTimeFilter<"JobCategory"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"JobCategory"> | Date | string
@@ -213,6 +221,7 @@ export type JobCategoryWhereInput = {
 
 export type JobCategoryOrderByWithRelationInput = {
   category_id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -221,6 +230,7 @@ export type JobCategoryOrderByWithRelationInput = {
 
 export type JobCategoryWhereUniqueInput = Prisma.AtLeast<{
   category_id?: number
+  slug?: string
   name?: string
   AND?: Prisma.JobCategoryWhereInput | Prisma.JobCategoryWhereInput[]
   OR?: Prisma.JobCategoryWhereInput[]
@@ -228,10 +238,11 @@ export type JobCategoryWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"JobCategory"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"JobCategory"> | Date | string
   jobs?: Prisma.JobCategoryRelationListRelationFilter
-}, "category_id" | "name">
+}, "category_id" | "slug" | "name">
 
 export type JobCategoryOrderByWithAggregationInput = {
   category_id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -247,12 +258,14 @@ export type JobCategoryScalarWhereWithAggregatesInput = {
   OR?: Prisma.JobCategoryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.JobCategoryScalarWhereWithAggregatesInput | Prisma.JobCategoryScalarWhereWithAggregatesInput[]
   category_id?: Prisma.IntWithAggregatesFilter<"JobCategory"> | number
+  slug?: Prisma.StringWithAggregatesFilter<"JobCategory"> | string
   name?: Prisma.StringWithAggregatesFilter<"JobCategory"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"JobCategory"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"JobCategory"> | Date | string
 }
 
 export type JobCategoryCreateInput = {
+  slug: string
   name: string
   created_at?: Date | string
   updated_at?: Date | string
@@ -261,6 +274,7 @@ export type JobCategoryCreateInput = {
 
 export type JobCategoryUncheckedCreateInput = {
   category_id?: number
+  slug: string
   name: string
   created_at?: Date | string
   updated_at?: Date | string
@@ -268,6 +282,7 @@ export type JobCategoryUncheckedCreateInput = {
 }
 
 export type JobCategoryUpdateInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -276,6 +291,7 @@ export type JobCategoryUpdateInput = {
 
 export type JobCategoryUncheckedUpdateInput = {
   category_id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -284,12 +300,14 @@ export type JobCategoryUncheckedUpdateInput = {
 
 export type JobCategoryCreateManyInput = {
   category_id?: number
+  slug: string
   name: string
   created_at?: Date | string
   updated_at?: Date | string
 }
 
 export type JobCategoryUpdateManyMutationInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -297,6 +315,7 @@ export type JobCategoryUpdateManyMutationInput = {
 
 export type JobCategoryUncheckedUpdateManyInput = {
   category_id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -304,6 +323,7 @@ export type JobCategoryUncheckedUpdateManyInput = {
 
 export type JobCategoryCountOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -315,6 +335,7 @@ export type JobCategoryAvgOrderByAggregateInput = {
 
 export type JobCategoryMaxOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -322,6 +343,7 @@ export type JobCategoryMaxOrderByAggregateInput = {
 
 export type JobCategoryMinOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   name?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -351,6 +373,7 @@ export type JobCategoryUpdateOneRequiredWithoutJobsNestedInput = {
 }
 
 export type JobCategoryCreateWithoutJobsInput = {
+  slug: string
   name: string
   created_at?: Date | string
   updated_at?: Date | string
@@ -358,6 +381,7 @@ export type JobCategoryCreateWithoutJobsInput = {
 
 export type JobCategoryUncheckedCreateWithoutJobsInput = {
   category_id?: number
+  slug: string
   name: string
   created_at?: Date | string
   updated_at?: Date | string
@@ -380,6 +404,7 @@ export type JobCategoryUpdateToOneWithWhereWithoutJobsInput = {
 }
 
 export type JobCategoryUpdateWithoutJobsInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -387,6 +412,7 @@ export type JobCategoryUpdateWithoutJobsInput = {
 
 export type JobCategoryUncheckedUpdateWithoutJobsInput = {
   category_id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -425,6 +451,7 @@ export type JobCategoryCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Type
 
 export type JobCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   category_id?: boolean
+  slug?: boolean
   name?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -434,6 +461,7 @@ export type JobCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type JobCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   category_id?: boolean
+  slug?: boolean
   name?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -441,6 +469,7 @@ export type JobCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type JobCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   category_id?: boolean
+  slug?: boolean
   name?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -448,12 +477,13 @@ export type JobCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type JobCategorySelectScalar = {
   category_id?: boolean
+  slug?: boolean
   name?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type JobCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"category_id" | "name" | "created_at" | "updated_at", ExtArgs["result"]["jobCategory"]>
+export type JobCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"category_id" | "slug" | "name" | "created_at" | "updated_at", ExtArgs["result"]["jobCategory"]>
 export type JobCategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   jobs?: boolean | Prisma.JobCategory$jobsArgs<ExtArgs>
   _count?: boolean | Prisma.JobCategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -468,6 +498,7 @@ export type $JobCategoryPayload<ExtArgs extends runtime.Types.Extensions.Interna
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     category_id: number
+    slug: string
     name: string
     created_at: Date
     updated_at: Date
@@ -896,6 +927,7 @@ export interface Prisma__JobCategoryClient<T, Null = never, ExtArgs extends runt
  */
 export interface JobCategoryFieldRefs {
   readonly category_id: Prisma.FieldRef<"JobCategory", 'Int'>
+  readonly slug: Prisma.FieldRef<"JobCategory", 'String'>
   readonly name: Prisma.FieldRef<"JobCategory", 'String'>
   readonly created_at: Prisma.FieldRef<"JobCategory", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"JobCategory", 'DateTime'>

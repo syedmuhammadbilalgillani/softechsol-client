@@ -117,20 +117,52 @@ export const fetchBlogs = unstable_cache(
   { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
 );
 export const fetchJobCategories = unstable_cache(
-  async () => await prisma.jobCategory.findMany(),
+  async () =>
+    await prisma.jobCategory.findMany({
+      select: {
+        name: true,
+        slug: true,
+      },
+    }),
   ["job-categories"],
   { revalidate: REVALIDATE_SECONDS, tags: ["job-categories"] }
 );
-export const fetchJobs = unstable_cache(
-  async () =>
-    await prisma.job.findMany({
-      select: {
-        title: true,
-        description: true,
-        slug: true,
-        job_type: true,
-      },
-    }),
-  ["jobs"],
-  { revalidate: REVALIDATE_SECONDS, tags: ["jobs"] }
-);
+export const fetchJobs = (slug?: string) => {
+  return unstable_cache(
+    async () => {
+      const whereClause: any = {};
+
+      if (slug) {
+        whereClause.categories = {
+          some: {
+            category: {
+              slug: slug,
+            },
+          },
+        };
+      }
+
+      return await prisma.job.findMany({
+        where: whereClause,
+        select: {
+          title: true,
+          description: true,
+          slug: true,
+          job_type: true,
+          categories: {
+            select: {
+              category: {
+                select: {
+                  slug: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    },
+    ["jobs", slug ? `category-${slug}` : "all"],
+    { revalidate: REVALIDATE_SECONDS, tags: ["jobs"] }
+  )();
+};

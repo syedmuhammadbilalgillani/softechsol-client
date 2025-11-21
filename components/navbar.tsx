@@ -35,10 +35,10 @@ const Navbar = () => {
       label: "Blogs",
       href: "/blogs",
     },
-    {
-      label: "Learn With Us",
-      href: "/blogs",
-    },
+    // {
+    //   label: "Learn With Us",
+    //   href: "/blogs",
+    // },
     {
       label: "Careers",
       href: "/careers",

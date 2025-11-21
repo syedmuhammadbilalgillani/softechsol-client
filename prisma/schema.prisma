@@ -235,6 +235,7 @@ model ContactUs {
 // Job Categories (used as tags)
 model JobCategory {
   category_id   Int       @id @default(autoincrement())
+  slug          String   @unique
   name          String   @unique
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
