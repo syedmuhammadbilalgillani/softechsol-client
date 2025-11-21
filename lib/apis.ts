@@ -48,3 +48,71 @@ export const fetchTeams = unstable_cache(
   ["teams"],
   { revalidate: REVALIDATE_SECONDS, tags: ["teams"] }
 );
+
+export const fetchCategoriesWithServices = unstable_cache(
+  async () =>
+    await prisma.serviceCategory.findMany({
+      include: {
+        services: true,
+      },
+    }),
+  ["categories-with-services"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["categories-with-services"] }
+);
+
+export const fetchProjects = unstable_cache(
+  async () =>
+    await prisma.project.findMany({
+      include: {
+        images: {
+          include: {
+            image: true,
+          },
+        },
+      },
+    }),
+  ["categories-with-services"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["categories-with-services"] }
+);
+
+export const fetchCategories = unstable_cache(
+  async () => await prisma.blogCategory.findMany(),
+  ["categories"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["categories"] }
+);
+export const fetchBlogs = unstable_cache(
+  async () =>
+    await prisma.blog.findMany({
+      select: {
+        slug: true,
+        title: true,
+        excerpt: true,
+        featured_image: {
+          select: {
+            id: true,
+            url: true,
+            altText: true,
+            publicId: true,
+          },
+        },
+        categories: {
+          select: {
+            category: {
+              select: {
+                name: true,
+                slug: true,
+              },
+            },
+          },
+        },
+      },
+      where: {
+        status: "PUBLISHED",
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    }),
+  ["blogs"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
+);

@@ -107,3 +107,26 @@ export const faqs = [
       "Yes, we offer maintenance and support packages to ensure that your project continues to run smoothly. Whether it’s updating content, fixing bugs, or implementing new features, we’re here to help after launch.",
   },
 ];
+
+export const data = [
+  {
+    label: "Excellence",
+    description:
+      "We pursue the highest standards in strategy, design, and execution ensuring every project is crafted with precision, creativity, and impact.",
+  },
+  {
+    label: "Transparency",
+    description:
+      "Clear communication and honest collaboration guide everything we do. We keep our process open so clients always know where their project stands.",
+  },
+  {
+    label: "Innovation",
+    description:
+      "We stay ahead of trends and technology to deliver bold, modern solutions that set brands apart and drive real results.",
+  },
+  {
+    label: "Collaboration",
+    description:
+      "Your vision shapes our work. We partner with you closely, combining insights and creativity to bring your brand to life.",
+  },
+];

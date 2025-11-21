@@ -4,29 +4,9 @@ import TeamCard from "@/components/team-card";
 import { fetchTeams } from "@/lib/apis";
 import logger from "@/lib/logger";
 import { GalleryItem, Team } from "../generated/prisma/browser";
+import { data } from "@/constants/data";
 
-const data = [
-  {
-    label: "Excellence",
-    description:
-      "We pursue the highest standards in strategy, design, and execution ensuring every project is crafted with precision, creativity, and impact.",
-  },
-  {
-    label: "Transparency",
-    description:
-      "Clear communication and honest collaboration guide everything we do. We keep our process open so clients always know where their project stands.",
-  },
-  {
-    label: "Innovation",
-    description:
-      "We stay ahead of trends and technology to deliver bold, modern solutions that set brands apart and drive real results.",
-  },
-  {
-    label: "Collaboration",
-    description:
-      "Your vision shapes our work. We partner with you closely, combining insights and creativity to bring your brand to life.",
-  },
-];
+
 const About = async () => {
   const teams = await fetchTeams();
   logger.info(teams, "teams");
@@ -69,25 +49,25 @@ const About = async () => {
         </p>
       </section>
 
-      <section
-        aria-labelledby="core-values"
-        className="grid md:grid-cols-2 grid-cols-1"
-      >
-        {data.map((item, index) => (
-          <article
-            key={index}
-            className={` md:p-10 py-10  max-md:border-b ${
-              index % 2 === 0 ? "md:border-r-2 " : ""
-            } ${index >= 2 ? "md:border-t-2 " : ""}`}
-          >
-            <h3 className="text-2xl font-bold">{item.label}</h3>
-            <p className="text-lg">{item.description}</p>
-          </article>
-        ))}
+      <section aria-labelledby="core-values">
+        <Heading as="h2" title="Our Values" />
+        <div className="grid md:grid-cols-2 grid-cols-1">
+          {data.map((item, index) => (
+            <article
+              key={index}
+              className={` md:p-10 py-10  max-md:border-b ${
+                index % 2 === 0 ? "md:border-r-2 " : ""
+              } ${index >= 2 ? "md:border-t-2 " : ""}`}
+            >
+              <h3 className="text-2xl font-bold">{item.label}</h3>
+              <p className="text-lg">{item.description}</p>
+            </article>
+          ))}
+        </div>
       </section>
-      <section className="space-y-5">
+      <section className="space-y-5 py-10">
         <Heading title="The Team" className="md:col-span-1 col-span-5" />
-        <div className="md:col-span-4 col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="md:col-span-4 col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
           {teams.map(
             (
               team: Team & { featured_image: GalleryItem | null | undefined },

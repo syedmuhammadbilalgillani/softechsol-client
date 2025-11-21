@@ -44,23 +44,19 @@ const Navbar = () => {
       href: "/careers",
     },
   ];
+
+  const isTransparent = pathname === "/" || pathname === "/contact";
   return (
     <nav
       className={`${
-        pathname === "/"
+        isTransparent
           ? "bg-white/20 backdrop-blur-sm fixed top-0 left-0 right-0 z-50"
           : "bg-white"
       }`}
     >
       <div className="flex justify-between items-center max-w-[85vw] mx-auto py-3">
         <Link href="/">
-          <Image
-            src="/logo.png"
-            alt="logo"
-            width={60}
-            height={60}
-            className="bg-white rounded-full"
-          />
+          <Image src="/logo.svg" alt="logo" width={50} height={50} />
         </Link>
         <div className="hidden md:flex items-center gap-5">
           {navLinks.map((link, index) => (
@@ -68,7 +64,7 @@ const Navbar = () => {
               key={index}
               href={link.href}
               className={`text-sm font-medium ${
-                pathname === "/" ? "text-white" : "text-gray-950"
+                isTransparent ? "text-white" : "text-gray-950"
               }`}
             >
               {link.label}
@@ -80,14 +76,18 @@ const Navbar = () => {
         </div>
         <Sheet>
           <SheetTrigger className="md:hidden">
-            <MenuIcon className="w-8 h-8 text-white" />
+            <MenuIcon
+              className={`w-8 h-8 ${
+                isTransparent ? "text-white" : "text-gray-950"
+              }`}
+            />
           </SheetTrigger>
           <SheetContent side="right">
             <SheetHeader>
               <div className="hidden">
                 <SheetTitle className="hidden" />
               </div>
-              <Image src="/logo.png" alt="logo" width={60} height={60} />
+              <Image src="/logo.svg" alt="logo" width={50} height={50} />
             </SheetHeader>
             <div className="flex flex-col gap-4 p-2 px-5">
               {navLinks.map((link, i) => (

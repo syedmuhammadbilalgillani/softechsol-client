@@ -1,19 +1,18 @@
 "use client";
-import { Project } from "@/app/generated/prisma/client";
+import Link from "next/link";
 import ImageWrapper from "./image-wrapper";
 import ArrowRight from "./svgs/arrow-right";
-import Link from "next/link";
 
-const ProjectCard = ({ data }: { data: Project }) => {
+const ProjectCard = ({ data }: { data: any }) => {
   return (
     <article className="mb-6">
       <ImageWrapper
-        src={"/team/1.png"}
+        src={data?.images[0]?.image?.url || "/team/1.png"}
         alt={data?.title || "Project Image"}
-        
+        quality={100}
         width={500}
         height={500}
-        className="rounded-xl hide"
+        className="rounded-xl min-h-[400px] max-h-[400px] object-cover"
       />
 
       <div className="flex justify-between gap-5 items-center mt-2">

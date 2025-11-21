@@ -1,20 +1,24 @@
-import Image from "next/image";
+import { fetchProjects } from "@/lib/apis";
+import logger from "@/lib/logger";
+import Link from "next/link";
 import Heading from "./heading";
 import ProjectCard from "./project-card";
 import { Button } from "./ui/button";
-import Link from "next/link";
 
-const ProjectSection = () => {
+const ProjectSection = async () => {
+  const projectsData = await fetchProjects();
+  logger.info(projectsData, "projects data");
+
   return (
     <main className="main py-10">
       <section aria-labelledby="projects-section">
-        <Heading title="Recent Works" />
+        <Heading title="Recent Work" />
         <h3 className="text-3xl font-bold pb-5" id="projects-title">
           We turn your goals into tangible results{" "}
         </h3>
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <ProjectCard key={index} data={null as any} />
+        <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
+          {projectsData.slice(0, 6).map((project, index) => (
+            <ProjectCard key={index} data={project} />
           ))}
         </div>
       </section>
