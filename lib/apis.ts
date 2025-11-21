@@ -116,3 +116,21 @@ export const fetchBlogs = unstable_cache(
   ["blogs"],
   { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
 );
+export const fetchJobCategories = unstable_cache(
+  async () => await prisma.jobCategory.findMany(),
+  ["job-categories"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["job-categories"] }
+);
+export const fetchJobs = unstable_cache(
+  async () =>
+    await prisma.job.findMany({
+      select: {
+        title: true,
+        description: true,
+        slug: true,
+        job_type: true,
+      },
+    }),
+  ["jobs"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["jobs"] }
+);

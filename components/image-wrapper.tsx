@@ -21,12 +21,11 @@ const ImageWrapper = ({
   alt,
   width,
   height,
-  quality = 75,
   placeholderSrc = "/placeholder.svg",
   className = "",
   isZoom = false,
   onErrorSrc = "/placeholder.svg", // Default fallback
-  sizes = "(max-width: 768px) 100vw, 500px",
+  sizes = "",
 }: ImageWrapperProps) => {
   const [isLoading, setIsLoading] = useState(true); // Track if image is loading
   const [imgSrc, setImgSrc] = useState(src); // Track current image source
@@ -48,7 +47,7 @@ const ImageWrapper = ({
           alt={alt}
           width={width}
           height={height}
-          quality={quality}
+          // quality={quality}
           className={cn(
             isZoom
               ? "object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
@@ -67,7 +66,6 @@ const ImageWrapper = ({
           src={imgSrc}
           alt={alt}
           fill
-          quality={quality}
           className={cn(
             isZoom
               ? "object-cover transition-transform duration-500 ease-in-out transform hover:scale-110"
