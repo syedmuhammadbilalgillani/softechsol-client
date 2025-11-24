@@ -1,10 +1,10 @@
 "use client";
-import { ServiceCategory } from "@/app/generated/prisma/browser";
 import React, { useState } from "react";
 import ServiceSelector from "./service-selector";
 import { Button } from "./ui/button";
 import { ContactAction } from "@/actions/contact";
 import { toast } from "sonner";
+import { ServiceCategory } from "@/app/generated/prisma";
 
 const ContactForm = ({ services }: { services: ServiceCategory[] }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
