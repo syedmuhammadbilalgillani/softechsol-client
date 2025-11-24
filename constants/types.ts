@@ -1,4 +1,4 @@
-import { BlogCategory } from "@/app/generated/prisma/browser"
+import { BlogCategory } from "@/app/generated/prisma"
 
 export interface Blog {
     slug: string

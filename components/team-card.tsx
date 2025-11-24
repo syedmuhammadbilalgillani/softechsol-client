@@ -1,4 +1,4 @@
-import { GalleryItem, Team } from "@/app/generated/prisma/browser";
+import { GalleryItem, Team } from "@/app/generated/prisma";
 import ImageWrapper from "./image-wrapper";
 import { Linkedin } from "lucide-react";
 
