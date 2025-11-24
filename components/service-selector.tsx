@@ -1,5 +1,5 @@
 "use client";
-import { Service, ServiceCategory } from "@/app/generated/prisma/browser";
+import { Service } from "@/app/generated/prisma";
 import { useState } from "react";
 
 interface ServiceSelectorProps {
