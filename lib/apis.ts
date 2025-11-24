@@ -4,7 +4,7 @@ import axios from "axios";
 import prisma from "./prisma";
 
 // ——— Config ————————————————————————————————————————————————
-export const REVALIDATE_SECONDS = 10;
+export const REVALIDATE_SECONDS = 100;
 
 // ——— Helpers ————————————————————————————————————————————————
 const num = (v?: number) => (typeof v === "number" ? v : undefined);
@@ -71,8 +71,8 @@ export const fetchProjects = unstable_cache(
         },
       },
     }),
-  ["categories-with-services"],
-  { revalidate: REVALIDATE_SECONDS, tags: ["categories-with-services"] }
+  ["projects-list"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["projects-list"] }
 );
 
 export const fetchCategories = unstable_cache(

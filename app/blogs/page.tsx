@@ -8,41 +8,49 @@ import Link from "next/link";
 import { GalleryItem } from "../generated/prisma/browser";
 import { Blog } from "@/constants/types";
 import { DOMAIN_URL } from "@/constants/url";
+import { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Blog & Articles | SoftechSol",
   description:
-    "Read the latest articles, insights, and stories from SoftechSol.",
-  metadataBase: new URL(DOMAIN_URL), // Replace with your website's base URL
+    "Read the latest articles, insights, and stories from SoftechSol. Explore our blog for tips, trends, and updates on software development, technology, and digital transformation.",
+  metadataBase: new URL(DOMAIN_URL),
   openGraph: {
     title: "Blog & Articles | SoftechSol",
     description:
-      "Explore the latest insights, articles, and updates from SoftechSol.",
-    url: `${DOMAIN_URL}/blogs`, // Replace with your blog page URL
+      "Explore the latest insights, articles, and updates from SoftechSol on software development, technology, and digital transformation.",
+    url: `${DOMAIN_URL}/blogs`,
     siteName: "SoftechSol",
     images: [
       {
-        url: "/favicon.png", // Replace with your image URL
+        url: `${DOMAIN_URL}/home_hero.jpg`,
         width: 1200,
         height: 630,
         alt: "SoftechSol Blog Cover Image",
       },
     ],
-    type: "website", // You can adjust this depending on the page type (article, website, etc.)
+    type: "website",
   },
   twitter: {
-    card: "summary_large_image", // Use "summary_large_image" or "summary" depending on the content
+    card: "summary_large_image",
     title: "Blog & Articles | SoftechSol",
     description: "Discover insights, articles, and more from SoftechSol.",
-    image: "/favicon.png", // Replace with your Twitter image URL
-    creator: "@SoftechSol", // Replace with your Twitter handle
+    images: [`${DOMAIN_URL}/home_hero.jpg`],
+    creator: "@SoftechSol",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   alternates: {
-    canonical: "/blogs", // Replace with the canonical URL of your page
+    canonical: `${DOMAIN_URL}/blogs`,
   },
 };
 

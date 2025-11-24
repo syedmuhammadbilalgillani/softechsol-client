@@ -4,6 +4,45 @@ import LocationIcon from "@/components/svgs/location";
 import { fetchCategoriesWithServices } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Image from "next/image";
+import { Metadata } from "next";
+import { DOMAIN_URL } from "@/constants/url";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with SoftechSol for inquiries, support, or collaborations. Contact our team at our main office, regional office, or sales office. We'd love to hear from you.",
+  openGraph: {
+    title: "Contact Us | SoftechSol",
+    description:
+      "Get in touch with SoftechSol for inquiries, support, or collaborations. We'd love to hear from you.",
+    url: `${DOMAIN_URL}/contact`,
+    siteName: "SoftechSol",
+    images: [
+      {
+        url: `${DOMAIN_URL}/contact.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Contact SoftechSol",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | SoftechSol",
+    description:
+      "Get in touch with SoftechSol for inquiries, support, or collaborations. We'd love to hear from you.",
+    images: [`${DOMAIN_URL}/contact.jpg`],
+    creator: "@SoftechSol",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/contact",
+  },
+};
 
 const ContactUsPage = async () => {
   const categories = await fetchCategoriesWithServices();

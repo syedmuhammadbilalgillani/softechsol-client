@@ -5,6 +5,45 @@ import HeroSection from "@/components/hero-section";
 import ProjectSection from "@/components/project-section";
 import ServicesSection from "@/components/services-section";
 import TestimonialSection from "@/components/testimonial-section";
+import { Metadata } from "next";
+import { DOMAIN_URL } from "@/constants/url";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "SoftechSol - Leading software development company. We provide innovative software solutions, web development, mobile apps, and digital transformation services. Transform your business with our expert team.",
+  openGraph: {
+    title: "SoftechSol - Software Development Company",
+    description:
+      "Leading software development company providing innovative software solutions, web development, mobile apps, and digital transformation services.",
+    url: DOMAIN_URL,
+    siteName: "SoftechSol",
+    images: [
+      {
+        url: `${DOMAIN_URL}/home_hero.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "SoftechSol - Software Development Company",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SoftechSol - Software Development Company",
+    description:
+      "Leading software development company providing innovative software solutions and digital transformation services.",
+    images: [`${DOMAIN_URL}/home_hero.jpg`],
+    creator: "@SoftechSol",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const Home = () => {
   return (

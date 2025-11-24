@@ -4,6 +4,45 @@ import TestimonialSection from "@/components/testimonial-section";
 import { data } from "@/constants/data";
 import { fetchCategoriesWithServices } from "@/lib/apis";
 import logger from "@/lib/logger";
+import { Metadata } from "next";
+import { DOMAIN_URL } from "@/constants/url";
+
+export const metadata: Metadata = {
+  title: "Services",
+  description:
+    "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services including web development, mobile app development, custom software solutions, and digital transformation services.",
+  openGraph: {
+    title: "Services | SoftechSol",
+    description:
+      "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services including web development, mobile app development, and custom software solutions.",
+    url: `${DOMAIN_URL}/services`,
+    siteName: "SoftechSol",
+    images: [
+      {
+        url: `${DOMAIN_URL}/home_hero.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "SoftechSol Services",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Services | SoftechSol",
+    description:
+      "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services.",
+    images: [`${DOMAIN_URL}/home_hero.jpg`],
+    creator: "@SoftechSol",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/services",
+  },
+};
 
 const ServicesPage = async () => {
   const categories = await fetchCategoriesWithServices();
