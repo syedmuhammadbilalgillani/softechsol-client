@@ -3,10 +3,10 @@ import ImageWrapper from "@/components/image-wrapper";
 import TeamCard from "@/components/team-card";
 import { fetchTeams } from "@/lib/apis";
 import logger from "@/lib/logger";
-import { GalleryItem, Team } from "../generated/prisma/browser";
 import { data } from "@/constants/data";
 import { Metadata } from "next";
 import { DOMAIN_URL } from "@/constants/url";
+import { GalleryItem, Team } from "../generated/prisma";
 
 export const metadata: Metadata = {
   title: "About Us",

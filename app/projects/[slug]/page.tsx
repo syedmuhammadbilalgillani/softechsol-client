@@ -8,7 +8,7 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { FAVICON_URL } from "@/constants/url";
+import { DOMAIN_URL, FAVICON_URL } from "@/constants/url";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";

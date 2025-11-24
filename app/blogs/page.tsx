@@ -5,7 +5,7 @@ import { fetchBlogs, fetchCategories } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Image from "next/image";
 import Link from "next/link";
-import { GalleryItem } from "../generated/prisma/browser";
+import { GalleryItem } from "../generated/prisma";
 import { Blog } from "@/constants/types";
 import { DOMAIN_URL } from "@/constants/url";
 import { Metadata } from "next";

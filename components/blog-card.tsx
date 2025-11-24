@@ -1,7 +1,7 @@
-import { GalleryItem } from "@/app/generated/prisma/browser";
 import Link from "next/link";
 import ImageWrapper from "./image-wrapper";
 import { Blog } from "@/constants/types";
+import { GalleryItem } from "@/app/generated/prisma";
 
 type BlogCardProps = {
   data: Blog;
