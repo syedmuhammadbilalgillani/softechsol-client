@@ -274,20 +274,33 @@ const createTransporter = () => {
     );
   }
 
-  // Titan Email (GoDaddy) configuration
+  // GoDaddy Email Configuration (secureserver.net)
+  const smtpHost = process.env.SMTP_HOST || "smtpout.secureserver.net";
+  const smtpPort = parseInt(process.env.SMTP_PORT || "587");
+  const isSecure = process.env.SMTP_SECURE === "true";
+  
+  // Ensure SMTP_USER is the full email address
+  const smtpUser = process.env.SMTP_USER.includes("@") 
+    ? process.env.SMTP_USER 
+    : `${process.env.SMTP_USER}@${process.env.SMTP_DOMAIN || "softechsol.com"}`;
+
+  // GoDaddy secureserver.net configuration
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.titan.email",
-    port: parseInt(process.env.SMTP_PORT || "465"),
-    secure: process.env.SMTP_SECURE === "true", // true for 465
+    host: smtpHost,
+    port: smtpPort,
+    secure: isSecure, // false for 587, true for 465
+    requireTLS: !isSecure, // Require TLS for port 587
     auth: {
-      user: process.env.SMTP_USER,
+      user: smtpUser, // Full email address required
       pass: process.env.SMTP_PASSWORD,
     },
-    authMethod: "LOGIN", // Try LOGIN authentication method
     tls: {
       rejectUnauthorized: false,
-      minVersion: "TLSv1.2",
+      minVersion: "TLSv1.2", // Use TLS 1.2 or higher (NOT SSLv3)
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
     debug: process.env.NODE_ENV === "development",
     logger: process.env.NODE_ENV === "development",
   });
