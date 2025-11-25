@@ -1,10 +1,18 @@
+import { Toaster } from "@/components/ui/sonner";
+
+// Lazy load Navbar and Footer for mobile optimization
+const Navbar = dynamic(() => import("@/components/navbar"), {
+  ssr: true, // Keep SSR for SEO
+});
+
+const Footer = dynamic(() => import("@/components/footer"), {
+  ssr: true, // Keep SSR for SEO
+});
+import { DOMAIN_URL } from "@/constants/url";
 import type { Metadata } from "next";
 import { Funnel_Display } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-import { Toaster } from "@/components/ui/sonner";
-import { DOMAIN_URL, FAVICON_URL } from "@/constants/url";
+import dynamic from "next/dynamic";
 
 const funnelDisplay = Funnel_Display({
   variable: "--font-funnel-display",
@@ -41,9 +49,7 @@ export const metadata: Metadata = {
       { url: "/favicon.png", sizes: "any" },
       { url: "/favicon.png", type: "image/png" },
     ],
-    apple: [
-      { url: "/favicon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/favicon.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/favicon.png",
   },
   manifest: "/manifest.json",
@@ -103,7 +109,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preload" href="/home_hero.jpg" as="image" fetchPriority="high" />
+        <link
+          rel="preload"
+          href="/home_hero.jpg"
+          as="image"
+          fetchPriority="high"
+        />
       </head>
       <body
         suppressHydrationWarning
