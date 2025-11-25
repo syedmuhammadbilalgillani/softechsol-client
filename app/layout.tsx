@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Funnel_Display, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { DOMAIN_URL, FAVICON_URL } from "@/constants/url";
 
@@ -108,6 +109,7 @@ export default function RootLayout({
         <Toaster />
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

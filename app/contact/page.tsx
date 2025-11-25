@@ -5,7 +5,7 @@ import { fetchCategoriesWithServices } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Image from "next/image";
 import { Metadata } from "next";
-import { DOMAIN_URL } from "@/constants/url";
+import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -93,13 +93,13 @@ const ContactUsPage = async () => {
                   Main Office
                 </h3>
                 <address className="text-gray-500">
-                  123 Main St, Anytown, USA
+                  {socialMediaLinks.address}
                   <br />
                   <a
-                    href="mailto:info@softechsol.com"
+                    href={`mailto:${socialMediaLinks.email}`}
                     className="text-primary hover:underline"
                   >
-                    info@softechsol.com
+                    {socialMediaLinks.email}
                   </a>
                 </address>
               </div>
@@ -111,13 +111,13 @@ const ContactUsPage = async () => {
                   Regional Office
                 </h3>
                 <address className="text-gray-500">
-                  456 Elm St, Somecity, USA
+                  {socialMediaLinks.address}
                   <br />
                   <a
-                    href="mailto:support@softechsol.com"
+                    href={`mailto:${socialMediaLinks.email}`}
                     className="text-primary hover:underline"
                   >
-                    support@softechsol.com
+                    {socialMediaLinks.email}
                   </a>
                 </address>
               </div>
@@ -130,13 +130,13 @@ const ContactUsPage = async () => {
                   Sales Office
                 </h3>
                 <address className="text-gray-500">
-                  789 Oak St, Yourcity, USA
+                  {socialMediaLinks.address}
                   <br />
                   <a
-                    href="mailto:sales@softechsol.com"
+                    href={`mailto:${socialMediaLinks.email}`}
                     className="text-primary hover:underline"
                   >
-                    sales@softechsol.com
+                    {socialMediaLinks.email}
                   </a>
                 </address>
               </div>
