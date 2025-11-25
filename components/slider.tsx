@@ -29,8 +29,6 @@ export const Slider: React.FC<SliderProps> = ({
   const [start, setStart] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<"ltr" | "rtl">("ltr");
 
-  // Reduce from 20 duplicates to 2 for seamless infinite scroll
-  // This dramatically reduces DOM size while maintaining smooth animation
   const duplicatedLogos = [
     ...logos,
     ...logos,
