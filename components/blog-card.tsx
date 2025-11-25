@@ -48,7 +48,7 @@ const BlogCard = ({ data }: BlogCardProps) => {
       <div className="flex flex-1 flex-col p-4 md:p-5 gap-3">
         <header className="space-y-2">
           {primaryCategory && (
-            <Link href={categoryHref}>
+            <Link rel="preload" href={categoryHref}>
               <span className="inline-flex items-center border rounded-full px-3 py-1 text-[11px] font-medium text-gray-700 hover:bg-primary hover:text-white transition-colors">
                 {primaryCategory.name || "Category"}
               </span>
@@ -68,8 +68,8 @@ const BlogCard = ({ data }: BlogCardProps) => {
 
         <div className="mt-auto pt-2">
           <Link
-            // href={"/"}
             href={blogHref}
+            rel="preload"
             className="text-sm font-medium text-primary hover:underline"
           >
             Read more →

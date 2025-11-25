@@ -136,7 +136,7 @@ const BlogCategoryPage = async ({
         <nav aria-label="Breadcrumb" className="mb-6">
           <ol className="flex items-center gap-2 text-sm text-gray-600">
             <li>
-              <Link href="/" className="hover:text-primary transition-colors">
+              <Link rel="preload" href="/" className="hover:text-primary transition-colors">
                 Home
               </Link>
             </li>
@@ -144,7 +144,7 @@ const BlogCategoryPage = async ({
               /
             </li>
             <li>
-              <Link href="/blogs" className="hover:text-primary transition-colors">
+              <Link rel="preload" href="/blogs" className="hover:text-primary transition-colors">
                 Blog
               </Link>
             </li>
@@ -181,7 +181,7 @@ const BlogCategoryPage = async ({
                   const isActive = category.slug === categoryData?.slug;
                   return (
                     <li key={category.slug}>
-                      <Link href={`/blogs/${category.slug}`}>
+                      <Link rel="preload" href={`/blogs/${category.slug}`}>
                         <span
                           className={`inline-block transition-all duration-300 py-2 px-5 md:px-7 rounded-full border shadow-sm cursor-pointer text-sm md:text-base ${
                             isActive
@@ -214,7 +214,7 @@ const BlogCategoryPage = async ({
                   : "No articles available"}
               </p>
             </div>
-            <Link href="/blogs">
+            <Link rel="preload" href="/blogs">
               <Button variant="outline">View All Blogs</Button>
             </Link>
           </div>
@@ -227,7 +227,7 @@ const BlogCategoryPage = async ({
               <p className="text-gray-400 text-sm mb-6">
                 Check back soon for new content.
               </p>
-              <Link href="/blogs">
+              <Link rel="preload" href="/blogs">
                 <Button>Browse All Articles</Button>
               </Link>
             </div>

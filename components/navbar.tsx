@@ -5,12 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger
-} from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
 
 const Navbar = () => {
   const [open, setopen] = useState(false);
@@ -54,7 +49,7 @@ const Navbar = () => {
       }`}
     >
       <div className="flex justify-between items-center max-w-[85vw] mx-auto py-3">
-        <Link href="/" aria-label="Home">
+        <Link rel="preload" href="/" aria-label="Home">
           <Image src="/logo.svg" alt="logo" width={50} height={50} />
         </Link>
         <div className="hidden md:flex items-center gap-5">
@@ -73,7 +68,7 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <Link href="/contact" aria-label="Contact Us">
+          <Link rel="preload" href="/contact" aria-label="Contact Us">
             <Button variant={"outline"}>Contact Us</Button>
           </Link>
         </div>
@@ -93,8 +88,16 @@ const Navbar = () => {
             <div className="flex flex-col gap-4 p-2 px-5">
               <ul>
                 {navLinks.map((link, i) => (
-                  <li className="hover:bg-gray-100 p-2 rounded-md" key={i} onClick={() => setopen(false)}>
-                    <Link href={link.href} aria-label={link.label}>
+                  <li
+                    className="hover:bg-gray-100 p-2 rounded-md"
+                    key={i}
+                    onClick={() => setopen(false)}
+                  >
+                    <Link
+                      rel="preload"
+                      href={link.href}
+                      aria-label={link.label}
+                    >
                       {link.label}
                     </Link>
                   </li>

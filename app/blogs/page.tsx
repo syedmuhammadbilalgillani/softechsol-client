@@ -1,6 +1,6 @@
 import BlogCard from "@/components/blog-card";
 import Heading from "@/components/heading";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { fetchBlogs, fetchCategories } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Image from "next/image";
@@ -117,7 +117,7 @@ const BlogPage = async () => {
               <ul className="flex flex-wrap gap-3 md:gap-4">
                 {categories.map((category) => (
                   <li key={category.slug}>
-                    <Link href={`/blogs/${category.slug}`}>
+                    <Link rel="preload" href={`/blogs/${category.slug}`}>
                       <span className="inline-block bg-primary/5 hover:bg-primary hover:text-white text-sm md:text-base transition-all duration-300 py-2 px-5 md:px-7 rounded-full border border-primary/10 shadow-sm cursor-pointer">
                         {category.name}
                       </span>
@@ -140,6 +140,7 @@ const BlogPage = async () => {
             </h2>
             {hasBlogs && (
               <Link
+                rel="preload"
                 href="/blogs"
                 className="text-sm text-primary hover:underline"
               >
@@ -175,6 +176,7 @@ const BlogPage = async () => {
                 <div>
                   {primaryCategory && (
                     <Link
+                      rel="preload"
                       className="inline-flex items-center border rounded-full px-4 py-1 text-xs font-medium text-gray-700 hover:bg-primary hover:text-white transition-colors"
                       href={firstBlogCategoryHref}
                     >
@@ -194,8 +196,13 @@ const BlogPage = async () => {
                 )}
 
                 <div className="pt-2">
-                  <Link href={firstBlogHref}>
-                    <Button size="lg">Read More</Button>
+                  <Link
+                    rel="preload"
+                    className={buttonVariants({ size: "lg" })}
+                    href={firstBlogHref}
+                    aria-label="Read More"
+                  >
+                    Read More
                   </Link>
                 </div>
               </div>

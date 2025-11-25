@@ -54,6 +54,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
             width={48}
             height={48}
             className="object-cover"
+            
           />
         </div>
         <div className="flex-1 min-w-0">
