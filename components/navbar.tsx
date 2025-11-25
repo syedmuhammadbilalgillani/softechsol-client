@@ -1,17 +1,16 @@
 "use client";
+import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Button } from "./ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+  SheetTrigger
 } from "./ui/sheet";
-import { MenuIcon } from "lucide-react";
-import { Button } from "./ui/button";
-import { useState } from "react";
 
 const Navbar = () => {
   const [open, setopen] = useState(false);

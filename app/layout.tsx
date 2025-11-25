@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
 import { Funnel_Display } from "next/font/google";
 import "./globals.css";
-import dynamic from "next/dynamic";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { DOMAIN_URL, FAVICON_URL } from "@/constants/url";
 
 const funnelDisplay = Funnel_Display({
   variable: "--font-funnel-display",
   subsets: ["latin"],
-});
-
-// Lazy load Navbar and Footer for mobile optimization
-const Navbar = dynamic(() => import("@/components/navbar"), {
-  ssr: true, // Keep SSR for SEO
-});
-
-const Footer = dynamic(() => import("@/components/footer"), {
-  ssr: true, // Keep SSR for SEO
 });
 
 export const metadata: Metadata = {
