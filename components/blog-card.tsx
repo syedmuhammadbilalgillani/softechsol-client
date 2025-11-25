@@ -68,8 +68,8 @@ const BlogCard = ({ data }: BlogCardProps) => {
 
         <div className="mt-auto pt-2">
           <Link
-            href={"/"}
-            // href={blogHref}
+            // href={"/"}
+            href={blogHref}
             className="text-sm font-medium text-primary hover:underline"
           >
             Read more →
