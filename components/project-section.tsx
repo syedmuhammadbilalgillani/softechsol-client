@@ -32,7 +32,7 @@ const ProjectSection = async () => {
           aria-label="View All Projects"
           href="/projects"
         >
-          Read More
+          View All Projects
         </Link>
       </div>
     </main>
