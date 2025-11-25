@@ -81,12 +81,12 @@ const BlogPage = async () => {
       : null;
 
   const firstBlogCategoryHref = primaryCategory?.slug
-    ? `/blogs/${primaryCategory.slug}`
+    ? `/blogs/${primaryCategory?.slug}`
     : "/blogs";
 
   const firstBlogHref =
     primaryCategory?.slug && firstBlog?.slug
-      ? `/blogs/${primaryCategory.slug}/${firstBlog.slug}`
+      ? `/blogs/${primaryCategory?.slug}/${firstBlog.slug}`
       : "/blogs";
 
   const firstBlogImage = firstBlog?.featured_image as GalleryItem | undefined;
@@ -178,7 +178,7 @@ const BlogPage = async () => {
                       className="inline-flex items-center border rounded-full px-4 py-1 text-xs font-medium text-gray-700 hover:bg-primary hover:text-white transition-colors"
                       href={firstBlogCategoryHref}
                     >
-                      {primaryCategory.name || "Category"}
+                      {primaryCategory?.name || "Category"}
                     </Link>
                   )}
                 </div>
@@ -219,7 +219,7 @@ const BlogPage = async () => {
             </p>
           ) : (
             <div className="mt-6 grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              {blogs.map((blog: Blog, index) => (
+              {remainingBlogs.map((blog: Blog, index) => (
                 <BlogCard key={index} data={blog} />
               ))}
             </div>
