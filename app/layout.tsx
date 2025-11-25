@@ -102,6 +102,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preload" href="/home_hero.jpg" as="image" fetchPriority="high" />
+      </head>
       <body
         suppressHydrationWarning
         className={`${funnelDisplay.variable} antialiased`}

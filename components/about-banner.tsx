@@ -14,6 +14,8 @@ const AboutBanner = () => {
           width={500}
           height={500}
           className="rounded-xl"
+          sizes="(max-width: 768px) 100vw, 500px"
+          quality={85}
         />
       </div>
       <div className="space-y-4">

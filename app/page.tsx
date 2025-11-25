@@ -7,6 +7,24 @@ import ServicesSection from "@/components/services-section";
 import TestimonialSection from "@/components/testimonial-section";
 import { Metadata } from "next";
 import { DOMAIN_URL } from "@/constants/url";
+import dynamic from "next/dynamic";
+
+// Lazy load below-the-fold components
+const BenifitsBanner = dynamic(() => import("@/components/benifits-banner"), {
+  loading: () => <div className="main py-10">Loading...</div>,
+});
+const ProjectSection = dynamic(() => import("@/components/project-section"), {
+  loading: () => <div className="main py-10">Loading...</div>,
+});
+const ServicesSection = dynamic(() => import("@/components/services-section"), {
+  loading: () => <div className="main py-10">Loading...</div>,
+});
+const TestimonialSection = dynamic(() => import("@/components/testimonial-section"), {
+  loading: () => <div className="main py-10">Loading...</div>,
+});
+const FaqsSection = dynamic(() => import("@/components/faqs-section"), {
+  loading: () => <div className="main py-10">Loading...</div>,
+});
 
 export const metadata: Metadata = {
   title: "Home",

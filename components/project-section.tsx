@@ -23,7 +23,7 @@ const ProjectSection = async () => {
         </div>
       </section>
       <div className="flex justify-center mt-5">
-        <Link href="/projects">
+        <Link aria-label="View All Projects" href="/projects">
           <Button variant="outline" className="px-10">
             Read More
           </Button>
