@@ -116,121 +116,127 @@ export const fetchBlogs = unstable_cache(
   ["blogs"],
   { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
 );
-export const fetchBlogsByCategory = unstable_cache(
-  async (categorySlug: string) => {
-    try {
-      return await prisma.blog.findMany({
-        select: {
-          slug: true,
-          title: true,
-          excerpt: true,
-          featured_image: {
-            select: {
-              id: true,
-              url: true,
-              altText: true,
-              publicId: true,
+export const fetchBlogsByCategory = (categorySlug: string) => {
+  return unstable_cache(
+    async () => {
+      try {
+        return await prisma.blog.findMany({
+          select: {
+            slug: true,
+            title: true,
+            excerpt: true,
+            featured_image: {
+              select: {
+                id: true,
+                url: true,
+                altText: true,
+                publicId: true,
+              },
             },
+            categories: {
+              select: {
+                category: {
+                  select: {
+                    name: true,
+                    slug: true,
+                  },
+                },
+              },
+            },
+            publish_date: true,
+            created_at: true,
           },
-          categories: {
-            select: {
-              category: {
-                select: {
-                  name: true,
-                  slug: true,
+          where: {
+            status: "PUBLISHED",
+            categories: {
+              some: {
+                category: {
+                  slug: categorySlug,
                 },
               },
             },
           },
-          publish_date: true,
-          created_at: true,
-        },
-        where: {
-          status: "PUBLISHED",
-          categories: {
-            some: {
-              category: {
-                slug: categorySlug,
-              },
-            },
+          orderBy: {
+            publish_date: "desc",
           },
-        },
-        orderBy: {
-          publish_date: "desc",
-        },
-      });
-    } catch (error) {
-      logger.error(error, `Error fetching blogs for category: ${categorySlug}`);
-      return [];
-    }
-  },
-  (categorySlug) => [`blogs-category-${categorySlug}`],
-  { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
-);
+        });
+      } catch (error) {
+        logger.error(error, `Error fetching blogs for category: ${categorySlug}`);
+        return [];
+      }
+    },
+    [`blogs-category-${categorySlug}`],
+    { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
+  )();
+};
 
-export const fetchBlogBySlug = unstable_cache(
-  async (categorySlug: string, blogSlug: string) => {
-    try {
-      return await prisma.blog.findFirst({
-        where: {
-          slug: blogSlug,
-          status: "PUBLISHED",
-          categories: {
-            some: {
-              category: {
-                slug: categorySlug,
-              },
-            },
-          },
-        },
-        include: {
-          featured_image: true,
-          og_image: true,
-          author: {
-            select: {
-              first_name: true,
-              last_name: true,
-              username: true,
-              avatar: true,
-            },
-          },
-          categories: {
-            include: {
-              category: {
-                select: {
-                  name: true,
-                  slug: true,
+export const fetchBlogBySlug = (categorySlug: string, blogSlug: string) => {
+  return unstable_cache(
+    async () => {
+      try {
+        return await prisma.blog.findFirst({
+          where: {
+            slug: blogSlug,
+            status: "PUBLISHED",
+            categories: {
+              some: {
+                category: {
+                  slug: categorySlug,
                 },
               },
             },
           },
-        },
-      });
-    } catch (error) {
-      logger.error(error, `Error fetching blog: ${categorySlug}/${blogSlug}`);
-      return null;
-    }
-  },
-  (categorySlug, blogSlug) => [`blog-${categorySlug}-${blogSlug}`],
-  { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
-);
+          include: {
+            featured_image: true,
+            og_image: true,
+            author: {
+              select: {
+                first_name: true,
+                last_name: true,
+                username: true,
+                avatar: true,
+              },
+            },
+            categories: {
+              include: {
+                category: {
+                  select: {
+                    name: true,
+                    slug: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+      } catch (error) {
+        logger.error(error, `Error fetching blog: ${categorySlug}/${blogSlug}`);
+        return null;
+      }
+    },
+    [`blog-${categorySlug}-${blogSlug}`],
+    { revalidate: REVALIDATE_SECONDS, tags: ["blogs"] }
+  )();
+};
 
-export const fetchCategoryBySlug = unstable_cache(
-  async (categorySlug: string) => {
-    try {
-      return await prisma.blogCategory.findUnique({
-        where: {
-          slug: categorySlug,
-        },
-      });
-    } catch (error) {
-      logger.error(error, `Error fetching category: ${categorySlug}`);
-      return null;
-    }
-  },
-  (categorySlug) => [`category-${categorySlug}`],
-  { revalidate: REVALIDATE_SECONDS, tags: ["categories"] }
-);
+export const fetchCategoryBySlug = (categorySlug: string) => {
+  return unstable_cache(
+    async () => {
+      try {
+        return await prisma.blogCategory.findUnique({
+          where: {
+            slug: categorySlug,
+          },
+        });
+      } catch (error) {
+        logger.error(error, `Error fetching category: ${categorySlug}`);
+        return null;
+      }
+    },
+    [`category-${categorySlug}`],
+    { revalidate: REVALIDATE_SECONDS, tags: ["categories"] }
+  )();
+};
 export const fetchJobCategories = unstable_cache(
   async () =>
     await prisma.jobCategory.findMany({
