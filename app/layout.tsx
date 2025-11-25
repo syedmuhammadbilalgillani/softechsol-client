@@ -1,4 +1,9 @@
 import { Toaster } from "@/components/ui/sonner";
+import { DOMAIN_URL } from "@/constants/url";
+import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+import { Funnel_Display } from "next/font/google";
+import "./globals.css";
 
 // Lazy load Navbar and Footer for mobile optimization
 const Navbar = dynamic(() => import("@/components/navbar"), {
@@ -8,11 +13,6 @@ const Navbar = dynamic(() => import("@/components/navbar"), {
 const Footer = dynamic(() => import("@/components/footer"), {
   ssr: true, // Keep SSR for SEO
 });
-import { DOMAIN_URL } from "@/constants/url";
-import type { Metadata } from "next";
-import { Funnel_Display } from "next/font/google";
-import "./globals.css";
-import dynamic from "next/dynamic";
 
 const funnelDisplay = Funnel_Display({
   variable: "--font-funnel-display",
