@@ -1,4 +1,4 @@
-"use server";   
+"use server";
 import logger from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import nodemailer from "nodemailer";
@@ -94,30 +94,47 @@ const getHREmailTemplate = (data: {
             <div class="info-value">${data.email}</div>
         </div>
         
-        ${data.phone ? `
+        ${
+          data.phone
+            ? `
         <div class="info-section">
             <span class="info-label">Phone:</span>
             <div class="info-value">${data.phone}</div>
         </div>
-        ` : ''}
+        `
+            : ""
+        }
         
-        ${data.service ? `
+        ${
+          data.service
+            ? `
         <div class="info-section">
             <span class="info-label">Service Interest:</span>
             <div class="info-value">${data.service}</div>
         </div>
-        ` : ''}
+        `
+            : ""
+        }
         
-        ${data.message ? `
+        ${
+          data.message
+            ? `
         <div class="info-section">
             <span class="info-label">Message:</span>
-            <div class="message-box">${data.message.replace(/\n/g, '<br>')}</div>
+            <div class="message-box">${data.message.replace(
+              /\n/g,
+              "<br>"
+            )}</div>
         </div>
-        ` : ''}
+        `
+            : ""
+        }
         
         <div class="footer">
             <p>This is an automated email from the contact form.</p>
-            <p>Please respond to the user at: <a href="mailto:${data.email}">${data.email}</a></p>
+            <p>Please respond to the user at: <a href="mailto:${data.email}">${
+    data.email
+  }</a></p>
         </div>
     </div>
 </body>
@@ -235,13 +252,26 @@ const createTransporter = () => {
   logger.debug(process.env.NODE_ENV, "NODE_ENV");
   logger.debug(process.env.NEXT_PUBLIC_NODE_ENV, "NEXT_PUBLIC_NODE_ENV");
   if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
-    throw new Error("SMTP credentials are not configured. Please check your .env.local file.");
+    throw new Error(
+      "SMTP credentials are not configured. Please check your .env.local file."
+    );
   }
 
   // Check for placeholder password
-  const placeholderPatterns = ['/* secret */', 'your-password', 'your-email-password', 'password'];
-  if (placeholderPatterns.some(pattern => process.env.SMTP_PASSWORD?.includes(pattern))) {
-    throw new Error("SMTP_PASSWORD appears to be a placeholder. Please set your actual email password in .env.local");
+  const placeholderPatterns = [
+    "/* secret */",
+    "your-password",
+    "your-email-password",
+    "password",
+  ];
+  if (
+    placeholderPatterns.some((pattern) =>
+      process.env.SMTP_PASSWORD?.includes(pattern)
+    )
+  ) {
+    throw new Error(
+      "SMTP_PASSWORD appears to be a placeholder. Please set your actual email password in .env.local"
+    );
   }
 
   // Titan Email (GoDaddy) configuration
@@ -253,13 +283,13 @@ const createTransporter = () => {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
     },
-    authMethod: 'LOGIN', // Try LOGIN authentication method
+    authMethod: "LOGIN", // Try LOGIN authentication method
     tls: {
       rejectUnauthorized: false,
-      minVersion: 'TLSv1.2',
+      minVersion: "TLSv1.2",
     },
-    debug: process.env.NODE_ENV === 'development',
-    logger: process.env.NODE_ENV === 'development',
+    debug: process.env.NODE_ENV === "development",
+    logger: process.env.NODE_ENV === "development",
   });
 };
 
@@ -272,22 +302,20 @@ export const ContactAction = async (formData: FormData) => {
 
   // Validation
   if (!name || !email) {
-    return { 
-      success: false, 
-      error: "Name and email are required" 
+    return {
+      success: false,
+      error: "Name and email are required",
     };
   }
 
   // Convert service to integer if provided
-  const serviceId = service && service !== "" 
-    ? parseInt(service, 10) 
-    : null;
+  const serviceId = service && service !== "" ? parseInt(service, 10) : null;
 
   // Validate service ID if provided
   if (serviceId !== null && isNaN(serviceId)) {
-    return { 
-      success: false, 
-      error: "Invalid service selection" 
+    return {
+      success: false,
+      error: "Invalid service selection",
     };
   }
 
@@ -314,7 +342,7 @@ export const ContactAction = async (formData: FormData) => {
         });
         serviceName = serviceData?.name || null;
       } catch (error) {
-        console.error("Error fetching service name:", error);
+        logger.error("Error fetching service name:", error);
       }
     }
 
@@ -323,17 +351,19 @@ export const ContactAction = async (formData: FormData) => {
     try {
       transporter = createTransporter();
     } catch (transporterError: any) {
-      console.error("SMTP Configuration Error:", transporterError.message);
+      logger.error("SMTP Configuration Error:", transporterError.message);
       // Still save to database even if email fails
-      return { 
-        success: true, 
+      return {
+        success: true,
         response,
-        warning: transporterError.message 
+        warning: transporterError.message,
       };
     }
 
-    const hrEmail = process.env.HR_EMAIL || process.env.SMTP_USER || "hr@example.com";
-    const fromEmail = process.env.SMTP_FROM || process.env.SMTP_USER || "noreply@example.com";
+    const hrEmail =
+      process.env.HR_EMAIL || process.env.SMTP_USER || "hr@example.com";
+    const fromEmail =
+      process.env.SMTP_FROM || process.env.SMTP_USER || "noreply@example.com";
     const companyName = process.env.COMPANY_NAME || "SoftTech Solutions";
 
     // Prepare email data
@@ -353,9 +383,9 @@ export const ContactAction = async (formData: FormData) => {
         subject: `New Contact Form Submission from ${name.trim()}`,
         html: getHREmailTemplate(emailData),
       });
-      console.log("HR email sent successfully");
+      logger.info("HR email sent successfully");
     } catch (emailError) {
-      console.error("Error sending HR email:", emailError);
+      logger.error("Error sending HR email:", emailError);
       // Don't fail the whole request if email fails
     }
 
@@ -367,18 +397,18 @@ export const ContactAction = async (formData: FormData) => {
         subject: `Thank You for Contacting ${companyName}`,
         html: getUserEmailTemplate({ name: name.trim() }),
       });
-      console.log("User confirmation email sent successfully");
+      logger.info("User confirmation email sent successfully");
     } catch (emailError) {
-      console.error("Error sending user confirmation email:", emailError);
+      logger.error("Error sending user confirmation email:", emailError);
       // Don't fail the whole request if email fails
     }
 
     return { success: true, response };
   } catch (error) {
-    console.error("Contact form submission error:", error);
-    return { 
-      success: false, 
-      error: "Failed to submit contact form. Please try again." 
+    logger.error("Contact form submission error:", error);
+    return {
+      success: false,
+      error: "Failed to submit contact form. Please try again.",
     };
   }
 };
