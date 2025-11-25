@@ -53,7 +53,7 @@ const ServicesPage = async () => {
         Comprehensive Solutions all in one place
       </h1>
       <section>
-        {categories.map((item, index) => {
+        {categories.map((item: any, index: number) => {
           return (
             <div key={index} className="space-y-10">
               <Heading title={item.name} />
@@ -65,7 +65,7 @@ const ServicesPage = async () => {
                     </p>
                   </div>
                 ) : (
-                  item.services.map((service, index) => (
+                  item.services.map((service: any, index: number) => (
                     <div
                       key={index}
                       className="col-span-1 p-6 border-r-2 border-b-2 last:border-r-0 nth-[2n]:border-r-0 md:nth-[2n]:border-r-2 md:nth-[3n]:border-r-0"

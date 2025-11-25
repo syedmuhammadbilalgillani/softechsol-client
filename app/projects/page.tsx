@@ -54,7 +54,7 @@ const ProjectsPage = async () => {
           our work showcase
         </h2>
         <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
-          {projectsData.map((project, index) => (
+          {projectsData.map((project: any, index: number) => (
             <ProjectCard key={index} data={project} />
           ))}
         </div>

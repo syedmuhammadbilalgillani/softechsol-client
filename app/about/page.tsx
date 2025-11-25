@@ -109,7 +109,7 @@ const About = async () => {
           {teams.map(
             (
               team: Team & { featured_image: GalleryItem | null | undefined },
-              index
+              index: number
             ) => (
               <TeamCard
                 key={index}

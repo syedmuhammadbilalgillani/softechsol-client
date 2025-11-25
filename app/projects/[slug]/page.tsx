@@ -1,14 +1,15 @@
+import { Project } from "@/app/generated/prisma";
 import Heading from "@/components/heading";
 import ImageWrapper from "@/components/image-wrapper";
 import ProjectCard from "@/components/project-card";
 import { Button } from "@/components/ui/button";
+import { DOMAIN_URL } from "@/constants/url";
 import { fetchProjects } from "@/lib/apis";
 import logger from "@/lib/logger";
 import prisma from "@/lib/prisma";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { DOMAIN_URL, FAVICON_URL } from "@/constants/url";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
@@ -18,78 +19,86 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  try {
+    const { slug } = await params;
 
-  const project = await prisma.project?.findUnique({
-    include: {
-      images: {
-        include: {
-          image: true,
+    const project = await prisma.project?.findUnique({
+      include: {
+        images: {
+          include: {
+            image: true,
+          },
         },
       },
-    },
-    where: { slug: decodeURIComponent(slug) },
-  });
+      where: { slug: decodeURIComponent(slug) },
+    });
 
-  if (!project) {
+    if (!project) {
+      return {
+        title: "Project not found",
+        description: "The requested project does not exist.",
+        robots: {
+          index: false,
+          follow: false,
+        },
+      };
+    }
+
+    const title = project.meta_title || project.title || project.client_name || "Project Details";
+    const description = project.meta_description || project.overview?.replace(/<[^>]*>/g, "").substring(0, 160) || "View this project from SoftechSol's portfolio.";
+
+    const ogImage = project.images?.[0]?.image?.url || `${DOMAIN_URL}/home_hero.jpg`;
+    const ogAlt = project.images?.[0]?.image?.altText || title;
+    const projectUrl = `${DOMAIN_URL}/projects/${slug}`;
+
     return {
-      title: "Project not found",
-      description: "The requested project does not exist.",
-      robots: {
-        index: false,
-        follow: false,
+      title,
+      description,
+      metadataBase: new URL(DOMAIN_URL),
+      openGraph: {
+        title,
+        description,
+        url: projectUrl,
+        siteName: "SoftechSol",
+        images: [
+          {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: ogAlt,
+          },
+        ],
+        type: "website",
       },
-    };
-  }
-
-  const title = project.meta_title || project.title || project.client_name || "Project Details";
-  const description = project.meta_description || project.overview?.replace(/<[^>]*>/g, "").substring(0, 160) || "View this project from SoftechSol's portfolio.";
-
-  const ogImage = project.images?.[0]?.image?.url || `${DOMAIN_URL}/home_hero.jpg`;
-  const ogAlt = project.images?.[0]?.image?.altText || title;
-  const projectUrl = `${DOMAIN_URL}/projects/${slug}`;
-
-  return {
-    title,
-    description,
-    metadataBase: new URL(DOMAIN_URL),
-    openGraph: {
-      title,
-      description,
-      url: projectUrl,
-      siteName: "SoftechSol",
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: ogAlt,
-        },
-      ],
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-      creator: "@SoftechSol",
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [ogImage],
+        creator: "@SoftechSol",
+      },
+      robots: {
         index: true,
         follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+        },
       },
-    },
-    alternates: {
-      canonical: projectUrl,
-    },
-  };
+      alternates: {
+        canonical: projectUrl,
+      },
+    };
+  } catch (error) {
+    // Return default metadata if Prisma fails
+    return {
+      title: "Project | SoftechSol",
+      description: "View project details from SoftechSol's portfolio.",
+    };
+  }
 }
 
 const ProjectDetail = async ({
@@ -122,7 +131,7 @@ const ProjectDetail = async ({
   const moreProjects = await fetchProjects();
 
   const relatedProjects =
-    moreProjects?.filter((p) => p.project_id !== currentProject.project_id) ||
+    moreProjects?.filter((p: Project) => p.project_id !== currentProject.project_id) ||
     [];
 
   logger.info(currentProject);
@@ -224,7 +233,7 @@ const ProjectDetail = async ({
           <section aria-label="Project gallery" className="space-y-4 pt-4">
             <Heading title="Gallery" />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {currentProject.images.slice(1).map((image) => (
+              {currentProject.images.slice(1).map((image: any) => (
                 <ImageWrapper
                   key={image.id}
                   src={image.image.url}
@@ -253,7 +262,7 @@ const ProjectDetail = async ({
 
           {relatedProjects.length > 0 ? (
             <div className="grid gap-5 md:grid-cols-3">
-              {relatedProjects.map((project) => (
+              {relatedProjects.map((project:any) => (
                 <ProjectCard key={project.project_id} data={project} />
               ))}
             </div>

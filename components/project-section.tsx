@@ -4,6 +4,7 @@ import Link from "next/link";
 import Heading from "./heading";
 import ProjectCard from "./project-card";
 import { Button, buttonVariants } from "./ui/button";
+import { Project } from "@/app/generated/prisma";
 
 const ProjectSection = async () => {
   const projectsData = await fetchProjects();
@@ -17,7 +18,7 @@ const ProjectSection = async () => {
           We turn your goals into tangible results
         </h3>
         <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-          {projectsData.slice(0, 6).map((project, index) => (
+          {projectsData.slice(0, 6).map((project: Project, index: number) => (
             <ProjectCard key={index} data={project} />
           ))}
         </div>

@@ -62,7 +62,7 @@ export async function generateMetadata({
       title,
       description: description.substring(0, 160),
       metadataBase: new URL(DOMAIN_URL),
-      keywords: blog.meta_keywords?.split(",").map((k) => k.trim()),
+      keywords: blog.meta_keywords?.split(",").map((k: string) => k.trim()),
       authors: blog.author
         ? [
             {
@@ -100,7 +100,7 @@ export async function generateMetadata({
               }`.trim() || blog.author.username,
             ]
           : undefined,
-        tags: blog.categories.map((cat) => cat.category.name),
+        tags: blog.categories.map((cat: any) => cat.category.name),
       },
       twitter: {
         card: "summary_large_image",
@@ -259,7 +259,7 @@ const BlogDetailPage = async ({
             {/* Categories */}
             {blog.categories && blog.categories.length > 0 && (
               <div className="flex flex-wrap gap-2">
-                {blog.categories.map((catRelation) => {
+                {blog.categories.map((catRelation: any) => {
                   const cat = catRelation.category;
                   return (
                     <Link
