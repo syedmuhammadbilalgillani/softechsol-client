@@ -53,7 +53,12 @@ export const fetchCategoriesWithServices = unstable_cache(
   async () =>
     await prisma.serviceCategory.findMany({
       include: {
-        services: true,
+        image: true,
+        services: {
+          include: {
+            image: true,
+          },
+        },
       },
     }),
   ["categories-with-services"],
@@ -161,7 +166,10 @@ export const fetchBlogsByCategory = (categorySlug: string) => {
           },
         });
       } catch (error) {
-        logger.error(error, `Error fetching blogs for category: ${categorySlug}`);
+        logger.error(
+          error,
+          `Error fetching blogs for category: ${categorySlug}`
+        );
         return [];
       }
     },

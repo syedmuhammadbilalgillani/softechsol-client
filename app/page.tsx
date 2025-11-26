@@ -3,6 +3,7 @@ import HeroSection from "@/components/hero-section";
 import { DOMAIN_URL } from "@/constants/url";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 // Lazy load below-the-fold components
 const BenifitsBanner = dynamic(() => import("@/components/benifits-banner"), {
@@ -62,18 +63,21 @@ export const metadata: Metadata = {
 };
 
 const Home = () => {
+  
   return (
     <>
       <h1 className="text-[1px] text-transparent absolute top-0 left-0">
         Softechsol
       </h1>
-      <HeroSection />
-      <AboutBanner />
-      <BenifitsBanner />
-      <ProjectSection />
-      <ServicesSection />
-      <TestimonialSection />
-      <FaqsSection />
+      <Suspense>
+        <HeroSection />
+        <AboutBanner />
+        <BenifitsBanner />
+        <ProjectSection />
+        <ServicesSection />
+        <TestimonialSection />
+        <FaqsSection />
+      </Suspense>
     </>
   );
 };
