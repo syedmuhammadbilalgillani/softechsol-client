@@ -35,6 +35,7 @@ const Navbar = () => {
       label: "Careers",
       href: "/careers",
     },
+    { label: "Learn With Us", href: "/learn-with-us" },
   ];
 
   const isTransparent = pathname === "/" || pathname === "/contact";
