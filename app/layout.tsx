@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Funnel_Display } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from "@/components/scroll-to-top";
 
 // Lazy load Navbar and Footer for mobile optimization
 const Navbar = dynamic(() => import("@/components/navbar"), {
@@ -107,7 +108,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ scrollBehavior: 'smooth' }}>
       <head>
         <link
           rel="preload"
@@ -115,6 +116,8 @@ export default function RootLayout({
           as="image"
           fetchPriority="high"
         />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       </head>
       <body
         suppressHydrationWarning
@@ -124,6 +127,37 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <ScrollToTop />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "SoftechSol",
+              "url": DOMAIN_URL,
+              "logo": `${DOMAIN_URL}/logo.svg`,
+              "description": "Leading software development company providing innovative software solutions",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "123 Main St",
+                "addressLocality": "Anytown",
+                "addressCountry": "USA"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-9876543210",
+                "contactType": "Customer Service",
+                "email": "info@softechsol.com"
+              },
+              "sameAs": [
+                "https://www.linkedin.com/in/softechsol",
+                "https://www.facebook.com/people/Softechsol/61583512628054/",
+                "https://www.instagram.com/softechsol_/#"
+              ]
+            })
+          }}
+        />
       </body>
     </html>
   );

@@ -144,6 +144,9 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   .main {
     @apply md:max-w-[85vw] max-w-[90vw] mx-auto;
   }

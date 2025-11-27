@@ -1,0 +1,16 @@
+{
+  "name": "SoftechSol - Software Development Company",
+  "short_name": "SoftechSol",
+  "description": "Leading software development company providing innovative software solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0054a0",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

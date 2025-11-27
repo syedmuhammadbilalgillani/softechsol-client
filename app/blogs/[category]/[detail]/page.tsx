@@ -401,6 +401,32 @@ const BlogDetailPage = async ({
           )}
         </article>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": blog.title,
+            "description": blog.excerpt || blog.meta_description,
+            "image": imageUrl,
+            "datePublished": blog.publish_date,
+            "dateModified": blog.updated_at,
+            "author": {
+              "@type": "Person",
+              "name": authorName
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "SoftechSol",
+              "logo": {
+                "@type": "ImageObject",
+                "url": `${DOMAIN_URL}/logo.svg`
+              }
+            }
+          })
+        }}
+      />
     </main>
   );
 };

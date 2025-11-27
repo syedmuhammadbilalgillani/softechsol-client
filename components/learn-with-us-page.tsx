@@ -14,11 +14,12 @@ import ReactIcon from "@/components/svgs/react";
 import TailwindIcon from "@/components/svgs/tailwind";
 import VueIcon from "@/components/svgs/vue";
 import dynamic from "next/dynamic";
+import Spinner from "@/components/spinner";
 
 const TestimonialSection = dynamic(
   () => import("@/components/testimonial-section"),
   {
-    loading: () => <div className="main py-10">Loading...</div>,
+    loading: () => <Spinner />,
   }
 );
 
@@ -98,7 +99,7 @@ const LearnWithUsPage = ({ podcasts }: { podcasts: any[] }) => {
         </section>
 
         {/* Call to Action */}
-        <section className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-8 md:p-12 text-center border border-primary/20">
+        <section className="bg-linear-to-r from-primary/10 to-primary/5 rounded-2xl p-8 md:p-12 text-center border border-primary/20">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
             Ready to Start Learning?
           </h2>

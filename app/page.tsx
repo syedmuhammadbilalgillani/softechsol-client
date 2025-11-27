@@ -4,25 +4,26 @@ import { DOMAIN_URL } from "@/constants/url";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import Spinner from "@/components/spinner";
 
 // Lazy load below-the-fold components
 const BenifitsBanner = dynamic(() => import("@/components/benifits-banner"), {
-  loading: () => <div className="main py-10">Loading...</div>,
+  loading: () => <Spinner />,
 });
 const ProjectSection = dynamic(() => import("@/components/project-section"), {
-  loading: () => <div className="main py-10">Loading...</div>,
+  loading: () => <Spinner />,
 });
 const ServicesSection = dynamic(() => import("@/components/services-section"), {
-  loading: () => <div className="main py-10">Loading...</div>,
+  loading: () => <Spinner />,
 });
 const TestimonialSection = dynamic(
   () => import("@/components/testimonial-section"),
   {
-    loading: () => <div className="main py-10">Loading...</div>,
+    loading: () => <Spinner />,
   }
 );
 const FaqsSection = dynamic(() => import("@/components/faqs-section"), {
-  loading: () => <div className="main py-10">Loading...</div>,
+  loading: () => <Spinner />,
 });
 
 export const metadata: Metadata = {
