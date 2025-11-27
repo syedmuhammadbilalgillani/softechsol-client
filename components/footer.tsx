@@ -1,7 +1,11 @@
+"use client";
+import { socialMediaLinks } from "@/constants/url";
+import { Mail, MailIcon, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import { socialMediaLinks } from "@/constants/url";
+import FacebookIcon from "./svgs/facebook";
+import InstagramIcon from "./svgs/instagram";
+import LinkedInIcon from "./svgs/linkedin";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -25,25 +29,25 @@ const Footer = () => {
   const socialLinks = [
     {
       name: "LinkedIn",
-      icon: Linkedin,
+      icon: <LinkedInIcon />,
       href: socialMediaLinks.linkedin,
       ariaLabel: "Visit our LinkedIn profile",
     },
     {
       name: "Facebook",
-      icon: Facebook,
+      icon: <FacebookIcon />,
       href: socialMediaLinks.facebook,
       ariaLabel: "Visit our Facebook page",
     },
     {
       name: "Instagram",
-      icon: Instagram,
+      icon: <InstagramIcon />,
       href: socialMediaLinks.instagram,
       ariaLabel: "Visit our Instagram profile",
     },
     {
       name: "Email",
-      icon: Mail,
+      icon: <MailIcon className="w-5 h-5 " />,
       href: "mailto:info@softechsol.com",
       ariaLabel: "Send us an email",
     },
@@ -77,12 +81,18 @@ const Footer = () => {
                   <a
                     key={social.name}
                     href={social.href}
-                    target={social.href.startsWith("mailto:") ? "_self" : "_blank"}
-                    rel={social.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                    target={
+                      social.href.startsWith("mailto:") ? "_self" : "_blank"
+                    }
+                    rel={
+                      social.href.startsWith("mailto:")
+                        ? undefined
+                        : "noopener noreferrer"
+                    }
                     aria-label={social.ariaLabel}
-                    className="w-10 h-10 rounded-full bg-primary/20 hover:bg-primary transition-all duration-300 flex items-center justify-center group"
+                    className="w-5 h-5  transition-all duration-300 flex items-center justify-center group"
                   >
-                    <Icon className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                   {social.icon}
                   </a>
                 );
               })}
@@ -130,13 +140,19 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" aria-hidden="true" />
+                <MapPin
+                  className="w-5 h-5 text-primary mt-0.5 shrink-0"
+                  aria-hidden="true"
+                />
                 <address className="text-gray-300 text-sm not-italic leading-relaxed">
                   123 Main St, Anytown, USA
                 </address>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
+                <Mail
+                  className="w-5 h-5 text-primary shrink-0"
+                  aria-hidden="true"
+                />
                 <a
                   href={`mailto:${socialMediaLinks.email}`}
                   className="text-gray-300 hover:text-primary transition-colors text-sm"
@@ -145,7 +161,10 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
+                <Phone
+                  className="w-5 h-5 text-primary shrink-0"
+                  aria-hidden="true"
+                />
                 <a
                   href={`tel:${socialMediaLinks.phone}`}
                   className="text-gray-300 hover:text-primary transition-colors text-sm"

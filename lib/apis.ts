@@ -295,3 +295,25 @@ export const fetchJobs = (slug?: string) => {
     { revalidate: REVALIDATE_SECONDS, tags: ["jobs"] }
   )();
 };
+
+export const fetchPodcasts = unstable_cache(
+  async () =>
+    await prisma.podcast.findMany({
+      where: {
+        status: "PUBLISHED",
+      },
+      include: {
+        image: true,
+      },
+      orderBy: [
+        {
+          is_featured: "desc",
+        },
+        {
+          publish_date: "desc",
+        },
+      ],
+    }),
+  ["podcasts"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["podcasts"] }
+);

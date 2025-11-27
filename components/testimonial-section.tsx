@@ -20,7 +20,7 @@ const TestimonialSection = () => {
               image={testimonial.image}
             />
           ))}
-          speed={400}
+          speed={50}
           pauseOnHover={true}
         />
       </section>

@@ -3,12 +3,13 @@ import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
 
 const Navbar = () => {
   const [open, setopen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const navLinks = [
     {
@@ -39,14 +40,38 @@ const Navbar = () => {
   ];
 
   const isTransparent = pathname === "/" || pathname === "/contact";
+  const isHomePage = pathname === "/";
+
+  // Scroll threshold - adjust this value to change when navbar changes color
+  const SCROLL_THRESHOLD = 100;
+
+  useEffect(() => {
+    if (!isHomePage) return;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > SCROLL_THRESHOLD);
+    };
+
+    // Check initial scroll position
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHomePage]);
+
+  // Determine if navbar should be transparent (only on home page when not scrolled)
+  const shouldBeTransparent = isTransparent && (!isHomePage || !isScrolled);
 
   return (
     <nav
       aria-label="Main Navigation"
       className={`${
-        isTransparent
+        shouldBeTransparent
           ? "bg-white/20 backdrop-blur-sm fixed top-0 left-0 right-0 z-50"
-          : "bg-white"
+          : `bg-white ${
+              pathname === "/" ? "fixed top-0 left-0 right-0 z-50" : ""
+            } `
       }`}
     >
       <div className="flex justify-between items-center max-w-[85vw] mx-auto py-3">
@@ -60,7 +85,7 @@ const Navbar = () => {
                 <Link
                   href={link.href}
                   className={`text-sm font-medium ${
-                    isTransparent ? "text-white" : "text-gray-950"
+                    shouldBeTransparent ? "text-white" : "text-gray-950"
                   }`}
                   aria-label={link.label}
                 >
@@ -77,7 +102,7 @@ const Navbar = () => {
           <SheetTrigger className="md:hidden">
             <MenuIcon
               className={`w-8 h-8 ${
-                isTransparent ? "text-white" : "text-gray-950"
+                shouldBeTransparent ? "text-white" : "text-gray-950"
               }`}
               aria-label="Open Menu"
             />
