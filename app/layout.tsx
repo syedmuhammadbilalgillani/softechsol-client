@@ -1,23 +1,28 @@
-import { Toaster } from "@/components/ui/sonner";
 import { DOMAIN_URL } from "@/constants/url";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Funnel_Display } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/scroll-to-top";
+import { Toaster } from "@/components/ui/sonner";
 
-// Lazy load Navbar and Footer for mobile optimization
+// Lazy load Navbar and Footer with better optimization
 const Navbar = dynamic(() => import("@/components/navbar"), {
-  ssr: true, // Keep SSR for SEO
+  ssr: true,
+  loading: () => <nav className="h-16 bg-background" />, // Minimal loading state
 });
 
 const Footer = dynamic(() => import("@/components/footer"), {
-  ssr: true, // Keep SSR for SEO
+  ssr: true,
+  loading: () => <footer className="h-32 bg-background" />, // Minimal loading state
 });
 
 const funnelDisplay = Funnel_Display({
   variable: "--font-funnel-display",
   subsets: ["latin"],
+  display: "swap", // Add this for better font loading
+  preload: true,
+  fallback: ["system-ui", "arial"], // Add fallback fonts
 });
 
 export const metadata: Metadata = {
@@ -110,12 +115,19 @@ export default function RootLayout({
   return (
     <html lang="en" style={{ scrollBehavior: 'smooth' }}>
       <head>
+        {/* Preconnect to Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Preload critical image */}
         <link
           rel="preload"
           href="/home_hero.jpg"
           as="image"
           fetchPriority="high"
         />
+        
+        {/* Preconnect to external resources */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       </head>
