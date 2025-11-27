@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useInView, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
 
 const AnimatedCounter = ({ 
   value, 
@@ -74,7 +74,7 @@ const AboutStatsSection = () => {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
     >
-      <motion.div className="flex gap-6" variants={itemVariants}>
+      <motion.div className="flex gap-6" variants={itemVariants as Variants}>
         <div>
           <AnimatedCounter value={500} suffix="+" />
           <div>Brands Crafted</div>
@@ -90,7 +90,7 @@ const AboutStatsSection = () => {
       </motion.div>
       <motion.p
         className="text-xl"
-        variants={itemVariants}
+        variants={itemVariants as Variants}
       >
         We are a team of passionate designers, strategists, and innovators
         committed to transforming ideas into compelling digital experiences.
