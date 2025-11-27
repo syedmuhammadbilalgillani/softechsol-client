@@ -23,50 +23,27 @@ const nextConfig: NextConfig = {
   // Enable compression
   compress: true,
   
-  // Modern browser support - remove polyfills for modern JS features
+  // Modern browser support - optimize package imports
   experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog'],
+    optimizePackageImports: [
+      'lucide-react', 
+      '@radix-ui/react-accordion', 
+      '@radix-ui/react-dialog',
+      'framer-motion',
+    ],
   },
   
   // Target modern browsers only
   transpilePackages: [],
   
-  // Webpack config to exclude polyfills for modern features
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Exclude unnecessary polyfills for modern browsers
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-    return config;
-  },
-  
-  // Enable SWC minification (faster and better)
-  // swcMinify: true,
-  
-  // Optimize CSS
-  // optimizeFonts: true,
+  // Explicitly use Turbopack (Next.js 16 default)
+  turbopack: {},
   
   // Power optimizations
   poweredByHeader: false,
   
   // React strict mode for better performance
   reactStrictMode: true,
-  
-  // Experimental features for better performance
-  // experimental: {
-  //   optimizePackageImports: [
-  //     'lucide-react',
-  //     '@radix-ui/react-accordion',
-  //     '@radix-ui/react-dialog',
-  //     'framer-motion',
-  //   ],
-  //   optimizeCss: true,
-  // },
 };
 
 export default nextConfig;
