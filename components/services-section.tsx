@@ -29,7 +29,12 @@ const ServicesSection = async () => {
                 />
               </div>
               <p className="text-lg text-white">
-                {item.services.map((service) => service.title).join(", ")}
+                {item.services
+                  .slice(0, 3)
+                  .map((service) =>
+                    service.title.split(" ").slice(0, 2).join(" ")
+                  )
+                  .join(", ")}
               </p>
             </div>
           ))}
