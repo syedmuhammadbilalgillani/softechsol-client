@@ -44,10 +44,18 @@ export async function generateMetadata({
       };
     }
 
-    const title = project.meta_title || project.title || project.client_name || "Project Details";
-    const description = project.meta_description || project.overview?.replace(/<[^>]*>/g, "").substring(0, 160) || "View this project from SoftechSol's portfolio.";
+    const title =
+      project.meta_title ||
+      project.title ||
+      project.client_name ||
+      "Project Details";
+    const description =
+      project.meta_description ||
+      project.overview?.replace(/<[^>]*>/g, "").substring(0, 160) ||
+      "View this project from SoftechSol's portfolio.";
 
-    const ogImage = project.images?.[0]?.image?.url || `${DOMAIN_URL}/home_hero.jpg`;
+    const ogImage =
+      project.images?.[0]?.image?.url || `${DOMAIN_URL}/home_hero.jpg`;
     const ogAlt = project.images?.[0]?.image?.altText || title;
     const projectUrl = `${DOMAIN_URL}/projects/${slug}`;
 
@@ -128,11 +136,12 @@ const ProjectDetail = async ({
     return notFound();
   }
 
-  const moreProjects = await fetchProjects();
+  const moreProjects = await fetchProjects({ limit: 10 });
 
   const relatedProjects =
-    moreProjects?.filter((p: Project) => p.project_id !== currentProject.project_id) ||
-    [];
+    moreProjects?.filter(
+      (p: Project) => p.project_id !== currentProject.project_id
+    ) || [];
 
   logger.info(currentProject);
 
@@ -262,7 +271,7 @@ const ProjectDetail = async ({
 
           {relatedProjects.length > 0 ? (
             <div className="grid gap-5 md:grid-cols-3">
-              {relatedProjects.map((project:any) => (
+              {relatedProjects.map((project: any) => (
                 <ProjectCard key={project.project_id} data={project} />
               ))}
             </div>
