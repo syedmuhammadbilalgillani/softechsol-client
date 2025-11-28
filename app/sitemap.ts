@@ -73,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic project pages
   let projectPages: MetadataRoute.Sitemap = [];
   try {
-    const projects = await fetchProjects();
+    const projects = await fetchProjects({ limit: 1000 });
     if (Array.isArray(projects)) {
       projectPages = projects.map((project: any) => ({
         url: `${baseUrl}/projects/${project.project_id || project.slug}`,
