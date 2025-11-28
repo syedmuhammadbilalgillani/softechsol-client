@@ -4,7 +4,7 @@ import axios from "axios";
 import prisma from "./prisma";
 
 // ——— Config ————————————————————————————————————————————————
-export const REVALIDATE_SECONDS = 100;
+export const REVALIDATE_SECONDS = 600;
 
 // ——— Helpers ————————————————————————————————————————————————
 const num = (v?: number) => (typeof v === "number" ? v : undefined);
