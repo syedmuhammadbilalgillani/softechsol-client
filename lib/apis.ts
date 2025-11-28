@@ -66,8 +66,9 @@ export const fetchCategoriesWithServices = unstable_cache(
 );
 
 export const fetchProjects = unstable_cache(
-  async () =>
+  async ({ limit = 10 }: { limit?: number }) =>
     await prisma.project.findMany({
+      take: limit,
       include: {
         images: {
           include: {
