@@ -318,3 +318,14 @@ export const fetchPodcasts = unstable_cache(
   ["podcasts"],
   { revalidate: REVALIDATE_SECONDS, tags: ["podcasts"] }
 );
+
+export const fetchServices = unstable_cache(
+  async () =>
+    await prisma.service.findMany({
+      select: {
+        title: true,
+      },
+    }),
+  ["services"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["services"] }
+);
