@@ -1,6 +1,6 @@
 import ContactForm from "@/components/contact-form";
 import Heading from "@/components/heading";
-import LocationIcon from "@/components/svgs/location";
+import { Building2, Globe, Briefcase } from "lucide-react";
 import { fetchCategoriesWithServices } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Image from "next/image";
@@ -61,7 +61,7 @@ const ContactUsPage = async () => {
         {/* Dark overlay for contrast */}
         <div className="absolute inset-0 bg-[#001E3A]/80 " />
 
-        <div className="relative flex flex-col justify-between items-center w-full gap-[9dvh] z-10 px-4 md:px-8 text-white mb-10">
+        <div className="relative flex flex-col justify-center h-full items-center w-full gap-[9dvh] z-10 px-4 md:px-8 text-white mb-10">
           <section
             aria-labelledby="contact-us-title"
             className="space-y-3 self-start"
@@ -80,14 +80,14 @@ const ContactUsPage = async () => {
               support, or collaborations.
             </p>
           </section>
-          <section className="items-center">
+          {/* <section className="items-center">
             <div
               aria-labelledby="office-locations"
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8"
             >
               <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
                 <div className="bg-primary rounded-full p-2 w-fit">
-                  <LocationIcon />
+                  <Building2 className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-black">
                   Main Office
@@ -105,7 +105,7 @@ const ContactUsPage = async () => {
               </div>
               <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
                 <div className="bg-primary rounded-full p-2 w-fit">
-                  <LocationIcon />
+                  <Globe className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-black">
                   Regional Office
@@ -123,7 +123,7 @@ const ContactUsPage = async () => {
               </div>
               <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
                 <div className="bg-primary rounded-full p-2 w-fit">
-                  <LocationIcon />
+                  <Briefcase className="w-5 h-5 text-white" />
                 </div>
 
                 <h3 className="text-xl font-semibold text-black">
@@ -141,7 +141,7 @@ const ContactUsPage = async () => {
                 </address>
               </div>
             </div>
-          </section>
+          </section> */}
         </div>
       </header>
       <section className="bg-gray-300 py-10">

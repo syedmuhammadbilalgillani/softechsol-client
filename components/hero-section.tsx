@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -19,7 +20,7 @@ const HeroSection = () => {
         sizes="100vw"
         quality={85}
       />
-      
+
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-[#001E3A]/80 backdrop-blur-[1px] z-10" />
 
@@ -37,12 +38,16 @@ const HeroSection = () => {
 
           {/* CTA Buttons */}
           <nav className="mt-6 flex flex-wrap gap-4 justify-center md:justify-start">
-            <Button className="text-black font-medium" variant="outline">
-              Browse Works
+            <Button
+              asChild
+              className="text-black font-medium"
+              variant="outline"
+            >
+              <Link href={`/projects`}>Browse Works</Link>
             </Button>
 
-            <Button className="font-medium flex items-center gap-2">
-              Book a Call <ArrowRight />
+            <Button asChild className="font-medium flex items-center gap-2">
+              <Link href={`/contact`}>Book a Call <ArrowRight /></Link>
             </Button>
           </nav>
         </div>
