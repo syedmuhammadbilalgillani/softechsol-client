@@ -17,7 +17,7 @@ const ServiceSelector = ({ services, onServiceChange }: ServiceSelectorProps) =>
   };
 
   return (
-    <div className="col-span-1  ">
+    <div className="col-span-1 ">
       <label htmlFor="service" className="block text-sm font-medium text-white">
         Service
       </label>

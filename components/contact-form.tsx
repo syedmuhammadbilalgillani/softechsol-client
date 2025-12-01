@@ -62,7 +62,7 @@ const ContactForm = ({ services }: { services: ServiceCategory[] }) => {
         />
       </div>
 
-      <div>
+      <div className=" col-span-1">
         <label htmlFor="phone" className="block text-sm font-medium text-white">
           Phone
         </label>
@@ -77,7 +77,7 @@ const ContactForm = ({ services }: { services: ServiceCategory[] }) => {
 
       <ServiceSelector services={services} />
 
-      <div className="col-span-2">
+      <div className="md:col-span-2 col-span-1">
         <label
           htmlFor="message"
           className="block text-sm font-medium text-white"
@@ -94,7 +94,7 @@ const ContactForm = ({ services }: { services: ServiceCategory[] }) => {
         />
       </div>
 
-      <div className="col-span-2">
+      <div className="md:col-span-2 col-span-1">
         <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
