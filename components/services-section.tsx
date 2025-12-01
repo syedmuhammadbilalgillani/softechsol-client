@@ -20,9 +20,9 @@ const ServicesSection = async () => {
               className="flex relative items-center group justify-between space-x-6 py-10 border-b  text-white"
             >
               <h3 className="text-xl font-semibold">{item.name}</h3>
-              <div className="absolute left-1/2 w-32 h-32">
+              <div className="absolute left-1/2 w-40 min-h-44 h-full">
                 <Image
-                  className="object-contain rounded-xl rotate-12 scale-0 group-hover:scale-100 transition-all duration-300 "
+                  className="object-cover rounded-xl rotate-12 min-h-44 scale-0 group-hover:scale-100 transition-all duration-300 "
                   src={item?.image?.url || "/placeholder.svg"}
                   alt={item?.image?.altText || item?.name}
                   layout="fill"
