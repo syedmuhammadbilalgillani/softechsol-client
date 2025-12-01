@@ -1,12 +1,12 @@
 "use client";
+import { ContactAction } from "@/actions/contact";
+import { Service } from "@/app/generated/prisma";
 import React, { useState } from "react";
+import { toast } from "sonner";
 import ServiceSelector from "./service-selector";
 import { Button } from "./ui/button";
-import { ContactAction } from "@/actions/contact";
-import { toast } from "sonner";
-import { ServiceCategory } from "@/app/generated/prisma";
 
-const ContactForm = ({ services }: { services: ServiceCategory[] }) => {
+const ContactForm = ({ services }: { services: Service[] }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

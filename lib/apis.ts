@@ -64,6 +64,17 @@ export const fetchCategoriesWithServices = unstable_cache(
   ["categories-with-services"],
   { revalidate: REVALIDATE_SECONDS, tags: ["categories-with-services"] }
 );
+export const fetchServicesList = unstable_cache(
+  async () =>
+    await prisma.service.findMany({
+      select: {
+        id: true,
+        title: true,
+      },
+    }),
+  ["services-list"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["services-list"] }
+);
 
 export const fetchProjects = unstable_cache(
   async ({ limit = 10 }: { limit?: number }) =>

@@ -1,11 +1,12 @@
 import ContactForm from "@/components/contact-form";
 import Heading from "@/components/heading";
 import { Building2, Globe, Briefcase } from "lucide-react";
-import { fetchCategoriesWithServices } from "@/lib/apis";
+import { fetchCategoriesWithServices, fetchServicesList } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Image from "next/image";
 import { Metadata } from "next";
 import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
+import { Service } from "../generated/prisma";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -45,8 +46,8 @@ export const metadata: Metadata = {
 };
 
 const ContactUsPage = async () => {
-  const categories = await fetchCategoriesWithServices();
-  logger.info(categories, "categories");
+  const services = await fetchServicesList();
+  logger.info(services, "services");
   return (
     <>
       <header
@@ -147,7 +148,7 @@ const ContactUsPage = async () => {
       <section className="bg-gray-300 py-10">
         <div className="bg-white grid md:grid-cols-2 grid-cols-1 main p-10 rounded-xl gap-10 place-items-center">
           <div className="bg-darkblue rounded-xl p-5">
-            <ContactForm services={categories} />
+            <ContactForm services={services as Service[]} />
           </div>
           <div className="space-y-2">
             <Heading title="Contact Us" />
