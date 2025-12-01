@@ -145,7 +145,7 @@ const ContactUsPage = async () => {
         </div>
       </header>
       <section className="bg-gray-300 py-10">
-        <div className="bg-white grid grid-cols-2 main p-10 rounded-xl gap-10 place-items-center">
+        <div className="bg-white grid md:grid-cols-2 grid-cols-1 main p-10 rounded-xl gap-10 place-items-center">
           <div className="bg-darkblue rounded-xl p-5">
             <ContactForm services={categories} />
           </div>
