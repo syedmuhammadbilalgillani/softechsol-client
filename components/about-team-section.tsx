@@ -44,14 +44,14 @@ const AboutTeamSection = ({
       <motion.div variants={itemVariants}>
         <Heading as="h2" title="Our Team" />
       </motion.div>
-      <div className="grid md:grid-cols-3 grid-cols-1">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-7">
         {teams.map((team, index) => (
           <motion.article
             key={team.id}
             variants={itemVariants}
             whileHover={{ scale: 1.02, y: -5 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className={`md:col-span-4 col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 `}
+            className={`  `}
           >
             <TeamCard
               data={{
