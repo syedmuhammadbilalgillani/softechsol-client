@@ -52,11 +52,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.jpg", sizes: "any" },
-      { url: "/favicon.jpg", type: "image/png" },
+      { url: "/favicon.png", sizes: "any" },
+      { url: "/favicon.png", type: "image/png" },
     ],
-    apple: [{ url: "/favicon.jpg", sizes: "180x180", type: "image/png" }],
-    shortcut: "/favicon.jpg",
+    apple: [{ url: "/favicon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.png",
   },
   manifest: "/manifest.json",
   openGraph: {
