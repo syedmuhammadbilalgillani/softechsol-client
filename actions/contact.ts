@@ -278,10 +278,10 @@ const createTransporter = () => {
   const smtpHost = process.env.SMTP_HOST || "smtpout.secureserver.net";
   const smtpPort = parseInt(process.env.SMTP_PORT || "587");
   const isSecure = process.env.SMTP_SECURE === "true";
-  
+
   // Ensure SMTP_USER is the full email address
-  const smtpUser = process.env.SMTP_USER.includes("@") 
-    ? process.env.SMTP_USER 
+  const smtpUser = process.env.SMTP_USER.includes("@")
+    ? process.env.SMTP_USER
     : `${process.env.SMTP_USER}@${process.env.SMTP_DOMAIN || "softechsol.com"}`;
 
   // GoDaddy secureserver.net configuration
@@ -344,22 +344,24 @@ export const ContactAction = async (formData: FormData) => {
         status: "NEW", // Explicitly set status
       },
     });
-
+    logger.debug(serviceId, "serviceId");
     // Get service name if service_id exists
     let serviceName = null;
     if (serviceId) {
       try {
-        const serviceData = await prisma.serviceCategory.findUnique({
+        const serviceData = await prisma.service.findUnique({
           where: { id: serviceId },
-          select: { name: true },
+          select: { title: true },
         });
-        serviceName = serviceData?.name || null;
+        logger.debug(serviceData, "serviceData");
+        serviceName = serviceData?.title || null;
+        logger.debug(serviceName, "serviceName");
       } catch (error) {
         logger.error("Error fetching service name:", error);
       }
     }
 
-    // Send emails
+    // // Send emails
     let transporter;
     try {
       transporter = createTransporter();
@@ -387,8 +389,8 @@ export const ContactAction = async (formData: FormData) => {
       message: message?.trim() || null,
       service: serviceName,
     };
-
-    // Send email to HR
+    logger.info(emailData, "emailData");
+    // // Send email to HR
     try {
       await transporter.sendMail({
         from: `"${companyName}" <${fromEmail}>`,

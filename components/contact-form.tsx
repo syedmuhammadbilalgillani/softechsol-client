@@ -33,7 +33,7 @@ const ContactForm = ({ services }: { services: ServiceCategory[] }) => {
   };
 
   return (
-    <form className="grid grid-cols-2 gap-5" onSubmit={handleSubmit}>
+    <form className="grid md:grid-cols-2 grid-cols-1 gap-5" onSubmit={handleSubmit}>
       <div className="col-span-1">
         <label htmlFor="name" className="block text-sm font-medium text-white">
           Name
