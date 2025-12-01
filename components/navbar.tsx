@@ -122,6 +122,7 @@ const Navbar = () => {
                     <Link
                       rel="preload"
                       href={link.href}
+                      className="w-full  block"
                       aria-label={link.label}
                     >
                       {link.label}
