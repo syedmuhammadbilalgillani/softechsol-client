@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { DOMAIN_URL } from "@/constants/url";
+import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
 import Heading from "@/components/heading";
 import Link from "next/link";
 
