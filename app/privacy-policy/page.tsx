@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { DOMAIN_URL } from "@/constants/url";
+import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
 import Heading from "@/components/heading";
 import Link from "next/link";
 
@@ -38,9 +38,7 @@ const PrivacyPolicyPage = () => {
         {/* Header */}
         <header className="mb-10">
           <Heading as="h1" title="Privacy Policy" />
-          <p className="text-gray-600 mt-2">
-            Last updated: {lastUpdated}
-          </p>
+          <p className="text-gray-600 mt-2">Last updated: {lastUpdated}</p>
         </header>
 
         {/* Introduction */}
@@ -162,9 +160,9 @@ const PrivacyPolicyPage = () => {
           <p className="text-gray-700 leading-relaxed">
             We implement appropriate technical and organizational security
             measures to protect your personal information against unauthorized
-            access, alteration, disclosure, or destruction. However, no method of
-            transmission over the Internet or electronic storage is 100% secure,
-            and we cannot guarantee absolute security.
+            access, alteration, disclosure, or destruction. However, no method
+            of transmission over the Internet or electronic storage is 100%
+            secure, and we cannot guarantee absolute security.
           </p>
         </section>
 
@@ -172,8 +170,8 @@ const PrivacyPolicyPage = () => {
         <section className="mb-10">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">5. Cookies</h2>
           <p className="text-gray-700 leading-relaxed mb-3">
-            We use cookies and similar tracking technologies to track activity on
-            our website and store certain information. You can instruct your
+            We use cookies and similar tracking technologies to track activity
+            on our website and store certain information. You can instruct your
             browser to refuse all cookies or to indicate when a cookie is being
             sent. However, if you do not accept cookies, you may not be able to
             use some portions of our website.
@@ -228,9 +226,9 @@ const PrivacyPolicyPage = () => {
           </h2>
           <p className="text-gray-700 leading-relaxed">
             Our website is not intended for children under the age of 13. We do
-            not knowingly collect personal information from children under 13. If
-            you are a parent or guardian and believe your child has provided us
-            with personal information, please contact us immediately.
+            not knowingly collect personal information from children under 13.
+            If you are a parent or guardian and believe your child has provided
+            us with personal information, please contact us immediately.
           </p>
         </section>
 
@@ -241,17 +239,15 @@ const PrivacyPolicyPage = () => {
           </h2>
           <p className="text-gray-700 leading-relaxed">
             We may update our Privacy Policy from time to time. We will notify
-            you of any changes by posting the new Privacy Policy on this page and
-            updating the "Last updated" date. You are advised to review this
+            you of any changes by posting the new Privacy Policy on this page
+            and updating the "Last updated" date. You are advised to review this
             Privacy Policy periodically for any changes.
           </p>
         </section>
 
         {/* Contact Us */}
         <section className="mb-10 border-t pt-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            9. Contact Us
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">9. Contact Us</h2>
           <p className="text-gray-700 leading-relaxed mb-3">
             If you have any questions about this Privacy Policy, please contact
             us:
@@ -267,7 +263,10 @@ const PrivacyPolicyPage = () => {
               </a>
             </p>
             <p className="text-gray-700 mt-2">
-              <strong>Address:</strong> 123 Main St, Anytown, USA
+              <strong>Address:</strong>{" "}
+              <a href="https://www.google.com/maps/place/GCE+Pvt.+Ltd./@31.5322122,74.3455412,17z/data=!3m1!4b1!4m6!3m5!1s0x3919050020b4027b:0xd671dbfe09a12d6a!8m2!3d31.5322122!4d74.3455412!16s%2Fg%2F11y3wxtyd0!17m2!4m1!1e3!18m1!1e1?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D">
+                {socialMediaLinks.address}
+              </a>
             </p>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import { DOMAIN_URL } from "@/constants/url";
+import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Funnel_Display } from "next/font/google";
@@ -162,15 +162,15 @@ export default function RootLayout({
                 "Leading software development company providing innovative software solutions",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "123 Main St",
-                addressLocality: "Anytown",
-                addressCountry: "USA",
+                streetAddress: socialMediaLinks.address,
+                addressLocality: "Lahore",
+                addressCountry: "Pakistan",
               },
               contactPoint: {
                 "@type": "ContactPoint",
-                telephone: "+91-9876543210",
+                telephone: socialMediaLinks.phone,
                 contactType: "Customer Service",
-                email: "info@softechsol.com",
+                email: socialMediaLinks.email,
               },
               sameAs: [
                 "https://www.linkedin.com/in/softechsol",
