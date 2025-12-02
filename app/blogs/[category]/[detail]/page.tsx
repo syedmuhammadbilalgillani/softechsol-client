@@ -335,6 +335,7 @@ const BlogDetailPage = async ({
           >
             <div
               id="article-content"
+              className="neditor-html"
               dangerouslySetInnerHTML={{ __html: blog.content }}
             />
           </section>
