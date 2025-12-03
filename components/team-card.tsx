@@ -8,7 +8,7 @@ const TeamCard = ({
   data: Team & { featured_image: GalleryItem };
 }) => {
   return (
-    <article className="mb-6">
+    <article className="mb-6 w-fit">
       <ImageWrapper
         src={data?.featured_image?.url || ""}
         alt={data?.title || ""}
