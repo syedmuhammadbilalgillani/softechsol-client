@@ -15,7 +15,7 @@ const TeamCard = ({
         width={500}
         isZoom={false}
         height={600}
-        className="rounded-xl h-[420px] object-cover"
+        className="rounded-xl max-h-[420px] min-h-[420px] object-cover"
       />
       <div className="flex justify-between gap-5 items-center mt-2">
         <header>
