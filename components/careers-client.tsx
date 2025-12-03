@@ -137,7 +137,7 @@ const CareersClient = ({ categories, jobs }: CareersClientProps) => {
         )}
       </section>
 
-      <div className="relative h-[500px] w-full mb-10">
+      <div className="relative h-[80dvh] w-full mb-10">
         <Image
           src="/careers.jpg"
           fill

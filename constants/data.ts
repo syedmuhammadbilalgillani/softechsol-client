@@ -63,22 +63,22 @@ export const testimonials = [
     designation: "Business Analyst",
     image: "/team/8.png",
   },
-  {
-    rating: 5,
-    description:
-      "I’m truly impressed by the quality and consistency. Everything works as expected, and customer service is responsive and helpful.",
-    name: "Amanda Moore",
-    designation: "Sales Director",
-    image: "/team/9.png",
-  },
-  {
-    rating: 4,
-    description:
-      "Great tool overall, though it could use more customization options. The core features are solid and easy to use.",
-    name: "Brian White",
-    designation: "Tech Lead",
-    image: "/team/10.png",
-  },
+  // {
+  //   rating: 5,
+  //   description:
+  //     "I’m truly impressed by the quality and consistency. Everything works as expected, and customer service is responsive and helpful.",
+  //   name: "Amanda Moore",
+  //   designation: "Sales Director",
+  //   image: "/team/9.png",
+  // },
+  // {
+  //   rating: 4,
+  //   description:
+  //     "Great tool overall, though it could use more customization options. The core features are solid and easy to use.",
+  //   name: "Brian White",
+  //   designation: "Tech Lead",
+  //   image: "/team/10.png",
+  // },
 ];
 export const faqs = [
   {

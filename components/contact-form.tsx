@@ -58,6 +58,8 @@ const ContactForm = ({ services }: { services: Service[] }) => {
           name="email"
           placeholder="Enter your email"
           className="mt-1 block bg-white w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+          title="Please enter a valid email address (e.g., example@domain.com)"
           required
         />
       </div>
@@ -72,6 +74,8 @@ const ContactForm = ({ services }: { services: Service[] }) => {
           name="phone"
           placeholder="Enter your phone"
           className="mt-1 block bg-white w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+          pattern="[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}"
+          title="Please enter a valid phone number (e.g., +1-234-567-8900, (123) 456-7890, or 123-456-7890)"
         />
       </div>
 

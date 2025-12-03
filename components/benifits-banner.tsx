@@ -4,7 +4,14 @@ import React, { useEffect, useRef } from "react";
 import Heading from "./heading";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { motion, useInView, useMotionValue, useSpring, Variants } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useSpring,
+  Variants,
+} from "framer-motion";
+import Link from "next/link";
 
 const BenifitsBanner = () => {
   const containerVariants = {
@@ -96,7 +103,9 @@ const BenifitsBanner = () => {
         ref={ref}
         className="text-5xl text-primary font-semibold"
         initial={{ opacity: 0, scale: 0.5 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+        animate={
+          isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }
+        }
         transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
       >
         <motion.span>{displayValue}</motion.span>%
@@ -204,8 +213,8 @@ const BenifitsBanner = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Button className="px-10" variant="outline">
-                    Read More
+                  <Button asChild className="px-10" variant="outline">
+                    <Link href={`/services`}>Read More</Link>
                   </Button>
                 </motion.div>
               </motion.div>

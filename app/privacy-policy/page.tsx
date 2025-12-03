@@ -212,7 +212,7 @@ const PrivacyPolicyPage = () => {
             To exercise these rights, please contact us at{" "}
             <a
               href="mailto:privacy@softechsol.com"
-              className="text-primary hover:underline"
+              className="text-primary hover:underline cursor-pointer relative z-10"
             >
               privacy@softechsol.com
             </a>
@@ -257,7 +257,7 @@ const PrivacyPolicyPage = () => {
               <strong>Email:</strong>{" "}
               <a
                 href="mailto:privacy@softechsol.com"
-                className="text-primary hover:underline"
+                className="text-primary hover:underline cursor-pointer relative z-10"
               >
                 privacy@softechsol.com
               </a>

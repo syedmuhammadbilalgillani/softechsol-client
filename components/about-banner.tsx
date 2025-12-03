@@ -4,6 +4,7 @@ import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Heading from "./heading";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const AboutBanner = () => {
   const containerVariants = {
@@ -81,18 +82,15 @@ const AboutBanner = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <Button
-            variant={"outline"}
-            asChild
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              Read More
-            </motion.button>
-          </Button>
+            <Button variant={"outline"} asChild>
+              <Link href={`/about`}>Read More</Link>
+            </Button>
+          </motion.div>
         </motion.div>
       </motion.div>
     </motion.main>
