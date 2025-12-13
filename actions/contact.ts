@@ -306,6 +306,14 @@ const createTransporter = () => {
   });
 };
 
+// DoS protection: Maximum field lengths (must match client-side)
+const MAX_FIELD_LENGTHS = {
+  name: 100,
+  email: 254, // RFC 5321 limit
+  phone: 20,
+  message: 5000,
+} as const;
+
 export const ContactAction = async (formData: FormData) => {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
@@ -313,12 +321,55 @@ export const ContactAction = async (formData: FormData) => {
   const message = formData.get("message") as string | null; // This maps to `notes` in schema
   const service = formData.get("service") as string | null;
 
-  // Validation
+  // Basic validation
   if (!name || !email) {
     return {
       success: false,
       error: "Name and email are required",
     };
+  }
+
+  // DoS protection: Length validation
+  if (name.length > MAX_FIELD_LENGTHS.name) {
+    return {
+      success: false,
+      error: `Name must be less than ${MAX_FIELD_LENGTHS.name} characters`,
+    };
+  }
+  if (email.length > MAX_FIELD_LENGTHS.email) {
+    return {
+      success: false,
+      error: `Email must be less than ${MAX_FIELD_LENGTHS.email} characters`,
+    };
+  }
+  if (phone && phone.length > MAX_FIELD_LENGTHS.phone) {
+    return {
+      success: false,
+      error: `Phone must be less than ${MAX_FIELD_LENGTHS.phone} characters`,
+    };
+  }
+  if (message && message.length > MAX_FIELD_LENGTHS.message) {
+    return {
+      success: false,
+      error: `Message must be less than ${MAX_FIELD_LENGTHS.message} characters`,
+    };
+  }
+
+  // DoS protection: Detect suspicious patterns
+  const suspiciousPatterns = [
+    /(.)\1{50,}/, // Repeated characters (e.g., "aaaaaaaa...")
+    /<script|javascript:|onerror=|onload=/i, // XSS attempts
+  ];
+
+  const allFields = [name, email, phone, message].filter(Boolean).join(" ");
+  for (const pattern of suspiciousPatterns) {
+    if (pattern.test(allFields)) {
+      logger.warn("Suspicious input pattern detected", { pattern: pattern.toString() });
+      return {
+        success: false,
+        error: "Invalid input detected. Please check your submission.",
+      };
+    }
   }
 
   // Convert service to integer if provided
