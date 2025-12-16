@@ -229,12 +229,14 @@ const ProjectDetail = async ({
           <div>
             <Heading title="Key Challenges" />
           </div>
-          <div id="project-challenges-heading">
-            <p className="text-base leading-relaxed text-muted-foreground">
-              {currentProject.challenges ||
-                "Details about the project challenges will be added soon."}
-            </p>
-          </div>
+          <div
+            id="project-challenges-heading"
+            className="prose max-w-none text-base leading-relaxed dark:prose-invert"
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{
+              __html: currentProject.challenges || "",
+            }}
+          />
         </section>
 
         {/* Gallery */}

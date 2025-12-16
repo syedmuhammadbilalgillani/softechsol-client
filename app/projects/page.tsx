@@ -76,7 +76,7 @@ const ProjectsPage = async () => {
               No Projects Available
             </h3>
             <p className="text-gray-600 text-center max-w-md mb-8">
-              We're currently updating our portfolio. Check back soon to see our latest work and innovative solutions.
+              We&#39;re currently updating our portfolio. Check back soon to see our latest work and innovative solutions.
             </p>
             <Link href="/contact" aria-label="Contact us">
               <Button variant="outline" size="lg">
