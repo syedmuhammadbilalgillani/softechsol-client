@@ -129,7 +129,7 @@ const ProjectDetail = async ({
         },
       },
     },
-    where: { project_id: Number(slug) },
+    where: { slug: decodeURIComponent(slug) },
   });
 
   if (!currentProject) {

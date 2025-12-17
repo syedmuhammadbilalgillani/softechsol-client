@@ -26,7 +26,7 @@ const ProjectCard = ({ data }: { data: any }) => {
         </header>
 
         <Link
-          href={`/projects/${data?.project_id}`}
+          href={`/projects/${data?.slug}`}
           aria-label={`View details of ${data?.title || "this project"}`}
         >
           <ArrowRight />
