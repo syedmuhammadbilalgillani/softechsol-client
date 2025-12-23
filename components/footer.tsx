@@ -166,7 +166,11 @@ const Footer = () => {
                   aria-hidden="true"
                 />
                 <address className="text-gray-300 text-sm not-italic leading-relaxed">
-                  <a href="https://www.google.com/maps/place/GCE+Pvt.+Ltd./@31.5322122,74.3455412,17z/data=!3m1!4b1!4m6!3m5!1s0x3919050020b4027b:0xd671dbfe09a12d6a!8m2!3d31.5322122!4d74.3455412!16s%2Fg%2F11y3wxtyd0!17m2!4m1!1e3!18m1!1e1?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.google.com/maps/place/GCE+Pvt.+Ltd./@31.5322122,74.3455412,17z/data=!3m1!4b1!4m6!3m5!1s0x3919050020b4027b:0xd671dbfe09a12d6a!8m2!3d31.5322122!4d74.3455412!16s%2Fg%2F11y3wxtyd0!17m2!4m1!1e3!18m1!1e1?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
+                  >
                     {socialMediaLinks.address}
                   </a>{" "}
                 </address>
