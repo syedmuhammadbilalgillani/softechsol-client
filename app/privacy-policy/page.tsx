@@ -1,6 +1,7 @@
-import { Metadata } from "next";
-import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
 import Heading from "@/components/heading";
+import PrivacyBtn from "@/components/privacybtn";
+import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
+import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 const PrivacyPolicyPage = () => {
-  const lastUpdated = "January 1, 2024";
+  const lastUpdated = "December 23, 2025";
 
   return (
     <main className="main py-12">
@@ -222,7 +223,7 @@ const PrivacyPolicyPage = () => {
         {/* Children's Privacy */}
         <section className="mb-10">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            7. Children's Privacy
+            7. Children&apos;s Privacy
           </h2>
           <p className="text-gray-700 leading-relaxed">
             Our website is not intended for children under the age of 13. We do
@@ -240,7 +241,7 @@ const PrivacyPolicyPage = () => {
           <p className="text-gray-700 leading-relaxed">
             We may update our Privacy Policy from time to time. We will notify
             you of any changes by posting the new Privacy Policy on this page
-            and updating the "Last updated" date. You are advised to review this
+            and updating the &quot;Last updated&quot; date. You are advised to review this
             Privacy Policy periodically for any changes.
           </p>
         </section>
@@ -255,16 +256,11 @@ const PrivacyPolicyPage = () => {
           <div className="bg-gray-50 p-6 rounded-lg">
             <p className="text-gray-700">
               <strong>Email:</strong>{" "}
-              <a
-                href="mailto:privacy@softechsol.com"
-                className="text-primary hover:underline cursor-pointer relative z-10"
-              >
-                privacy@softechsol.com
-              </a>
+              <PrivacyBtn />
             </p>
             <p className="text-gray-700 mt-2">
               <strong>Address:</strong>{" "}
-              <a href="https://www.google.com/maps/place/GCE+Pvt.+Ltd./@31.5322122,74.3455412,17z/data=!3m1!4b1!4m6!3m5!1s0x3919050020b4027b:0xd671dbfe09a12d6a!8m2!3d31.5322122!4d74.3455412!16s%2Fg%2F11y3wxtyd0!17m2!4m1!1e3!18m1!1e1?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D">
+              <a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/place/GCE+Pvt.+Ltd./@31.5322122,74.3455412,17z/data=!3m1!4b1!4m6!3m5!1s0x3919050020b4027b:0xd671dbfe09a12d6a!8m2!3d31.5322122!4d74.3455412!16s%2Fg%2F11y3wxtyd0!17m2!4m1!1e3!18m1!1e1?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D">
                 {socialMediaLinks.address}
               </a>
             </p>

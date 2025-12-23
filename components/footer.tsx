@@ -6,31 +6,27 @@ import Link from "next/link";
 import FacebookIcon from "./svgs/facebook";
 import InstagramIcon from "./svgs/instagram";
 import LinkedInIcon from "./svgs/linkedin";
-
-const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  const email = socialMediaLinks.email;
-  const subject = encodeURIComponent("Support Request");
-  const body = encodeURIComponent("Hello, I need help with...");
-  const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
-
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+export const handleClick =
+  (email: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
+    const mailto = `mailto:${email}`;
 
     // Try native mail app
-    window.location.href = mailto;
+    // window.location.href = mailto;
 
     // Fallback to Gmail after delay
     setTimeout(() => {
       window.open(
-        `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`,
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`,
         "_blank",
         "noopener,noreferrer"
       );
     }, 500);
   };
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   const quickLinks = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -102,14 +98,8 @@ const Footer = () => {
                   <a
                     key={social.name}
                     href={social.href}
-                    target={
-                      social.href.startsWith("mailto:") ? "_self" : "_blank"
-                    }
-                    rel={
-                      social.href.startsWith("mailto:")
-                        ? undefined
-                        : "noopener noreferrer"
-                    }
+                    target={"_blank"}
+                    rel={"noopener noreferrer"}
                     aria-label={social.ariaLabel}
                     className="w-5 h-5  transition-all duration-300 flex items-center justify-center group"
                   >
@@ -172,7 +162,7 @@ const Footer = () => {
                     href="https://www.google.com/maps/place/GCE+Pvt.+Ltd./@31.5322122,74.3455412,17z/data=!3m1!4b1!4m6!3m5!1s0x3919050020b4027b:0xd671dbfe09a12d6a!8m2!3d31.5322122!4d74.3455412!16s%2Fg%2F11y3wxtyd0!17m2!4m1!1e3!18m1!1e1?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
                   >
                     {socialMediaLinks.address}
-                  </a>{" "}
+                  </a>
                 </address>
               </li>
               <li className="flex items-center gap-3">
@@ -181,8 +171,10 @@ const Footer = () => {
                   aria-hidden="true"
                 />
                 <a
-                  href={mailto}
-                  onClick={handleClick}
+                  href={`mailto:${socialMediaLinks.email}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleClick(socialMediaLinks.email)}
                   className="text-gray-300 hover:text-primary transition-colors text-sm"
                 >
                   {socialMediaLinks.email}
