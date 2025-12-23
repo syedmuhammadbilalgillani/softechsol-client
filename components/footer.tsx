@@ -9,7 +9,28 @@ import LinkedInIcon from "./svgs/linkedin";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const email = socialMediaLinks.email;
+  const subject = encodeURIComponent("Support Request");
+  const body = encodeURIComponent("Hello, I need help with...");
+  const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
+
+    // Try native mail app
+    window.location.href = mailto;
+
+    // Fallback to Gmail after delay
+    setTimeout(() => {
+      window.open(
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }, 500);
+  };
   const quickLinks = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -156,7 +177,8 @@ const Footer = () => {
                   aria-hidden="true"
                 />
                 <a
-                  href={`mailto:${socialMediaLinks.email}`}
+                  href={mailto}
+                  onClick={handleClick}
                   className="text-gray-300 hover:text-primary transition-colors text-sm"
                 >
                   {socialMediaLinks.email}
@@ -168,7 +190,9 @@ const Footer = () => {
                   aria-hidden="true"
                 />
                 <a
-                  href={`tel:${socialMediaLinks.phone}`}
+                  href={`https://wa.me/${socialMediaLinks.phone}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-300 hover:text-primary transition-colors text-sm"
                 >
                   {socialMediaLinks.phone}
