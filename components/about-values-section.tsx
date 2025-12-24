@@ -45,18 +45,18 @@ const AboutValuesSection = ({ data }: { data: ValueItem[] }) => {
       </motion.div>
       <div className="grid md:grid-cols-2 grid-cols-1">
         {data.map((item, index) => (
-          <motion.article
+          <article
             key={index}
-            variants={itemVariants}
-            whileHover={{ scale: 1.02, y: -5 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            // variants={itemVariants}
+            // whileHover={{ scale: 1.02, y: -5 }}
+            // transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className={`md:p-10 py-10 max-md:border-b ${
               index % 2 === 0 ? "md:border-r-2 " : ""
             } ${index >= 2 ? "md:border-t-2 " : ""}`}
           >
             <h3 className="text-2xl font-bold">{item.label}</h3>
             <p className="text-lg">{item.description}</p>
-          </motion.article>
+          </article>
         ))}
       </div>
     </motion.section>
