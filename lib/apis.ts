@@ -98,7 +98,22 @@ export const fetchCategories = unstable_cache(
   { revalidate: REVALIDATE_SECONDS, tags: ["categories"] }
 );
 export const fetchBlogs = unstable_cache(
-  async () =>
+  async (): Promise<Array<{
+    slug: string;
+    title: string;
+    excerpt: string | null;
+    featured_image: {
+      id: string;
+      url: string;
+      altText: string | null;
+    } | null;
+    categories: Array<{
+      category: {
+        name: string;
+        slug: string;
+      };
+    }>;
+  }>> =>
     await prisma.blog.findMany({
       select: {
         slug: true,
@@ -109,7 +124,6 @@ export const fetchBlogs = unstable_cache(
             id: true,
             url: true,
             altText: true,
-            publicId: true,
           },
         },
         categories: {
@@ -147,7 +161,6 @@ export const fetchBlogsByCategory = (categorySlug: string) => {
                 id: true,
                 url: true,
                 altText: true,
-                publicId: true,
               },
             },
             categories: {

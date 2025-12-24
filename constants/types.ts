@@ -11,12 +11,15 @@ export interface Blog {
   export interface FeaturedImage {
     id: string
     url: string
-    altText: string
+    altText: string | null
     publicId: string
   }
   
   export interface Category {
-    category: BlogCategory
+    category: {
+      name: string
+      slug: string
+    }
   }
   
   export interface Category2 {

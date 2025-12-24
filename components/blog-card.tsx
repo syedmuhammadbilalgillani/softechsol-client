@@ -19,7 +19,7 @@ const BlogCard = ({ data }: BlogCardProps) => {
   const blogHref =
     categorySlug && blogSlug ? `/blogs/${categorySlug}/${blogSlug}` : "/blogs";
 
-  const featuredImage = data.featured_image as
+  const featuredImage = data?.featured_image as unknown as
     | (GalleryItem & { altText?: string | null })
     | undefined;
 
