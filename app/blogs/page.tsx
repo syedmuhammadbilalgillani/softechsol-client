@@ -1,6 +1,6 @@
 import BlogCard from "@/components/blog-card";
 import Heading from "@/components/heading";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { fetchBlogs, fetchCategories } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Image from "next/image";

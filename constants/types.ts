@@ -3,8 +3,8 @@ import { BlogCategory } from "@/app/generated/prisma"
 export interface Blog {
     slug: string
     title: string
-    excerpt: string
-    featured_image: FeaturedImage
+    excerpt: string | null
+    featured_image: FeaturedImage | null
     categories: Category[]
   }
   
