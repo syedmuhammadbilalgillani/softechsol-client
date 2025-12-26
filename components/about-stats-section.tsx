@@ -1,14 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useInView, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  Variants,
+} from "framer-motion";
 
-const AnimatedCounter = ({ 
-  value, 
-  suffix = "", 
-  className = "text-3xl font-semibold mb-1" 
-}: { 
-  value: number; 
+const AnimatedCounter = ({
+  value,
+  suffix = "",
+  className = "text-3xl font-semibold mb-1",
+}: {
+  value: number;
   suffix?: string;
   className?: string;
 }) => {
@@ -19,7 +26,9 @@ const AnimatedCounter = ({
     damping: 60,
     stiffness: 100,
   });
-  const displayValue = useTransform(springValue, (latest) => Math.round(latest));
+  const displayValue = useTransform(springValue, (latest) =>
+    Math.round(latest)
+  );
 
   useEffect(() => {
     if (isInView) {
@@ -68,7 +77,7 @@ const AboutStatsSection = () => {
 
   return (
     <motion.section
-      className="main grid md:grid-cols-2 grid-cols-1 place-items-center py-10 md:gap-[10%] gap-5"
+      className="main grid grid-cols-1 place-items-center py-10 md:gap-[10%] gap-5"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
@@ -80,7 +89,7 @@ const AboutStatsSection = () => {
           <div>Brands Crafted</div>
         </div>
         <div>
-          <AnimatedCounter value={5} suffix="+" />
+          <AnimatedCounter value={7} suffix="+" />
           <div>Years of Experience</div>
         </div>
         <div>
@@ -88,14 +97,6 @@ const AboutStatsSection = () => {
           <div>Client Satisfaction Rate</div>
         </div>
       </motion.div>
-      <motion.p
-        className="text-xl"
-        variants={itemVariants as Variants}
-      >
-        We are a team of passionate designers, strategists, and innovators
-        committed to transforming ideas into compelling digital experiences.
-        Creativity drives us, results define us.
-      </motion.p>
     </motion.section>
   );
 };
