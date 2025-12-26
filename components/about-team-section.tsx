@@ -46,12 +46,12 @@ const AboutTeamSection = ({
       </motion.div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-7">
         {teams.map((team, index) => (
-          <motion.article
+          <div
             key={team.id}
-            variants={itemVariants}
-            whileHover={{ scale: 1.02, y: -5 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className={`  `}
+            // variants={itemVariants}
+            // whileHover={{ scale: 1.02, y: -5 }}
+            // transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            // className={`  `}
           >
             <TeamCard
               data={{
@@ -59,7 +59,7 @@ const AboutTeamSection = ({
                 featured_image: team.featured_image as GalleryItem,
               }}
             />
-          </motion.article>
+          </div>
         ))}
       </div>
     </motion.section>
