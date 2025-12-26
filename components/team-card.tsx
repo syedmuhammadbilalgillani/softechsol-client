@@ -1,6 +1,7 @@
 import { GalleryItem, Team } from "@/app/generated/prisma";
 import ImageWrapper from "./image-wrapper";
 import { Linkedin } from "lucide-react";
+import { STORAGE_URL } from "@/constants/url";
 
 const TeamCard = ({
   data,
@@ -10,8 +11,8 @@ const TeamCard = ({
   return (
     <article className="mb-6 w-fit">
       <ImageWrapper
-        src={data?.featured_image?.url || ""}
-        alt={data?.title || ""}
+        src={`${STORAGE_URL}${data?.featured_image?.url}` || ""}
+        alt={data?.featured_image?.altText || ""}
         width={500}
         isZoom={false}
         height={600}

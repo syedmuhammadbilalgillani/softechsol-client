@@ -8,3 +8,5 @@ export const socialMediaLinks = {
   email: "info@softechsol.com",
   address: "7A Main Gulberg, Lahore, Pakistan",
 };
+
+export const STORAGE_URL = "https://admin.softechsol.com";
