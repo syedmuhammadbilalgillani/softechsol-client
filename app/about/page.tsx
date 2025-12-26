@@ -2,7 +2,6 @@ import AboutHeroSection from "@/components/about-hero-section";
 import AboutStatsSection from "@/components/about-stats-section";
 import AboutTeamSection from "@/components/about-team-section";
 import AboutValuesSection from "@/components/about-values-section";
-import Heading from "@/components/heading";
 import { data } from "@/constants/data";
 import { DOMAIN_URL } from "@/constants/url";
 import { fetchTeams } from "@/lib/apis";
@@ -51,8 +50,27 @@ const About = async () => {
   logger.info(teams, "teams");
   return (
     <main className="main py-10">
-      <Heading as="h1" title="About Us" />
-      <h2 className="text-4xl font-bold pb-5">Designing Impact With Intent</h2>
+      <h1 className="text-5xl font-bold pb-5 text-center">About Softech Sol</h1>
+      <h2>Who We Are: The Bridge Between Vision & Reality </h2>
+      <p>
+        At Softech Sol, we’re more than just a software company—we’re your
+        dedicated technology partner. Founded by professionals who understand
+        both the technical and business sides of digital solutions, we’ve built
+        a team where strategic experience meets youthful innovation.
+      </p>
+      <p className="text-center text-lg pb-5">
+        At Provision, we offer a full spectrum of creative and digital services
+        designed to help brands grow, connect, and thrive. From crafting
+        distinctive brand identities to developing seamless digital experiences,
+        our approach combines strategy, design, and innovation to deliver
+        meaningful results.
+        <br />
+        <br />
+        Our expertise spans branding, product design, digital marketing, and
+        website development ensuring your brand stands out across every
+        platform. We don’t just create visuals; we build strategies that inspire
+        trust, engage audiences, and drive measurable success.
+      </p>
 
       <AboutHeroSection />
 
