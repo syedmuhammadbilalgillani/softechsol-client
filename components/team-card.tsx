@@ -2,12 +2,14 @@ import { GalleryItem, Team } from "@/app/generated/prisma";
 import ImageWrapper from "./image-wrapper";
 import { Linkedin } from "lucide-react";
 import { STORAGE_URL } from "@/constants/url";
+import logger from "@/lib/logger";
 
 const TeamCard = ({
   data,
 }: {
   data: Team & { featured_image: GalleryItem };
 }) => {
+  logger.info(`${STORAGE_URL}${data?.featured_image?.url}`, "STORAGE_URL");
   return (
     <article className="mb-6 w-fit">
       <ImageWrapper
