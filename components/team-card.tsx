@@ -9,6 +9,7 @@ const TeamCard = ({
 }: {
   data: Team & { featured_image: GalleryItem };
 }) => {
+  logger.info(data, "data");
   logger.info(`${STORAGE_URL}${data?.featured_image?.url}`, "STORAGE_URL");
   return (
     <article className="mb-6 w-fit">
