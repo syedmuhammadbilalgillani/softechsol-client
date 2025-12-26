@@ -77,23 +77,27 @@ const AboutStatsSection = () => {
 
   return (
     <motion.section
-      className="main grid grid-cols-1 place-items-center py-10 md:gap-[10%] gap-5"
+      className="main py-10 gap-5"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
     >
-      <motion.div className="flex gap-6" variants={itemVariants as Variants}>
-        <div>
-          <AnimatedCounter value={500} suffix="+" />
-          <div>Brands Crafted</div>
+      <motion.div className="flex gap-6 justify-between" variants={itemVariants as Variants}>
+        <div className="border shadow  w-full px-6 py-2 rounded-xl">
+          <AnimatedCounter value={20} suffix="+" />
+          <div>Happy Clients</div>
         </div>
-        <div>
+        <div className="border shadow  w-full px-6 py-2 rounded-xl">
+          <AnimatedCounter value={50} suffix="+" />
+          <div>Projects Completed</div>
+        </div>
+        <div className="border shadow  w-full px-6 py-2 rounded-xl">
           <AnimatedCounter value={7} suffix="+" />
           <div>Years of Experience</div>
         </div>
-        <div>
-          <AnimatedCounter value={98} suffix="%" />
+        <div className="border shadow  w-full px-6 py-2 rounded-xl">
+          <AnimatedCounter value={100} suffix="%" />
           <div>Client Satisfaction Rate</div>
         </div>
       </motion.div>

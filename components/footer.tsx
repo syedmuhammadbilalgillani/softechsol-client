@@ -86,9 +86,9 @@ const Footer = () => {
               />
             </Link>
             <p className="text-gray-300 text-sm leading-relaxed">
-              SoftechSol is a leading software development company providing
-              innovative software solutions, web development, mobile apps, and
-              digital transformation services.
+              Softechsol is a people-driven technology company that builds
+              smart, reliable digital solutions and works closely with clients
+              to help their businesses grow and succeed.
             </p>
             {/* Social Media Links */}
             <div className="flex items-center gap-4 pt-2">

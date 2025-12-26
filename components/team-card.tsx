@@ -84,10 +84,10 @@ const TeamCard = ({
   }, [isExpanded]);
 
   return (
-    <article className="mb-6 w-full sm:w-fit p-4 sm:p-8 rounded-2xl group">
+    <article className="mb-6 w-full  p-4 sm:p-8 rounded-2xl group">
       <motion.div
         ref={cardRef}
-        className="relative overflow-hidden rounded-xl cursor-pointer touch-manipulation"
+        className="relative overflow-hidden w-full rounded-xl cursor-pointer touch-manipulation"
         initial="initial"
         whileHover="hover"
         whileTap={{ scale: 0.98 }}

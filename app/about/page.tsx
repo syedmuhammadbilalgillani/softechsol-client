@@ -153,11 +153,11 @@ const About = async () => {
             </ul>
           </div>
 
-          <p className="text-lg leading-relaxed text-foreground/90">
+          {/* <p className="text-lg leading-relaxed text-foreground/90">
             We intentionally keep our team small. That means we can&apos;t take
             on 50 projects at once, but it also means the projects we do take on
             get our full attention.
-          </p>
+          </p> */}
         </section>
       </article>
 

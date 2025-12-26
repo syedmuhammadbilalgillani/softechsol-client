@@ -81,9 +81,11 @@ export const fetchProjects = unstable_cache(
     await prisma.project.findMany({
       take: limit,
       include: {
-        images: {
-          include: {
-            image: true,
+        image: {
+          select: {
+            id: true,
+            url: true,
+            altText: true,
           },
         },
       },
