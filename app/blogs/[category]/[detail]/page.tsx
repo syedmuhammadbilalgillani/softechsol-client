@@ -17,7 +17,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
-import "../../../../components/content.css";
 
 // Generate metadata for blog detail page
 export async function generateMetadata({
@@ -333,11 +332,12 @@ const BlogDetailPage = async ({
           <section
             aria-labelledby="article-content"
             // className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-img:rounded-xl prose-img:shadow-md"
+            className="pb-5"
             suppressHydrationWarning
           >
             <div
               id="article-content"
-              className="neditor-html"
+              className="entry-content"
               dangerouslySetInnerHTML={{ __html: blog?.content }}
             />
           </section>
