@@ -1,11 +1,10 @@
 import ContactForm from "@/components/contact-form";
 import Heading from "@/components/heading";
-import { Building2, Globe, Briefcase } from "lucide-react";
-import { fetchCategoriesWithServices, fetchServicesList } from "@/lib/apis";
+import { DOMAIN_URL } from "@/constants/url";
+import { fetchServicesList } from "@/lib/apis";
 import logger from "@/lib/logger";
-import Image from "next/image";
 import { Metadata } from "next";
-import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
+import Image from "next/image";
 import { Service } from "../generated/prisma";
 
 export const metadata: Metadata = {
@@ -53,14 +52,14 @@ const ContactUsPage = async () => {
       <header
         className="relative min-h-[85vh] max-h-[90vh] h-[85vh] flex items-end"
         style={{
-          backgroundImage: "url('/home_hero.jpg')",
+          backgroundImage: "url('/contact_hero.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
         role="banner"
       >
         {/* Dark overlay for contrast */}
-        <div className="absolute inset-0 bg-[#001E3A]/80 " />
+        <div className="absolute inset-0 bg-[#001E3A]/50 " />
 
         <div className="relative flex flex-col justify-center h-full items-center w-full gap-[9dvh] z-10 px-4 md:px-8 text-white mb-10">
           <section
@@ -77,7 +76,7 @@ const ContactUsPage = async () => {
             />
             <h2 className="text-4xl md:text-5xl font-semibold">Get in Touch</h2>
             <p className="text-lg md:text-xl">
-              We'd love to hear from you. Get in touch with us for inquiries,
+              We&apos;d love to hear from you. Get in touch with us for inquiries,
               support, or collaborations.
             </p>
           </section>
@@ -154,7 +153,7 @@ const ContactUsPage = async () => {
             <Heading title="Contact Us" />
 
             <p className="text-">
-              We'd love to hear from you. Get in touch with us for inquiries,
+              We&apos;d love to hear from you. Get in touch with us for inquiries,
               support, or collaborations.
             </p>
             <Image
