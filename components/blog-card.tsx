@@ -2,6 +2,7 @@ import Link from "next/link";
 import ImageWrapper from "./image-wrapper";
 import { Blog } from "@/constants/types";
 import { GalleryItem } from "@/app/generated/prisma";
+import { STORAGE_URL } from "@/constants/url";
 
 type BlogCardProps = {
   data: Blog;
@@ -19,13 +20,13 @@ const BlogCard = ({ data }: BlogCardProps) => {
   const blogHref =
     categorySlug && blogSlug ? `/blogs/${categorySlug}/${blogSlug}` : "/blogs";
 
-  const featuredImage = data?.featured_image as unknown as
-    | (GalleryItem & { altText?: string | null })
-    | undefined;
-
-  const imageUrl = featuredImage?.url || "";
+  const imageUrl =
+    data?.featured_image?.url &&
+    data?.featured_image?.url?.startsWith("https://res.cloudinary.com")
+      ? data?.featured_image?.url
+      : `${STORAGE_URL}${data?.featured_image?.url}`;
   const imageAlt =
-    featuredImage?.altText || data.title || "Blog featured image";
+    data?.featured_image?.altText || data.title || "Blog featured image";
 
   return (
     <article className="group flex flex-col h-full rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-md">
@@ -36,10 +37,10 @@ const BlogCard = ({ data }: BlogCardProps) => {
             alt={imageAlt}
             width={500}
             height={400}
-            className="rounded-t-2xl h-[220px] md:h-[260px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="rounded-t-2xl h-[220px]  w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-[220px] md:h-[260px] w-full items-center justify-center bg-gray-100 text-gray-400 text-xs">
+          <div className="flex h-[220px]  w-full items-center justify-center bg-gray-100 text-gray-400 text-xs">
             No image available
           </div>
         )}

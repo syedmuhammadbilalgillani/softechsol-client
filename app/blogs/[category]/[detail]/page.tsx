@@ -4,7 +4,7 @@ import Heading from "@/components/heading";
 import ImageWrapper from "@/components/image-wrapper";
 import { Button } from "@/components/ui/button";
 import { Blog } from "@/constants/types";
-import { DOMAIN_URL } from "@/constants/url";
+import { DOMAIN_URL, STORAGE_URL } from "@/constants/url";
 import {
   fetchBlogBySlug,
   fetchBlogsByCategory,
@@ -15,9 +15,9 @@ import { Calendar, ChevronLeft, Clock, User } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
+import "../../../../components/content.css";
 
 // Generate metadata for blog detail page
 export async function generateMetadata({
@@ -43,18 +43,18 @@ export async function generateMetadata({
       };
     }
 
-    const title = blog.meta_title || blog.title || "Blog Post";
+    const title = blog?.meta_title || blog?.title || "Blog Post";
     const description =
-      blog.meta_description ||
-      blog.excerpt ||
+      blog?.meta_description ||
+      blog?.excerpt ||
       "Read this article from SoftechSol.";
     const ogImage =
-      (blog.og_image as GalleryItem | null)?.url ||
-      (blog.featured_image as GalleryItem | null)?.url ||
+      (blog?.og_image as GalleryItem | null)?.url ||
+      (blog?.featured_image as GalleryItem | null)?.url ||
       `${DOMAIN_URL}/home_hero.jpg`;
     const ogAlt =
-      (blog.og_image as GalleryItem | null)?.altText ||
-      (blog.featured_image as GalleryItem | null)?.altText ||
+      (blog?.og_image as GalleryItem | null)?.altText ||
+      (blog?.featured_image as GalleryItem | null)?.altText ||
       title;
     const blogUrl = `${DOMAIN_URL}/blogs/${categorySlug}/${blogSlug}`;
 
@@ -62,14 +62,14 @@ export async function generateMetadata({
       title,
       description: description.substring(0, 160),
       metadataBase: new URL(DOMAIN_URL),
-      keywords: blog.meta_keywords?.split(",").map((k: string) => k.trim()),
-      authors: blog.author
+      keywords: blog?.meta_keywords?.split(",").map((k: string) => k.trim()),
+      authors: blog?.author
         ? [
             {
               name:
-                `${blog.author.first_name || ""} ${
-                  blog.author.last_name || ""
-                }`.trim() || blog.author.username,
+                `${blog?.author.first_name || ""} ${
+                  blog?.author.last_name || ""
+                }`.trim() || blog?.author.username,
             },
           ]
         : undefined,
@@ -87,20 +87,20 @@ export async function generateMetadata({
           },
         ],
         type: "article",
-        publishedTime: blog.publish_date
-          ? new Date(blog.publish_date).toISOString()
+        publishedTime: blog?.publish_date
+          ? new Date(blog?.publish_date).toISOString()
           : undefined,
-        modifiedTime: blog.updated_at
-          ? new Date(blog.updated_at).toISOString()
+        modifiedTime: blog?.updated_at
+          ? new Date(blog?.updated_at).toISOString()
           : undefined,
-        authors: blog.author
+        authors: blog?.author
           ? [
-              `${blog.author.first_name || ""} ${
-                blog.author.last_name || ""
-              }`.trim() || blog.author.username,
+              `${blog?.author.first_name || ""} ${
+                blog?.author.last_name || ""
+              }`.trim() || blog?.author.username,
             ]
           : undefined,
-        tags: blog.categories.map((cat: any) => cat.category.name),
+        tags: blog?.categories.map((cat: any) => cat.category.name),
       },
       twitter: {
         card: "summary_large_image",
@@ -177,23 +177,25 @@ const BlogDetailPage = async ({
     }
   }
 
-  const featuredImage = blog.featured_image as GalleryItem | null;
-  const imageUrl = featuredImage?.url || "";
+  const featuredImage = blog?.featured_image as GalleryItem | null;
+  const imageUrl = featuredImage?.url && featuredImage?.url?.startsWith("https://res.cloudinary.com")
+  ? featuredImage?.url
+  : `${STORAGE_URL}${featuredImage?.url}`;
   const imageAlt =
-    featuredImage?.altText || blog.title || "Blog featured image";
+    featuredImage?.altText || blog?.title || "Blog featured image";
 
   const primaryCategory =
-    blog.categories && blog.categories[0]?.category
-      ? blog.categories[0].category
+    blog?.categories && blog?.categories[0]?.category
+      ? blog?.categories[0].category
       : null;
 
   const authorName =
-    blog.author &&
-    `${blog.author.first_name || ""} ${blog.author.last_name || ""}`.trim()
-      ? `${blog.author.first_name} ${blog.author.last_name}`.trim()
-      : blog.author?.username || "Unknown Author";
+    blog?.author &&
+    `${blog?.author.first_name || ""} ${blog?.author.last_name || ""}`.trim()
+      ? `${blog?.author.first_name} ${blog?.author.last_name}`.trim()
+      : blog?.author?.username || "Unknown Author";
 
-  const publishDate = blog.publish_date || blog.created_at;
+  const publishDate = blog?.publish_date || blog?.created_at;
   const formattedDate = publishDate
     ? new Intl.DateTimeFormat("en-US", {
         year: "numeric",
@@ -203,8 +205,8 @@ const BlogDetailPage = async ({
     : "";
 
   // Estimate reading time (average 200 words per minute)
-  const readingTime = blog.content
-    ? Math.ceil(blog.content.split(/\s+/).length / 200)
+  const readingTime = blog?.content
+    ? Math.ceil(blog?.content.split(/\s+/).length / 200)
     : null;
 
   return (
@@ -248,7 +250,7 @@ const BlogDetailPage = async ({
               /
             </li>
             <li className="text-gray-900 font-medium" aria-current="page">
-              {blog.title}
+              {blog?.title}
             </li>
           </ol>
         </nav>
@@ -257,9 +259,9 @@ const BlogDetailPage = async ({
           {/* Article Header */}
           <header className="space-y-4">
             {/* Categories */}
-            {blog.categories && blog.categories.length > 0 && (
+            {blog?.categories && blog?.categories.length > 0 && (
               <div className="flex flex-wrap gap-2">
-                {blog.categories.map((catRelation: any) => {
+                {blog?.categories.map((catRelation: any) => {
                   const cat = catRelation.category;
                   return (
                     <Link
@@ -275,20 +277,20 @@ const BlogDetailPage = async ({
             )}
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              {blog.title}
+            <h1 className="text-4xl text-black md:text-5xl font-bold leading-tight">
+              {blog?.title}
             </h1>
 
             {/* Excerpt */}
-            {blog.excerpt && (
+            {blog?.excerpt && (
               <p className="text-xl text-gray-600 leading-relaxed">
-                {blog.excerpt}
+                {blog?.excerpt}
               </p>
             )}
 
             {/* Meta Information */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 pt-2 border-t border-gray-200">
-              {blog.author && (
+              {blog?.author && (
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" aria-hidden="true" />
                   <span>{authorName}</span>
@@ -330,102 +332,97 @@ const BlogDetailPage = async ({
           {/* Article Content */}
           <section
             aria-labelledby="article-content"
-            className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-img:rounded-xl prose-img:shadow-md"
+            // className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-img:rounded-xl prose-img:shadow-md"
             suppressHydrationWarning
           >
             <div
               id="article-content"
               className="neditor-html"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
+              dangerouslySetInnerHTML={{ __html: blog?.content }}
             />
           </section>
-
-          {/* Categories Navigation */}
-          {allCategories.length > 0 && (
-            <section
-              aria-labelledby="blog-categories-heading"
-              className="border-t border-b border-gray-200 py-6"
-            >
-              <h2 id="blog-categories-heading" className="sr-only">
-                Browse More Categories
-              </h2>
-              <div className="flex items-center gap-3 flex-wrap">
-                <span className="text-sm font-medium text-gray-700">
-                  Browse by category:
-                </span>
-                {allCategories.map((category) => (
-                  <Link
-                    key={category.slug}
-                    href={`/blogs/${category.slug}`}
-                    className="inline-block bg-primary/5 hover:bg-primary hover:text-white text-sm transition-all duration-300 py-1.5 px-4 rounded-full border border-primary/10"
-                  >
-                    {category.name}
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Related Articles */}
-          {relatedBlogs.length > 0 && (
-            <section
-              aria-labelledby="related-articles-heading"
-              className="border-t border-gray-200 pt-8"
-            >
-              <Heading title="Related Articles" />
-              <p
-                id="related-articles-heading"
-                className="text-lg text-gray-600 mb-6"
-              >
-                More articles from {primaryCategory?.name || "this category"}
-              </p>
-              <div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {relatedBlogs.map((relatedBlog: Blog, index) => (
-                  <BlogCard
-                    key={relatedBlog.slug || index}
-                    data={relatedBlog}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Back to Category */}
-          {primaryCategory && (
-            <div className="flex justify-center pt-8">
-              <Link href={`/blogs/${primaryCategory.slug}`}>
-                <Button variant="outline" size="lg">
-                  <ChevronLeft /> Back to {primaryCategory.name}
-                </Button>
-              </Link>
-            </div>
-          )}
         </article>
       </div>
+      {/* Categories Navigation */}
+      {allCategories.length > 0 && (
+        <section
+          aria-labelledby="blog-categories-heading"
+          className="border-t border-b border-gray-200 py-6"
+        >
+          <h2 id="blog-categories-heading" className="sr-only">
+            Browse More Categories
+          </h2>
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="text-sm font-medium text-gray-700">
+              Browse by category:
+            </span>
+            {allCategories.map((category) => (
+              <Link
+                key={category.slug}
+                href={`/blogs/${category.slug}`}
+                className="inline-block bg-primary/5 hover:bg-primary hover:text-white text-sm transition-all duration-300 py-1.5 px-4 rounded-full border border-primary/10"
+              >
+                {category.name}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+      {/* Related Articles */}
+      {relatedBlogs.length > 0 && (
+        <section
+          aria-labelledby="related-articles-heading"
+          className="border-t border-gray-200 pt-8"
+        >
+          <Heading title="Related Articles" />
+          <p
+            id="related-articles-heading"
+            className="text-lg text-gray-600 mb-6"
+          >
+            More articles from {primaryCategory?.name || "this category"}
+          </p>
+          <div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedBlogs.map((relatedBlog: Blog, index) => (
+              <BlogCard key={relatedBlog?.slug || index} data={relatedBlog} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Back to Category */}
+      {primaryCategory && (
+        <div className="flex justify-center pt-8">
+          <Link href={`/blogs/${primaryCategory.slug}`}>
+            <Button variant="outline" size="lg">
+              <ChevronLeft /> Back to {primaryCategory.name}
+            </Button>
+          </Link>
+        </div>
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
-            "headline": blog.title,
-            "description": blog.excerpt || blog.meta_description,
-            "image": imageUrl,
-            "datePublished": blog.publish_date,
-            "dateModified": blog.updated_at,
-            "author": {
+            headline: blog?.title,
+            description: blog?.excerpt || blog?.meta_description,
+            image: imageUrl,
+            datePublished: blog?.publish_date,
+            dateModified: blog?.updated_at,
+            author: {
               "@type": "Person",
-              "name": authorName
+              name: authorName,
             },
-            "publisher": {
+            publisher: {
               "@type": "Organization",
-              "name": "SoftechSol",
-              "logo": {
+              name: "SoftechSol",
+              logo: {
                 "@type": "ImageObject",
-                "url": `${DOMAIN_URL}/logo.svg`
-              }
-            }
-          })
+                url: `${DOMAIN_URL}/logo.svg`,
+              },
+            },
+          }),
         }}
       />
     </main>

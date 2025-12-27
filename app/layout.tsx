@@ -22,7 +22,7 @@ const funnelDisplay = Funnel_Display({
   subsets: ["latin"],
   display: "swap", // Add this for better font loading
   preload: true,
-  fallback: ["system-ui", "arial"], // Add fallback fonts
+  fallback: ["arial"], // Add fallback fonts
 });
 
 export const metadata: Metadata = {

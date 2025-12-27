@@ -59,7 +59,7 @@
 body {
   background: #ffffff;
   color: black;
-  font-family: "Funnel Display";
+  font-family: "Funnel Display"!important;
 }
 
 /* 
@@ -206,7 +206,7 @@ body {
 
 @layer components {
   .neditor-html {
-    @apply leading-relaxed;
+    @apply leading-relaxed font-funnel-display!;
   }
 
   /* Headings */

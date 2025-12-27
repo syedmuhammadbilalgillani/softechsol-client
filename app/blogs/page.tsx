@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GalleryItem } from "../generated/prisma";
 import { Blog } from "@/constants/types";
-import { DOMAIN_URL } from "@/constants/url";
+import { DOMAIN_URL, STORAGE_URL } from "@/constants/url";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -90,7 +90,11 @@ const BlogPage = async () => {
       : "/blogs";
 
   const firstBlogImage = firstBlog?.featured_image as GalleryItem | undefined;
-  const firstBlogImageUrl = firstBlogImage?.url || "";
+  const firstBlogImageUrl =
+    firstBlogImage?.url &&
+    firstBlogImage?.url?.startsWith("https://res.cloudinary.com")
+      ? firstBlogImage?.url
+      : `${STORAGE_URL}${firstBlogImage?.url}`;
   const firstBlogImageAlt =
     firstBlogImage?.altText || firstBlog?.title || "Blog featured image";
 
