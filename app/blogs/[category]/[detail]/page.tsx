@@ -166,20 +166,22 @@ const BlogDetailPage = async ({
     if (categorySlug) {
       const related = await fetchBlogsByCategory(categorySlug);
       relatedBlogs = Array.isArray(related)
-        ? (related as any[]).filter((b) => b.slug !== blogSlug).slice(0, 3)
+        ? (related as Blog[]).filter((b) => b.slug !== blogSlug).slice(0, 3)
         : [];
     }
   } catch (error) {
-    logger.error(error, "Error fetching blog details");
+    logger.error(error as string, "Error fetching blog details");
     if (!blog) {
       notFound();
     }
   }
 
   const featuredImage = blog?.featured_image as GalleryItem | null;
-  const imageUrl = featuredImage?.url && featuredImage?.url?.startsWith("https://res.cloudinary.com")
-  ? featuredImage?.url
-  : `${STORAGE_URL}${featuredImage?.url}`;
+  const imageUrl =
+    featuredImage?.url &&
+    featuredImage?.url?.startsWith("https://res.cloudinary.com")
+      ? featuredImage?.url
+      : `${STORAGE_URL}${featuredImage?.url}`;
   const imageAlt =
     featuredImage?.altText || blog?.title || "Blog featured image";
 

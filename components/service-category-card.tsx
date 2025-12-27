@@ -25,7 +25,7 @@ const ServiceCategoryCard = ({
       {/* Content Section */}
       <div className="py-8 md:py-12 space-y-8 md:space-y-12">
         {/* Header Grid */}
-        <div className="grid md:grid-cols-2 place-items-center w-full  gap-8 md:gap-12">
+        <div className="grid md:grid-cols-2 place-items-start w-full  gap-8 md:gap-12">
           {/* Title and Description */}
           <div className="space-y-4 md:space-y-6">
             <h2 className="text-3xl  font-bold text-gray-900 uppercase tracking-tight leading-tight">
