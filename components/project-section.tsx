@@ -1,10 +1,10 @@
+import { GalleryItem, Project } from "@/app/generated/prisma";
 import { fetchProjects } from "@/lib/apis";
 import logger from "@/lib/logger";
 import Link from "next/link";
 import Heading from "./heading";
 import ProjectCard from "./project-card";
-import { Button, buttonVariants } from "./ui/button";
-import { Project } from "@/app/generated/prisma";
+import { buttonVariants } from "./ui/button";
 
 const ProjectSection = async () => {
   const projectsData = await fetchProjects({ limit: 6 });
@@ -23,7 +23,7 @@ const ProjectSection = async () => {
             We turn your goals into tangible results
           </h3>
           <p className="text-gray-600 text-base md:text-lg max-w-2xl">
-            Discover our latest projects and see how we've helped businesses achieve their digital transformation goals.
+            Discover our latest projects and see how we&apos;ve helped businesses achieve their digital transformation goals.
           </p>
         </div>
 
@@ -52,7 +52,7 @@ const ProjectSection = async () => {
           <>
             <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 md:gap-8">
               {displayProjects.map((project: Project, index: number) => (
-                <ProjectCard key={project?.project_id || index} data={project} />
+                <ProjectCard key={project?.project_id || index} data={project as Project & { image: GalleryItem | null }} />
               ))}
             </div>
             
