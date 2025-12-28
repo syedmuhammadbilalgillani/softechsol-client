@@ -101,7 +101,7 @@ const Footer = () => {
                     target={"_blank"}
                     rel={"noopener noreferrer"}
                     aria-label={social.ariaLabel}
-                    className="w-5 h-5  transition-all duration-300 flex items-center justify-center group"
+                    className="w-5 h-5 text-white  transition-all duration-300 flex items-center justify-center group"
                   >
                     {social.icon}
                   </a>

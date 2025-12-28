@@ -83,22 +83,22 @@ const AboutStatsSection = () => {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
     >
-      <motion.div className="flex gap-6 justify-between" variants={itemVariants as Variants}>
-        <div className="border shadow  w-full px-6 py-2 rounded-xl">
+      <motion.div className="flex md:flex-nowrap flex-wrap gap-6 justify-between" variants={itemVariants as Variants}>
+        <div className="border shadow  w-full px-6 py-4 rounded-xl md:text-start text-center">
           <AnimatedCounter value={20} suffix="+" />
-          <div>Happy Clients</div>
+          <div className="text-muted-foreground text-lg font-normal">Happy Clients</div>
         </div>
-        <div className="border shadow  w-full px-6 py-2 rounded-xl">
+        <div className="border shadow  w-full px-6 py-4 rounded-xl md:text-start text-center">
           <AnimatedCounter value={50} suffix="+" />
-          <div>Projects Completed</div>
+          <div className="text-muted-foreground text-lg font-normal">Projects Completed</div>
         </div>
-        <div className="border shadow  w-full px-6 py-2 rounded-xl">
+        <div className="border shadow  w-full px-6 py-4 rounded-xl md:text-start text-center">
           <AnimatedCounter value={7} suffix="+" />
-          <div>Years of Experience</div>
+          <div className="text-muted-foreground text-lg font-normal">Years of Experience</div>
         </div>
-        <div className="border shadow  w-full px-6 py-2 rounded-xl">
+        <div className="border shadow  w-full px-6 py-4 rounded-xl md:text-start text-center">
           <AnimatedCounter value={100} suffix="%" />
-          <div>Client Satisfaction Rate</div>
+          <div className="text-muted-foreground text-lg font-normal">Client Satisfaction Rate</div>
         </div>
       </motion.div>
     </motion.section>

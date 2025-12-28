@@ -1,7 +1,7 @@
 import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Funnel_Display } from "next/font/google";
+import { Funnel_Display, Urbanist } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/scroll-to-top";
 import { Toaster } from "@/components/ui/sonner";
@@ -19,6 +19,13 @@ const Footer = dynamic(() => import("@/components/footer"), {
 
 const funnelDisplay = Funnel_Display({
   variable: "--font-funnel-display",
+  subsets: ["latin"],
+  display: "swap", // Add this for better font loading
+  preload: true,
+  fallback: ["arial"], // Add fallback fonts
+});
+const urbanistFont = Urbanist({
+  variable: "--font-urbanist",
   subsets: ["latin"],
   display: "swap", // Add this for better font loading
   preload: true,
@@ -142,7 +149,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${funnelDisplay.variable} antialiased`}
+        className={`${funnelDisplay.variable} ${urbanistFont.variable} antialiased`}
       >
         <Toaster />
         <Navbar />

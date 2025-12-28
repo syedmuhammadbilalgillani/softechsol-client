@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
+import logger from "@/lib/logger";
 
 const Navbar = () => {
   const [open, setopen] = useState(false);
@@ -48,10 +49,11 @@ const Navbar = () => {
   const SCROLL_THRESHOLD = 100;
 
   useEffect(() => {
-    if (!isHomePage) return;
+    // if (!isHomePage) return;
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
+      logger.info(`scrollY: ${scrollY}`);
       setIsScrolled(scrollY > SCROLL_THRESHOLD);
     };
 
@@ -60,7 +62,7 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isHomePage]);
+  }, []);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -105,12 +107,17 @@ const Navbar = () => {
     <>
       <nav
         aria-label="Main Navigation"
-        className={`${
-          shouldBeTransparent
+        // className={`${
+        //   shouldBeTransparent
+        //     ? "bg-white/20 backdrop-blur-sm fixed top-0 left-0 right-0 z-50"
+        //     : `bg-white ${
+        //         pathname === "/" ? "fixed top-0 left-0 right-0 z-50" : ""
+        //       } absolute w-f`
+        // }`}
+        className={`fixed top-0 left-0 right-0 z-50 ${
+          isScrolled
             ? "bg-white/20 backdrop-blur-sm fixed top-0 left-0 right-0 z-50"
-            : `bg-white ${
-                pathname === "/" ? "fixed top-0 left-0 right-0 z-50" : ""
-              } `
+            : `bg-transparent`
         }`}
       >
         <div className="flex justify-between items-center max-w-[85vw] mx-auto py-3">
