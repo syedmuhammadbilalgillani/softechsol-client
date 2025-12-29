@@ -186,7 +186,7 @@ const About = async () => {
                 </div>
                 <h3 className="text-2xl font-semibold">Customer First</h3>
                 <p className="text-lg text-muted-foreground">
-                  Every feature is built with your needs in mind.
+                  Our professionals build every feature with your needs in mind.
                 </p>
               </div>
             </div>
