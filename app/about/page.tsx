@@ -1,14 +1,12 @@
 import AboutStatsSection from "@/components/about-stats-section";
 import AboutTeamSection from "@/components/about-team-section";
-import AboutValuesSection from "@/components/about-values-section";
 import DocumentIcon from "@/components/svgs/doc";
 import LeavesIcon from "@/components/svgs/leaves";
 import UserStarIcon from "@/components/svgs/userstar";
-import { data } from "@/constants/data";
 import { DOMAIN_URL } from "@/constants/url";
 import { fetchTeams } from "@/lib/apis";
 import logger from "@/lib/logger";
-import { Lightbulb, ShieldCheck } from "lucide-react";
+import { HeartHandshake, Lightbulb, ShieldCheck } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -149,7 +147,7 @@ const About = async () => {
                 <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
                   <DocumentIcon className="size-8 text-primary" />
                 </div>
-                <h3>Transparency</h3>
+                <h3 className="text-2xl font-semibold">Transparency</h3>
                 <p className="text-lg text-muted-foreground">
                   Clear, honest, and straightforward communication.
                 </p>
@@ -158,7 +156,7 @@ const About = async () => {
                 <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
                   <Lightbulb className="size-8 text-primary" />
                 </div>
-                <h3>Innovation</h3>
+                <h3 className="text-2xl font-semibold">Innovation</h3>
                 <p className="text-lg text-muted-foreground">
                   Constantly improving with technology that works for you.
                 </p>
@@ -175,20 +173,20 @@ const About = async () => {
             <div className="col-span-1 space-y-5">
               <div className="bg-primary/5 space-y-3 rounded-xl shadow p-5">
                 <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
-                  <DocumentIcon className="size-8 text-primary" />
+                  <ShieldCheck className="size-8 text-primary" />
                 </div>
-                <h3>Transparency</h3>
+                <h3 className="text-2xl font-semibold">Security</h3>
                 <p className="text-lg text-muted-foreground">
-                  Clear, honest, and straightforward communication.
+                  Your business data is encrypted and protected 24/7.
                 </p>
               </div>
               <div className="bg-primary/5 space-y-3 rounded-xl shadow p-5">
                 <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
-                  <Lightbulb className="size-8 text-primary" />
+                  <HeartHandshake className="size-8 text-primary" />
                 </div>
-                <h3>Innovation</h3>
+                <h3 className="text-2xl font-semibold">Customer First</h3>
                 <p className="text-lg text-muted-foreground">
-                  Constantly improving with technology that works for you.
+                  Every feature is built with your needs in mind.
                 </p>
               </div>
             </div>
@@ -198,7 +196,7 @@ const About = async () => {
         <AboutStatsSection />
 
         {/* Mission Section */}
-        <article className="mb-20 mt-20">
+        {/* <article className="mb-20 mt-20">
           <section
             className="prose prose-lg max-w-none neditor-html"
             aria-labelledby="our-mission"
@@ -230,7 +228,7 @@ const About = async () => {
               thing in the world, but reliable, affordable, and built to last.
             </p>
           </section>
-        </article>
+        </article> */}
 
         {/* Values Section */}
         {/* <AboutValuesSection data={data} /> */}
