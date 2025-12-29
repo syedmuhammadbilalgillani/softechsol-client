@@ -6,7 +6,7 @@ export const socialMediaLinks = {
   instagram: "https://www.instagram.com/softechsol_/#",
   phone: "+923062993712",
   email: "info@softechsol.com",
-  address: "Softech, Lahore, Pakistan",
+  address: "7-A Main Gulberg , 54660, Lahore, Pakistan",
 };
 
 export const STORAGE_URL = "https://admin.softechsol.com";
