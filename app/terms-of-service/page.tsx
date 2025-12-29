@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { DOMAIN_URL, socialMediaLinks } from "@/constants/url";
+import { DOMAIN_URL, MAP_URL, socialMediaLinks } from "@/constants/url";
 import Heading from "@/components/heading";
 import Link from "next/link";
 
@@ -287,7 +287,7 @@ const TermsOfServicePage = () => {
             </p>
             <p className="text-gray-700 mt-2">
               <strong>Address:</strong>{" "}
-              <a href="https://www.google.com/maps/place/GCE+Pvt.+Ltd./@31.5322122,74.3455412,17z/data=!3m1!4b1!4m6!3m5!1s0x3919050020b4027b:0xd671dbfe09a12d6a!8m2!3d31.5322122!4d74.3455412!16s%2Fg%2F11y3wxtyd0!17m2!4m1!1e3!18m1!1e1?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D">
+              <a href={MAP_URL}>
                 {socialMediaLinks.address}
               </a>
             </p>
