@@ -116,24 +116,30 @@ const TeamCard = ({
         >
           <header className="flex items-center gap-3 mb-2 sm:mb-3">
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg sm:text-2xl font-bold line-clamp-2 min-h-6">{data?.title}</h3>
-              <p className="text-xs sm:text-sm text-gray-600">{data?.position}</p>
+              <h3 className="text-lg sm:text-2xl font-bold line-clamp-2 min-h-6">
+                {data?.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600">
+                {data?.position}
+              </p>
             </div>
           </header>
 
           {data?.description && (
-            <p className="text-xs sm:text-sm text-gray-700 mb-2 sm:mb-3 line-clamp-2">{data.description}</p>
+            <p className="text-xs sm:text-sm text-gray-700 mb-2 sm:mb-3 line-clamp-2">
+              {data.description}
+            </p>
           )}
 
           {/* Social Icons */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div className="flex  items-center gap-2 sm:gap-3">
             {data?.linkedinUrl && (
               <a
                 href={data.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 hover:opacity-80 active:scale-95 transition-all touch-manipulation"
+                className="inline-flex items-center justify-center w-9 h- sm:w-8 sm:h-8 hover:opacity-80 active:scale-95 transition-all touch-manipulation"
                 aria-label="LinkedIn"
               >
                 <div className="w-5 h-5 [&>svg]:w-full [&>svg]:h-full">
@@ -147,7 +153,7 @@ const TeamCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 text-blue-400 hover:text-blue-600 active:scale-95 transition-all touch-manipulation"
+                className="inline-flex items-center justify-center w-9 h- sm:w-8 sm:h-8 text-blue-400 hover:text-blue-600 active:scale-95 transition-all touch-manipulation"
                 aria-label="Twitter"
               >
                 <Twitter size={20} />
@@ -159,7 +165,7 @@ const TeamCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 hover:opacity-80 active:scale-95 transition-all touch-manipulation"
+                className="inline-flex items-center justify-center w-9 h- sm:w-8 sm:h-8 hover:opacity-80 active:scale-95 transition-all touch-manipulation"
                 aria-label="Facebook"
               >
                 <div className="w-5 h-5 [&>svg]:w-full [&>svg]:h-full">
@@ -173,7 +179,7 @@ const TeamCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 hover:opacity-80 active:scale-95 transition-all touch-manipulation"
+                className="inline-flex items-center justify-center w-9 h- sm:w-8 sm:h-8 hover:opacity-80 active:scale-95 transition-all touch-manipulation"
                 aria-label="Instagram"
               >
                 <div className="w-5 h-5 [&>svg]:w-full [&>svg]:h-full">
@@ -187,7 +193,7 @@ const TeamCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 text-gray-700 hover:text-gray-900 active:scale-95 transition-all touch-manipulation"
+                className="inline-flex items-center justify-center w-9 h- sm:w-8 sm:h-8 text-gray-700 hover:text-gray-900 active:scale-95 transition-all touch-manipulation"
                 aria-label="GitHub"
               >
                 <Github size={20} />
@@ -199,7 +205,7 @@ const TeamCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 text-gray-700 hover:text-gray-900 active:scale-95 transition-all touch-manipulation"
+                className="inline-flex items-center justify-center w-9 h- sm:w-8 sm:h-8 text-gray-700 hover:text-gray-900 active:scale-95 transition-all touch-manipulation"
                 aria-label="Website"
               >
                 <Globe size={20} />

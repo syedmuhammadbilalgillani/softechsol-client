@@ -44,7 +44,7 @@ const AboutTeamSection = ({
       <motion.div variants={itemVariants}>
         <Heading as="h2" title="Our Team" />
       </motion.div>
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-7">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7">
         {teams.map((team, index) => (
           <div
             key={team.id}
