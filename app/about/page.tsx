@@ -48,8 +48,8 @@ export const metadata: Metadata = {
 };
 
 const About = async () => {
-  const teams = await fetchTeams();
-  logger.info(teams, "teams");
+  // const teams = await fetchTeams();
+  // logger.info(teams, "teams");
   return (
     <main className="bg-white">
       <header
@@ -234,7 +234,7 @@ const About = async () => {
         {/* <AboutValuesSection data={data} /> */}
 
         {/* Team Section */}
-        <AboutTeamSection teams={teams} />
+        {/* <AboutTeamSection teams={teams} /> */}
       </div>{" "}
     </main>
   );
