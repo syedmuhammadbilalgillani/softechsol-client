@@ -3,7 +3,7 @@ import logger from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import nodemailer from "nodemailer";
 
-// Email templates
+// Email templates (keeping existing templates)
 const getHREmailTemplate = (data: {
   name: string;
   email: string;
@@ -314,12 +314,61 @@ const MAX_FIELD_LENGTHS = {
   message: 5000,
 } as const;
 
+// Verify reCAPTCHA token
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+
+  if (!secretKey) {
+    logger.error("RECAPTCHA_SECRET_KEY is not configured");
+    return false;
+  }
+
+  try {
+    const response = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `secret=${secretKey}&response=${token}`,
+      }
+    );
+
+    const data = await response.json();
+    logger.debug(data, "reCAPTCHA verification response");
+
+    return data.success === true;
+  } catch (error) {
+    logger.error("reCAPTCHA verification error:", error);
+    return false;
+  }
+}
+
 export const ContactAction = async (formData: FormData) => {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string | null;
-  const message = formData.get("message") as string | null; // This maps to `notes` in schema
+  const message = formData.get("message") as string | null;
   const service = formData.get("service") as string | null;
+  const recaptchaToken = formData.get("recaptchaToken") as string;
+
+  // Verify reCAPTCHA
+  if (!recaptchaToken) {
+    return {
+      success: false,
+      error: "reCAPTCHA verification is required",
+    };
+  }
+
+  const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
+  if (!isRecaptchaValid) {
+    logger.warn("reCAPTCHA verification failed", { email });
+    return {
+      success: false,
+      error: "reCAPTCHA verification failed. Please try again.",
+    };
+  }
 
   // Basic validation
   if (!name || !email) {
@@ -390,12 +439,13 @@ export const ContactAction = async (formData: FormData) => {
         name: name.trim(),
         email: email.trim().toLowerCase(),
         phone: phone?.trim() || null,
-        notes: message?.trim() || null, // Map 'message' to 'notes'
-        service_id: serviceId, // Use service_id instead of service
-        status: "NEW", // Explicitly set status
+        notes: message?.trim() || null,
+        service_id: serviceId,
+        status: "NEW",
       },
     });
     logger.debug(serviceId, "serviceId");
+    
     // Get service name if service_id exists
     let serviceName = null;
     if (serviceId) {
@@ -412,7 +462,7 @@ export const ContactAction = async (formData: FormData) => {
       }
     }
 
-    // // Send emails
+    // Send emails
     let transporter;
     try {
       transporter = createTransporter();
@@ -441,7 +491,8 @@ export const ContactAction = async (formData: FormData) => {
       service: serviceName,
     };
     logger.info(emailData, "emailData");
-    // // Send email to HR
+    
+    // Send email to HR
     try {
       await transporter.sendMail({
         from: `"${companyName}" <${fromEmail}>`,
@@ -452,7 +503,6 @@ export const ContactAction = async (formData: FormData) => {
       logger.info("HR email sent successfully");
     } catch (emailError) {
       logger.error("Error sending HR email:", emailError);
-      // Don't fail the whole request if email fails
     }
 
     // Send confirmation email to user
@@ -466,7 +516,6 @@ export const ContactAction = async (formData: FormData) => {
       logger.info("User confirmation email sent successfully");
     } catch (emailError) {
       logger.error("Error sending user confirmation email:", emailError);
-      // Don't fail the whole request if email fails
     }
 
     return { success: true, response };

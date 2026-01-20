@@ -1,8 +1,9 @@
 "use client";
 import { ContactAction } from "@/actions/contact";
 import { Service } from "@/app/generated/prisma";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { toast } from "sonner";
+import ReCAPTCHA from "react-google-recaptcha";
 import ServiceSelector from "./service-selector";
 import { Button } from "./ui/button";
 
@@ -20,6 +21,7 @@ const ContactForm = ({ services }: { services: Service[] }) => {
   const MAX_SUBMIT_ATTEMPTS = 5; // Prevent rapid-fire submissions
   const SUBMIT_COOLDOWN_MS = 60000; // 1 minute cooldown after max attempts
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const validateFormData = (formData: FormData): string | null => {
     const name = formData.get("name") as string;
@@ -78,16 +80,27 @@ const ContactForm = ({ services }: { services: Service[] }) => {
       }
     }
 
+    // Get reCAPTCHA token
+    const recaptchaToken = recaptchaRef.current?.getValue();
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA verification");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+    
+    // Add reCAPTCHA token to form data
+    formData.append("recaptchaToken", recaptchaToken);
 
     // Client-side validation
     const validationError = validateFormData(formData);
     if (validationError) {
       toast.error(validationError);
       setIsSubmitting(false);
+      recaptchaRef.current?.reset();
       return;
     }
 
@@ -97,15 +110,18 @@ const ContactForm = ({ services }: { services: Service[] }) => {
       if (result.success) {
         toast.success("Form submitted successfully!");
         form.reset(); // Reset form on success
+        recaptchaRef.current?.reset(); // Reset reCAPTCHA
         setSubmitAttempts(0); // Reset attempts on success
         setLastSubmitTime(now);
       } else {
         toast.error(result.error || "Failed to submit form");
+        recaptchaRef.current?.reset(); // Reset reCAPTCHA on error
         setSubmitAttempts((prev) => prev + 1);
         setLastSubmitTime(now);
       }
     } catch (error) {
       toast.error("An unexpected error occurred. Please try again.");
+      recaptchaRef.current?.reset(); // Reset reCAPTCHA on error
       setSubmitAttempts((prev) => prev + 1);
       setLastSubmitTime(now);
     } finally {
@@ -180,6 +196,14 @@ const ContactForm = ({ services }: { services: Service[] }) => {
           rows={5}
           maxLength={MAX_FIELD_LENGTHS.message}
           required
+        />
+      </div>
+
+      <div className="md:col-span-2 col-span-1 flex justify-center">
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+          theme="light"
         />
       </div>
 
