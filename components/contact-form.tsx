@@ -22,6 +22,9 @@ const ContactForm = ({ services }: { services: Service[] }) => {
   const SUBMIT_COOLDOWN_MS = 60000; // 1 minute cooldown after max attempts
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+  
+  // Get reCAPTCHA site key
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   const validateFormData = (formData: FormData): string | null => {
     const name = formData.get("name") as string;
@@ -81,6 +84,12 @@ const ContactForm = ({ services }: { services: Service[] }) => {
     }
 
     // Get reCAPTCHA token
+    if (!recaptchaSiteKey) {
+      toast.error("reCAPTCHA is not configured. Please contact support.");
+      setIsSubmitting(false);
+      return;
+    }
+    
     const recaptchaToken = recaptchaRef.current?.getValue();
     if (!recaptchaToken) {
       toast.error("Please complete the reCAPTCHA verification");
@@ -199,13 +208,21 @@ const ContactForm = ({ services }: { services: Service[] }) => {
         />
       </div>
 
-      <div className="md:col-span-2 col-span-1 flex justify-center">
-        <ReCAPTCHA
-          ref={recaptchaRef}
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-          theme="light"
-        />
-      </div>
+      {recaptchaSiteKey ? (
+        <div className="md:col-span-2 col-span-1 flex justify-center">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={recaptchaSiteKey}
+            theme="light"
+          />
+        </div>
+      ) : (
+        <div className="md:col-span-2 col-span-1">
+          <p className="text-yellow-500 text-sm text-center">
+            reCAPTCHA is not configured. Form submission may be limited.
+          </p>
+        </div>
+      )}
 
       <div className="md:col-span-2 col-span-1">
         <Button type="submit" className="w-full" disabled={isSubmitting}>
