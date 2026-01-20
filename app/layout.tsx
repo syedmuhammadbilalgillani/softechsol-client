@@ -5,6 +5,7 @@ import { Funnel_Display, Urbanist } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/scroll-to-top";
 import { Toaster } from "@/components/ui/sonner";
+import Script from "next/script";
 
 // Lazy load Navbar and Footer with better optimization
 const Navbar = dynamic(() => import("@/components/navbar"), {
@@ -186,7 +187,11 @@ export default function RootLayout({
               ],
             }),
           }}
-        />
+        />        <Script
+        src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+        strategy="afterInteractive"
+      />
+
       </body>
     </html>
   );
