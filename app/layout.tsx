@@ -5,7 +5,6 @@ import { Funnel_Display, Urbanist } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/scroll-to-top";
 import { Toaster } from "@/components/ui/sonner";
-import Script from "next/script";
 
 // Lazy load Navbar and Footer with better optimization
 const Navbar = dynamic(() => import("@/components/navbar"), {
@@ -152,7 +151,17 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${funnelDisplay.variable} ${urbanistFont.variable} antialiased`}
       >
-        <Toaster />
+        <Toaster 
+          position="top-center"
+          style={{
+            "--normal-bg": "oklch(0.7 0.3276 141.46)",
+            "--normal-border": "oklch(0.6 0.15 150)",
+            "--normal-text": "oklch(1 0 141.46)",
+            "--error-bg": "oklch(0.95 0.1 27)",
+            "--error-border": "var(--destructive)",
+            "--error-text": "var(--destructive)",
+          } as React.CSSProperties & Record<string, string>}
+        />
         <Navbar />
         {children}
         <Footer />
