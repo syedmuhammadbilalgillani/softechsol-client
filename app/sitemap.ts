@@ -70,24 +70,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic project pages
-  let projectPages: MetadataRoute.Sitemap = [];
-  try {
-    const projects = await fetchProjects({ limit: 1000 });
-    if (Array.isArray(projects)) {
-      projectPages = projects.map((project: any) => ({
-        url: `${baseUrl}/projects/${project.project_id || project.slug}`,
-        lastModified: project.updated_at
-          ? new Date(project.updated_at)
-          : new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.7,
-      }));
-    }
-  } catch (error) {
-    logger.error("Error fetching projects for sitemap:", error);
-  }
-
   // Dynamic blog pages
   let blogPages: MetadataRoute.Sitemap = [];
   let blogCategoryPages: MetadataRoute.Sitemap = [];
@@ -130,5 +112,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     logger.error("Error fetching blogs for sitemap:", error);
   }
 
-  return [...staticPages, ...projectPages, ...blogCategoryPages, ...blogPages];
+  return [...staticPages, ...blogCategoryPages, ...blogPages];
 }
