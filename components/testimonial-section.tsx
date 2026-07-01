@@ -1,23 +1,20 @@
-import React from "react";
+import { whyChooseUs } from "@/constants/data";
 import Heading from "./heading";
 import { Slider } from "./slider";
-import { testimonials } from "@/constants/data";
 import TestimonialCard from "./testimonial-card";
 
 const TestimonialSection = () => {
   return (
     <main className="main py-10">
-      <section aria-labelledby="testimonials-section" className="space-y-5">
-        <Heading title="Testimonials" />
+      <section aria-label="Our Promise" className="space-y-5">
+        <Heading title="Our Promise" />
         <Slider
-          logos={testimonials.map((testimonial, index) => (
+          logos={whyChooseUs.map((item, index) => (
             <TestimonialCard
               key={index}
-              name={testimonial.name}
-              designation={testimonial.designation}
-              description={testimonial.description}
-              rating={testimonial.rating}
-              image={testimonial.image}
+              icon={item.icon}
+              title={item.title}
+              description={item.description}
             />
           ))}
           speed={50}

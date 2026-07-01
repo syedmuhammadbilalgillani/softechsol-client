@@ -1,85 +1,45 @@
-export const testimonials = [
+// Honest, company-voice value statements shown in the "Our Promise" slider.
+// These are claims we make about how we work — not customer reviews. Replace
+// this section with real client testimonials once they are collected.
+export const whyChooseUs = [
   {
-    rating: 5,
+    icon: "clock",
+    title: "On-Time, Every Time",
     description:
-      "This product exceeded my expectations! It's incredibly user-friendly and has made my daily tasks so much easier. Highly recommend it to anyone looking for an efficient solution.",
-    name: "Emily Johnson",
-    designation: "Marketing Manager",
-    image: "/team/1.png",
+      "We treat deadlines as commitments. Clear milestones and steady progress mean your project ships when we say it will.",
   },
   {
-    rating: 4.5,
+    icon: "rocket",
+    title: "Built to Scale",
     description:
-      "I’ve been using this service for a few months now, and I’m really impressed. The team is responsive, and the results speak for themselves. Minor improvements in speed would make it perfect!",
-    name: "John Smith",
-    designation: "Senior Developer",
-    image: "/team/2.png",
+      "Clean, modern, well-tested code that keeps performing smoothly as your product, traffic, and business grow.",
   },
   {
-    rating: 5,
+    icon: "message",
+    title: "Real Communication",
     description:
-      "Absolutely amazing! The quality and support are unmatched. It's exactly what we needed to streamline our operations.",
-    name: "Sarah Lee",
-    designation: "Operations Director",
-    image: "/team/3.png",
+      "A responsive team that keeps you in the loop at every stage, so you always know exactly where your project stands.",
   },
   {
-    rating: 4,
+    icon: "target",
+    title: "Focused on Results",
     description:
-      "Good service overall. It gets the job done efficiently, though there’s room for improvement in the interface design.",
-    name: "David Harris",
-    designation: "Product Manager",
-    image: "/team/4.png",
+      "From first idea to launch, we care about outcomes that move your business forward, not just shipping features.",
   },
   {
-    rating: 5,
+    icon: "shield",
+    title: "Quality You Can Rely On",
     description:
-      "I can't imagine working without this tool anymore. It’s a game-changer for my team and me.",
-    name: "Lisa Taylor",
-    designation: "Creative Director",
-    image: "/team/5.png",
+      "Every build goes through careful testing and review, so what you get is stable, secure, and ready for the real world.",
   },
   {
-    rating: 4.5,
+    icon: "users",
+    title: "A Partner, Not a Vendor",
     description:
-      "Very satisfied with the results! It's intuitive and easy to integrate into existing systems. Some advanced features would be a nice addition.",
-    name: "Mark Robinson",
-    designation: "Software Engineer",
-    image: "/team/6.png",
+      "We work as an extension of your team, invested in your success long after the project goes live.",
   },
-  {
-    rating: 5,
-    description:
-      "Top-notch service. The support team is always available and ready to help, which makes all the difference.",
-    name: "Natalie Clark",
-    designation: "HR Manager",
-    image: "/team/7.png",
-  },
-  {
-    rating: 4.5,
-    description:
-      "A reliable product that really stands out. It helps me work faster and smarter every day.",
-    name: "Chris Davis",
-    designation: "Business Analyst",
-    image: "/team/8.png",
-  },
-  // {
-  //   rating: 5,
-  //   description:
-  //     "I’m truly impressed by the quality and consistency. Everything works as expected, and customer service is responsive and helpful.",
-  //   name: "Amanda Moore",
-  //   designation: "Sales Director",
-  //   image: "/team/9.png",
-  // },
-  // {
-  //   rating: 4,
-  //   description:
-  //     "Great tool overall, though it could use more customization options. The core features are solid and easy to use.",
-  //   name: "Brian White",
-  //   designation: "Tech Lead",
-  //   image: "/team/10.png",
-  // },
 ];
+
 export const faqs = [
   {
     question: "What services does your company offer?",
