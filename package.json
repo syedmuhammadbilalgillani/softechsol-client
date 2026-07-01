@@ -53,6 +53,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-google-recaptcha": "^2.1.9",
+    "baseline-browser-mapping": "^2.10.40",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "prisma": "^6.19.0",
