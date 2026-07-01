@@ -10,7 +10,7 @@ export const handleClick =
   (email: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    const mailto = `mailto:${email}`;
+    // const mailto = `mailto:${email}`;
 
     // Try native mail app
     // window.location.href = mailto;
