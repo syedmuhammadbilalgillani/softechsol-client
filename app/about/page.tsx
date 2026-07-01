@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     "Meet the team at SoftechSol - real people building real software solutions. No corporate fluff, just honest work and results that matter. 500+ brands helped, 5+ years of experience, 98% client satisfaction.",
   openGraph: {
-    title: "About Us | SoftechSol",
+    title: "About Us  ",
     description:
       "Real people building real software solutions. No corporate fluff, just honest work and results that matter.",
     url: `${DOMAIN_URL}/about`,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Us | SoftechSol",
+    title: "About Us  ",
     description:
       "Real people building real software solutions. No corporate fluff, just honest work and results that matter.",
     images: [`${DOMAIN_URL}/abouthero.jpg`],

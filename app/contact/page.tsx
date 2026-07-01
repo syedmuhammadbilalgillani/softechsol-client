@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Get in touch with SoftechSol for inquiries, support, or collaborations. Contact our team at our main office, regional office, or sales office. We'd love to hear from you.",
   openGraph: {
-    title: "Contact Us | SoftechSol",
+    title: "Contact Us  ",
     description:
       "Get in touch with SoftechSol for inquiries, support, or collaborations. We'd love to hear from you.",
     url: `${DOMAIN_URL}/contact`,
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact Us | SoftechSol",
+    title: "Contact Us  ",
     description:
       "Get in touch with SoftechSol for inquiries, support, or collaborations. We'd love to hear from you.",
     images: [`${DOMAIN_URL}/contact.jpg`],

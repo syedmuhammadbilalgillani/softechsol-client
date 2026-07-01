@@ -26,7 +26,7 @@ export async function generateMetadata({
 
     if (!categoryData) {
       return {
-        title: "Category not found | SoftechSol",
+        title: "Category not found  ",
         description: "The requested blog category does not exist.",
         robots: {
           index: false,
@@ -35,7 +35,7 @@ export async function generateMetadata({
       };
     }
 
-    const title = categoryData.meta_title || `${categoryData.name} | SoftechSol Blog`;
+    const title = categoryData.meta_title || `${categoryData.name}   Blog`;
     const description = categoryData.meta_description || categoryData.description || `Explore articles in the ${categoryData.name} category from SoftechSol.`;
     const categoryUrl = `${DOMAIN_URL}/blogs/${categorySlug}`;
 
@@ -83,7 +83,7 @@ export async function generateMetadata({
   } catch (error) {
     logger.error(error, "Error generating metadata for category page");
     return {
-      title: "Category | SoftechSol Blog",
+      title: "Category   Blog",
       description: "Browse blog articles by category.",
     };
   }

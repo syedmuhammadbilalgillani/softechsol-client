@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services including web development, mobile app development, custom software solutions, and digital transformation services.",
   openGraph: {
-    title: "Services | SoftechSol",
+    title: "Services  ",
     description:
       "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services including web development, mobile app development, and custom software solutions.",
     url: `${DOMAIN_URL}/services`,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Services | SoftechSol",
+    title: "Services  ",
     description:
       "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services.",
     images: [`${DOMAIN_URL}/home_hero.jpg`],

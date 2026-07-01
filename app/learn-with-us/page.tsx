@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "programming resources",
   ],
   openGraph: {
-    title: "Learn With Us | SoftechSol",
+    title: "Learn With Us  ",
     description:
       "Discover our comprehensive learning resources, podcasts, and educational content. Learn cutting-edge technologies and enhance your skills.",
     url: `${DOMAIN_URL}/learn-with-us`,
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Learn With Us | SoftechSol",
+    title: "Learn With Us  ",
     description:
       "Discover our comprehensive learning resources, podcasts, and educational content.",
     images: [`${DOMAIN_URL}/home_hero.jpg`],

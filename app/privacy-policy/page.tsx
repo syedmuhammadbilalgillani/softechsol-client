@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "SoftechSol's Privacy Policy - Learn how we collect, use, and protect your personal information. Your privacy is important to us.",
   openGraph: {
-    title: "Privacy Policy | SoftechSol",
+    title: "Privacy Policy  ",
     description:
       "Learn how SoftechSol collects, uses, and protects your personal information. Your privacy is important to us.",
     url: `${DOMAIN_URL}/privacy-policy`,
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Privacy Policy | SoftechSol",
+    title: "Privacy Policy  ",
     description: "Learn how SoftechSol protects your personal information.",
   },
   robots: {

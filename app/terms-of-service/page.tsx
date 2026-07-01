@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "SoftechSol's Terms of Service - Read our terms and conditions for using our website and services. Understand your rights and responsibilities.",
   openGraph: {
-    title: "Terms of Service | SoftechSol",
+    title: "Terms of Service  ",
     description:
       "Read SoftechSol's terms and conditions for using our website and services.",
     url: `${DOMAIN_URL}/terms-of-service`,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Terms of Service | SoftechSol",
+    title: "Terms of Service  ",
     description: "Read SoftechSol's terms and conditions.",
   },
   robots: {

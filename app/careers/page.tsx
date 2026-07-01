@@ -8,12 +8,12 @@ import { Job } from "../generated/prisma/client";
 import CareersClient from "@/components/careers-client";
 
 export const metadata: Metadata = {
-  title: "Careers | Join Our Team | SoftechSol",
+  title: "Careers | Join Our Team  ",
   description:
     "Explore exciting career opportunities at SoftechSol. Join our team of talented professionals and work on innovative projects. Browse open positions and find your next role.",
   metadataBase: new URL(DOMAIN_URL),
   openGraph: {
-    title: "Careers | Join Our Team | SoftechSol",
+    title: "Careers | Join Our Team  ",
     description:
       "Explore exciting career opportunities at SoftechSol. Join our team of talented professionals and work on innovative projects.",
     url: `${DOMAIN_URL}/careers`,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Careers | Join Our Team | SoftechSol",
+    title: "Careers | Join Our Team  ",
     description:
       "Explore exciting career opportunities at SoftechSol. Join our team and work on innovative projects.",
     images: [`${DOMAIN_URL}/careers.jpg`],

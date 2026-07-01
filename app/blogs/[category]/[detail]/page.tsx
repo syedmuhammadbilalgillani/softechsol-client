@@ -33,7 +33,7 @@ export async function generateMetadata({
 
     if (!blog) {
       return {
-        title: "Blog post not found | SoftechSol",
+        title: "Blog post not found  ",
         description: "The requested blog post does not exist.",
         robots: {
           index: false,
@@ -126,7 +126,7 @@ export async function generateMetadata({
   } catch (error) {
     logger.error(error, "Error generating metadata for blog detail page");
     return {
-      title: "Blog Post | SoftechSol",
+      title: "Blog Post  ",
       description: "Read this article from SoftechSol.",
     };
   }
