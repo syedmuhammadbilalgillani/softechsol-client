@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Check, Layers } from "lucide-react";
 
 interface ServiceCategoryCardProps {
   name: string;
@@ -12,6 +13,7 @@ interface ServiceCategoryCardProps {
     url: string;
     altText: string | null;
   } | null;
+  index?: number;
 }
 
 const ServiceCategoryCard = ({
@@ -19,56 +21,81 @@ const ServiceCategoryCard = ({
   description,
   services,
   image,
+  index = 0,
 }: ServiceCategoryCardProps) => {
+  // Alternate the image/content sides to create visual rhythm down the page.
+  const imageFirst = index % 2 === 0;
+
   return (
-    <div className="">
-      {/* Content Section */}
-      <div className="py-8 md:py-12 space-y-8 md:space-y-12">
-        {/* Header Grid */}
-        <div className="grid md:grid-cols-2 place-items-start w-full  gap-8 md:gap-12">
-          {/* Title and Description */}
-          <div className="space-y-4 md:space-y-6">
-            <h2 className="text-3xl  font-bold text-gray-900 uppercase tracking-tight leading-tight">
+    <article className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
+      <div className="grid items-stretch lg:grid-cols-2">
+        {/* Image */}
+        <div
+          className={`relative min-h-[260px] overflow-hidden bg-gray-100 lg:min-h-[440px] ${
+            imageFirst ? "lg:order-1" : "lg:order-2"
+          }`}
+        >
+          {image ? (
+            <Image
+              src={image.url || "/placeholder.svg"}
+              alt={image.altText || name}
+              fill
+              className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority={false}
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <Layers className="h-16 w-16 text-gray-300" aria-hidden="true" />
+            </div>
+          )}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-darkblue/25 to-transparent" />
+        </div>
+
+        {/* Content */}
+        <div
+          className={`flex flex-col justify-center gap-6 p-8 md:p-10 lg:p-12 ${
+            imageFirst ? "lg:order-2" : "lg:order-1"
+          }`}
+        >
+          <div className="space-y-4">
+            <span className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wider text-primary">
+              <span className="h-px w-8 bg-primary" aria-hidden="true" />
+              Service {String(index + 1).padStart(2, "0")}
+            </span>
+            <h2 className="text-2xl font-bold leading-tight text-gray-900 md:text-3xl">
               {name}
             </h2>
-            <p className="text-base md:text-lg  text-gray-600 leading-relaxed">
+            <p className="text-base leading-relaxed text-gray-600 md:text-lg">
               {description || "No description available."}
             </p>
           </div>
 
-          {/* Services List */}
-          <div className="space-y-4 md:space-y-6">
-            <div className="text-xl md:text-2xl font-bold text-gray-900 uppercase tracking-wide">
-              What&apos;s Included
+          {services.length > 0 && (
+            <div className="space-y-4 border-t border-gray-100 pt-6">
+              <p className="text-xs font-bold uppercase tracking-widest text-gray-400">
+                What&apos;s Included
+              </p>
+              <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                {services.map((service) => (
+                  <li
+                    key={service.id}
+                    className="flex items-start gap-2.5 text-gray-700"
+                  >
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                    </span>
+                    <span className="text-sm leading-snug md:text-base">
+                      {service.title}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="space-y-3 list-disc ">
-              {services.map((service) => (
-                <li
-                  key={service.id}
-                  className=" text-gray-700 ml-4 text-base leading-relaxed"
-                >
-                  {service.title}
-                </li>
-              ))}
-            </ul>
-          </div>
+          )}
         </div>
       </div>
-
-      {/* Image Section */}
-      {image && (
-        <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden bg-gray-100">
-          <Image
-            src={image.url || "/placeholder.svg"}
-            alt={image.altText || name}
-            fill
-            className="object-cover object-center"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-            priority={false}
-          />
-        </div>
-      )}
-    </div>
+    </article>
   );
 };
 

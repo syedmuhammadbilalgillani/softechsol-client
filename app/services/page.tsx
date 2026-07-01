@@ -59,6 +59,11 @@ const ServicesPage = async () => {
     <main className="main py-10 md:py-16">
       {/* Header Section */}
       <section className="text-center space-y-4 mb-12 md:mb-16">
+        <span className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wider text-primary">
+          <span className="h-px w-8 bg-primary" aria-hidden="true" />
+          What We Offer
+          <span className="h-px w-8 bg-primary" aria-hidden="true" />
+        </span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
           Comprehensive Solutions all in one place
         </h1>
@@ -88,7 +93,7 @@ const ServicesPage = async () => {
           </Link>
         </section>
       ) : (
-        <section className="space-y-12 md:space-y-16 px-4 md:px-[10%]">
+        <section className="space-y-10 md:space-y-12">
           {categories.map((item, index) => {
             const hasServices =
               item.services &&
@@ -98,6 +103,7 @@ const ServicesPage = async () => {
             return (
               <ServiceCategoryCard
                 key={item?.id || index}
+                index={index}
                 name={item.name}
                 description={item.description}
                 services={hasServices ? item.services : []}
@@ -160,7 +166,7 @@ const ServicesPage = async () => {
               label: "Years of Experience",
             },
             {
-              value: "100%",
+              value: "98%",
               label: "Client Satisfaction Rate",
             },
           ].map((item, index) => (
