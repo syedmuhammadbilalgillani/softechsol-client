@@ -97,7 +97,7 @@ const AboutStatsSection = () => {
           <div className="text-muted-foreground text-lg font-normal">Years of Experience</div>
         </div>
         <div className="border shadow  w-full px-6 py-4 rounded-xl md:text-start text-center">
-          <AnimatedCounter value={100} suffix="%" />
+          <AnimatedCounter value={98} suffix="%" />
           <div className="text-muted-foreground text-lg font-normal">Client Satisfaction Rate</div>
         </div>
       </motion.div>
