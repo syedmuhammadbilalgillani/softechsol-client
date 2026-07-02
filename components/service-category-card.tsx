@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Check, Layers } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface ServiceCategoryCardProps {
   name: string;
@@ -60,14 +62,14 @@ const ServiceCategoryCard = ({
         >
           <div className="space-y-4">
             <span className="inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-wider text-primary">
-              <span className="h-px w-8 bg-primary" aria-hidden="true" />
+              <span className="h-px w-5 bg-primary" aria-hidden="true" />
               Service {String(index + 1).padStart(2, "0")}
             </span>
             <h2 className="text-2xl font-bold leading-tight text-gray-900 md:text-3xl">
               {name}
             </h2>
             <p className="text-base leading-relaxed text-gray-600 md:text-lg">
-              {description || "No description available."}
+              {description || ""}
             </p>
           </div>
 
@@ -93,6 +95,14 @@ const ServiceCategoryCard = ({
               </ul>
             </div>
           )}
+          <Link
+            aria-label="Get Started"
+            aria-labelledby="Get Started"
+            className="cursor-pointer"
+            href="/contact"
+          >
+            <Button aria-labelledby="Get Started">Get Started</Button>
+          </Link>
         </div>
       </div>
     </article>
