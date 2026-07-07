@@ -28,7 +28,12 @@ const ServiceCategoryCard = ({
 }: ServiceCategoryCardProps) => {
   // Alternate the image/content sides to create visual rhythm down the page.
   const imageFirst = index % 2 === 0;
-
+  const url = image?.url
+    ? image?.url?.startsWith("/api")
+      ? `${STORAGE_URL}${image.url}`
+      : `${image.url}`
+    : "/placeholder.svg";
+  console.log("image url", url);
   return (
     <article className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
       <div className="grid items-stretch lg:grid-cols-2">
@@ -40,11 +45,7 @@ const ServiceCategoryCard = ({
         >
           {image ? (
             <Image
-              src={
-                image?.url?.startsWith("/api")
-                  ? `${STORAGE_URL}${image}`
-                  : `${image}` || "/placeholder.svg"
-              }
+              src={url}
               alt={image.altText || name}
               fill
               className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
