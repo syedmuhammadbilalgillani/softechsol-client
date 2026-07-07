@@ -43,7 +43,7 @@ const ServiceCategoryCard = ({
               src={
                 image?.url?.startsWith("/api")
                   ? `${STORAGE_URL}${image}`
-                  : `/${image}` || "/placeholder.svg"
+                  : `${image}` || "/placeholder.svg"
               }
               alt={image.altText || name}
               fill
