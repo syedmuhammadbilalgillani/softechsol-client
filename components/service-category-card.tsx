@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Check, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { STORAGE_URL } from "@/constants/url";
 
 interface ServiceCategoryCardProps {
   name: string;
@@ -33,13 +34,17 @@ const ServiceCategoryCard = ({
       <div className="grid items-stretch lg:grid-cols-2">
         {/* Image */}
         <div
-          className={`relative min-h-[260px] overflow-hidden bg-gray-100 lg:min-h-[440px] ${
+          className={`relative min-h-65 overflow-hidden bg-gray-100 lg:min-h-110 ${
             imageFirst ? "lg:order-1" : "lg:order-2"
           }`}
         >
           {image ? (
             <Image
-              src={image.url || "/placeholder.svg"}
+              src={
+                image?.url?.startsWith("/api")
+                  ? `${STORAGE_URL}${image}`
+                  : `/${image}` || "/placeholder.svg"
+              }
               alt={image.altText || name}
               fill
               className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
@@ -51,7 +56,7 @@ const ServiceCategoryCard = ({
               <Layers className="h-16 w-16 text-gray-300" aria-hidden="true" />
             </div>
           )}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-darkblue/25 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-darkblue/25 to-transparent" />
         </div>
 
         {/* Content */}
