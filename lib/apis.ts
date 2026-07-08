@@ -64,6 +64,44 @@ export const fetchCategoriesWithServices = unstable_cache(
   ["categories-with-services"],
   { revalidate: REVALIDATE_SECONDS, tags: ["categories-with-services"] }
 );
+export const fetchServiceCategories = unstable_cache(
+  async () =>
+    await prisma.serviceCategory.findMany({
+      select: {
+        name: true,
+        slug: true,
+        updatedAt: true,
+      },
+    }),
+  ["service-categories"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["categories-with-services"] }
+);
+
+export const fetchServiceCategoryBySlug = (slug: string) => {
+  return unstable_cache(
+    async () => {
+      try {
+        return await prisma.serviceCategory.findUnique({
+          where: { slug },
+          include: {
+            image: true,
+            services: {
+              include: {
+                image: true,
+              },
+            },
+          },
+        });
+      } catch (error) {
+        logger.error(error, `Error fetching service category: ${slug}`);
+        return null;
+      }
+    },
+    [`service-category-${slug}`],
+    { revalidate: REVALIDATE_SECONDS, tags: ["categories-with-services"] }
+  )();
+};
+
 export const fetchServicesList = unstable_cache(
   async () =>
     await prisma.service.findMany({

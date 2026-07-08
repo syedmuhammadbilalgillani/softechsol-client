@@ -5,6 +5,7 @@ import Link from "next/link";
 import { STORAGE_URL } from "@/constants/url";
 
 interface ServiceCategoryCardProps {
+  slug: string;
   name: string;
   description: string | null;
   services: Array<{
@@ -20,6 +21,7 @@ interface ServiceCategoryCardProps {
 }
 
 const ServiceCategoryCard = ({
+  slug,
   name,
   description,
   services,
@@ -33,12 +35,14 @@ const ServiceCategoryCard = ({
       ? `${STORAGE_URL}${image.url}`
       : `${image.url}`
     : "/placeholder.svg";
-  console.log("image url", url);
+  const categoryHref = `/services/${slug}`;
   return (
     <article className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
       <div className="grid items-stretch lg:grid-cols-2">
         {/* Image */}
-        <div
+        <Link
+          href={categoryHref}
+          aria-label={`View ${name} services`}
           className={`relative min-h-65 overflow-hidden bg-gray-100 lg:min-h-110 ${
             imageFirst ? "lg:order-1" : "lg:order-2"
           }`}
@@ -58,7 +62,7 @@ const ServiceCategoryCard = ({
             </div>
           )}
           <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-darkblue/25 to-transparent" />
-        </div>
+        </Link>
 
         {/* Content */}
         <div
@@ -71,9 +75,11 @@ const ServiceCategoryCard = ({
               <span className="h-px w-5 bg-primary" aria-hidden="true" />
               Service {String(index + 1).padStart(2, "0")}
             </span>
-            <h2 className="text-2xl font-bold leading-tight text-gray-900 md:text-3xl">
-              {name}
-            </h2>
+            <Link href={categoryHref} className="block w-fit">
+              <h2 className="text-2xl font-bold leading-tight text-gray-900 transition-colors duration-200 group-hover:text-primary md:text-3xl">
+                {name}
+              </h2>
+            </Link>
             <p className="text-base leading-relaxed text-gray-600 md:text-lg">
               {description || ""}
             </p>
@@ -101,14 +107,17 @@ const ServiceCategoryCard = ({
               </ul>
             </div>
           )}
-          <Link
-            aria-label="Get Started"
-            aria-labelledby="Get Started"
-            className="cursor-pointer"
-            href="/contact"
-          >
-            <Button aria-labelledby="Get Started">Get Started</Button>
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              aria-label={`View ${name} services`}
+              className="cursor-pointer"
+              href={categoryHref}
+            >
+              <Button variant="outline" aria-labelledby="View Services">
+                View Services
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </article>

@@ -50,7 +50,6 @@ export const metadata: Metadata = {
 
 const ServicesPage = async () => {
   const categories = await fetchCategoriesWithServices();
-  logger.info(categories, "categories");
 
   const hasCategories =
     categories && Array.isArray(categories) && categories.length > 0;
@@ -104,6 +103,7 @@ const ServicesPage = async () => {
               <ServiceCategoryCard
                 key={item?.id || index}
                 index={index}
+                slug={item.slug}
                 name={item.name}
                 description={item.description}
                 services={hasServices ? item.services : []}
