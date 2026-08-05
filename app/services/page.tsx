@@ -105,7 +105,7 @@ const ServicesPage = async () => {
                 index={index}
                 slug={item.slug}
                 name={item.name}
-                description={item.description}
+                description={item.shortDescription}
                 services={hasServices ? item.services : []}
                 image={item.image}
               />

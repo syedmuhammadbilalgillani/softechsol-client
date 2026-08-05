@@ -141,59 +141,36 @@ const ServiceCategoryPage = async ({
       </nav>
 
       {/* Hero Section */}
-      <section className="relative mb-14 overflow-hidden rounded-2xl border border-gray-200 md:mb-20">
-        <div className="relative min-h-55 w-full md:min-h-90">
+      <section className="relative mb-14 overflow-hidden  md:mb-20">
+        <div className=" grid grid-cols-2 gap-10">
+          <div>
+            <h1 className="mt-3 text-3xl font-bold text-black md:text-5xl">
+              {category.name}
+            </h1>
+            {category.description && (
+              <p className="mt-6 max-w-2xl text-base text-black/85 md:text-lg">
+                {category.description}
+              </p>
+            )}
+            <Link
+              href="/contact"
+              aria-label={`Get started with ${category.name}`}
+              className="mx-auto mt-1 w-fit sm:mx-0"
+            >
+              <Button className="mt-6 capitalize">
+                Request a free consultation
+              </Button>
+            </Link>
+          </div>
           <Image
-            fill
+            height={650}
+            width={650}
             src={heroImage}
             alt={category.image?.altText || category.name}
-            className="object-cover"
+            className="object-contain rounded-2xl "
           />
-          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
-        </div>
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-12">
-          <h1 className="mt-3 text-3xl font-bold text-white md:text-5xl">
-            {category.name}
-          </h1>
-          {category.description && (
-            <p className="mt-3 max-w-2xl text-base text-white/85 md:text-lg">
-              {category.description}
-            </p>
-          )}
         </div>
       </section>
-
-      {/* Other Categories Navigation */}
-      {allCategories.length > 1 && (
-        <section aria-labelledby="service-categories-heading" className="mb-12">
-          <h2 id="service-categories-heading" className="sr-only">
-            Service Categories
-          </h2>
-          <nav aria-label="Service categories">
-            <ul className="flex flex-wrap gap-3 md:gap-4">
-              {allCategories.map((cat) => {
-                const isActive = cat.slug === category.slug;
-                return (
-                  <li key={cat.slug}>
-                    <Link href={`/services/${cat.slug}`}>
-                      <span
-                        className={`inline-block cursor-pointer rounded-full border px-5 py-2 text-sm shadow-sm transition-all duration-300 md:px-7 md:text-base ${
-                          isActive
-                            ? "border-primary bg-primary text-white"
-                            : "border-primary/10 bg-primary/5 text-gray-700 hover:bg-primary hover:text-white"
-                        }`}
-                        aria-current={isActive ? "page" : undefined}
-                      >
-                        {cat.name}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </section>
-      )}
 
       {/* Services Grid */}
       <section aria-labelledby="services-heading" className="space-y-8">
