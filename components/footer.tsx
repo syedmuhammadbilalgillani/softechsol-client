@@ -166,6 +166,22 @@ const Footer = () => {
                   </a>
                 </address>
               </li>
+              <li className="flex items-start gap-3">
+                <MapPin
+                  className="w-5 h-5 text-primary mt-0.5 shrink-0"
+                  aria-hidden="true"
+                />
+                <address className="text-gray-300 text-sm not-italic leading-relaxed">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-primary transition-colors text-sm"
+                    href="https://www.google.com/maps/search/?api=1&query=Virginia+USA"
+                  >
+                    {socialMediaLinks.usAddress}
+                  </a>
+                </address>
+              </li>
               <li className="flex items-center gap-3">
                 <Mail
                   className="w-5 h-5 text-primary shrink-0"
@@ -193,6 +209,18 @@ const Footer = () => {
                   className="text-gray-300 hover:text-primary transition-colors text-sm"
                 >
                   {socialMediaLinks.phone}
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone
+                  className="w-5 h-5 text-primary shrink-0"
+                  aria-hidden="true"
+                />
+                <a
+                  href={`tel:${socialMediaLinks.usPhoneNumber}`}
+                  className="text-gray-300 hover:text-primary transition-colors text-sm"
+                >
+                  {socialMediaLinks.usPhoneNumber}
                 </a>
               </li>
             </ul>

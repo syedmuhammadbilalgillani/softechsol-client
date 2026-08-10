@@ -7,7 +7,8 @@ export const socialMediaLinks = {
   phone: "+923062993712",
   email: "info@softechsol.com",
   address: "7-A Main Gulberg , 54660, Lahore, Pakistan",
-  usPhoneNumber:"+19145015794"
+  usPhoneNumber: "+19145015794",
+  usAddress: "Big Walker Lookout Tower, Wytheville, VA",
 };
 
 export const STORAGE_URL = "https://admin.softechsol.com";
