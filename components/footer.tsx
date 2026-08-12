@@ -73,9 +73,9 @@ const Footer = () => {
   return (
     <footer className="bg-darkblue text-white">
       <div className="main py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mb-12">
           {/* Company Info */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <Link href="/" aria-label="Home">
               <Image
                 src="/logo.svg"
@@ -90,7 +90,6 @@ const Footer = () => {
               smart, reliable digital solutions and works closely with clients
               to help their businesses grow and succeed.
             </p>
-            {/* Social Media Links */}
             <div className="flex items-center gap-4 pt-2">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
@@ -108,7 +107,7 @@ const Footer = () => {
                 );
               })}
             </div>
-          </div>
+          </div> */}
 
           {/* Quick Links */}
           <div>
@@ -165,6 +164,23 @@ const Footer = () => {
                   {socialMediaLinks.email}
                 </a>
               </li>
+              <div className="flex items-center gap-4 pt-2">
+                {socialLinks.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={social.name}
+                      href={social.href}
+                      target={"_blank"}
+                      rel={"noopener noreferrer"}
+                      aria-label={social.ariaLabel}
+                      className="w-5 h-5 text-white  transition-all duration-300 flex items-center justify-center group"
+                    >
+                      {social.icon}
+                    </a>
+                  );
+                })}
+              </div>
             </ul>
           </div>
         </div>
