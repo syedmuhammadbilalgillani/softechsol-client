@@ -20,7 +20,7 @@ export const handleClick =
       window.open(
         `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`,
         "_blank",
-        "noopener,noreferrer"
+        "noopener,noreferrer",
       );
     }, 500);
   };
@@ -73,7 +73,7 @@ const Footer = () => {
   return (
     <footer className="bg-darkblue text-white">
       <div className="main py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           {/* Company Info */}
           <div className="space-y-4">
             <Link href="/" aria-label="Home">
@@ -150,38 +150,6 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin
-                  className="w-5 h-5 text-primary mt-0.5 shrink-0"
-                  aria-hidden="true"
-                />
-                <address className="text-gray-300 text-sm not-italic leading-relaxed">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-primary transition-colors text-sm"
-                    href={MAP_URL}
-                  >
-                    {socialMediaLinks.address}
-                  </a>
-                </address>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin
-                  className="w-5 h-5 text-primary mt-0.5 shrink-0"
-                  aria-hidden="true"
-                />
-                <address className="text-gray-300 text-sm not-italic leading-relaxed">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-primary transition-colors text-sm"
-                    href="https://www.google.com/maps/search/?api=1&query=Virginia+USA"
-                  >
-                    {socialMediaLinks.usAddress}
-                  </a>
-                </address>
-              </li>
               <li className="flex items-center gap-3">
                 <Mail
                   className="w-5 h-5 text-primary shrink-0"
@@ -197,33 +165,98 @@ const Footer = () => {
                   {socialMediaLinks.email}
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone
-                  className="w-5 h-5 text-primary shrink-0"
-                  aria-hidden="true"
-                />
-                <a
-                  href={`https://wa.me/${socialMediaLinks.phone}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-primary transition-colors text-sm"
-                >
-                  {socialMediaLinks.phone}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone
-                  className="w-5 h-5 text-primary shrink-0"
-                  aria-hidden="true"
-                />
-                <a
-                  href={`tel:${socialMediaLinks.usPhoneNumber}`}
-                  className="text-gray-300 hover:text-primary transition-colors text-sm"
-                >
-                  {socialMediaLinks.usPhoneNumber}
-                </a>
-              </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Our Offices */}
+        <div className="mb-12">
+          <h3 className="text-lg font-semibold mb-6">Our Offices</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Pakistan Office */}
+            <div className="relative overflow-hidden rounded-xl bg-white/[0.04] border border-white/10 p-5 flex gap-4 hover:border-primary/40 transition-colors duration-300">
+              <div className="shrink-0">
+                <Image
+                  src="/pakistanlogo.webp"
+                  alt="Pakistan flag"
+                  width={35}
+                  height={20}
+                  className=""
+                />
+              </div>
+              <div className="flex-1 space-y-2">
+                <p className="text-sm font-semibold text-white">
+                  Pakistan Office
+                </p>
+                <div className="flex items-start gap-2">
+                  <MapPin
+                    className="w-4 h-4 text-primary mt-0.5 shrink-0"
+                    aria-hidden="true"
+                  />
+                  <address className="text-gray-300 text-sm not-italic leading-relaxed">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-primary text-white transition-colors"
+                      href={MAP_URL}
+                    >
+                      {socialMediaLinks.address}
+                    </a>
+                  </address>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone
+                    className="w-4 h-4 text-primary shrink-0"
+                    aria-hidden="true"
+                  />
+                  <a
+                    href={`https://wa.me/${socialMediaLinks.phone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-primary transition-colors text-sm"
+                  >
+                    {socialMediaLinks.phone}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* USA Office */}
+            <div className="relative overflow-hidden rounded-xl bg-white/[0.04] border border-white/10 p-5 flex gap-4 hover:border-primary/40 transition-colors duration-300">
+              <div className="shrink-0">
+                <Image
+                  src="/usaflaglogo.webp"
+                  alt="USA flag"
+                  width={35}
+                  height={20}
+                  className=""
+                />
+              </div>
+              <div className="flex-1 space-y-2">
+                <p className="text-sm font-semibold text-white">USA Office</p>
+                <div className="flex items-start gap-2">
+                  <MapPin
+                    className="w-4 h-4 text-primary mt-0.5 shrink-0"
+                    aria-hidden="true"
+                  />
+                  <address className="text-gray-300 text-sm not-italic leading-relaxed">
+                    {socialMediaLinks.usAddress}
+                  </address>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone
+                    className="w-4 h-4 text-primary shrink-0"
+                    aria-hidden="true"
+                  />
+                  <a
+                    href={`tel:${socialMediaLinks.usPhoneNumber}`}
+                    className="text-gray-300 hover:text-primary transition-colors text-sm"
+                  >
+                    {socialMediaLinks.usPhoneNumber}
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
