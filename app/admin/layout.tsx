@@ -1,9 +1,4 @@
-import AppSidebar from "@/components/SidebarLayout/AppSidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { AdminShell } from "@/components/SidebarLayout/admin-shell";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 
@@ -32,15 +27,7 @@ export default function AdminLayout({
 }>) {
   return (
     <Providers>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset className="p-4">
-          <div className="flex items-center gap-2 mb-4">
-            <SidebarTrigger />
-          </div>
-          {children}
-        </SidebarInset>
-      </SidebarProvider>
+      <AdminShell>{children}</AdminShell>
     </Providers>
   );
 }
