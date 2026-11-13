@@ -26,21 +26,47 @@ async function exportFullBackup() {
     await prisma.$connect();
     console.log("📦 Fetching all database records in dependency order...");
 
-    const galleryItems = await prisma.galleryItem.findMany({ orderBy: { createdAt: "asc" } });
-    const users = await prisma.user.findMany({ orderBy: { created_at: "asc" } });
-    const blogCategories = await prisma.blogCategory.findMany({ orderBy: { created_at: "asc" } });
-    const serviceCategories = await prisma.serviceCategory.findMany({ orderBy: { createdAt: "asc" } });
-    const services = await prisma.service.findMany({ orderBy: { createdAt: "asc" } });
+    const galleryItems = await prisma.galleryItem.findMany({
+      orderBy: { createdAt: "asc" },
+    });
+    const users = await prisma.user.findMany({
+      orderBy: { created_at: "asc" },
+    });
+    const blogCategories = await prisma.blogCategory.findMany({
+      orderBy: { created_at: "asc" },
+    });
+    const serviceCategories = await prisma.serviceCategory.findMany({
+      orderBy: { createdAt: "asc" },
+    });
+    const services = await prisma.service.findMany({
+      orderBy: { createdAt: "asc" },
+    });
     const teams = await prisma.team.findMany({ orderBy: { createdAt: "asc" } });
-    const podcasts = await prisma.podcast.findMany({ orderBy: { created_at: "asc" } });
-    const companies = await prisma.myCompanies.findMany({ orderBy: { company_id: "asc" } });
-    const projects = await prisma.project.findMany({ orderBy: { created_at: "asc" } });
-    const blogs = await prisma.blog.findMany({ orderBy: { created_at: "asc" } });
-    const blogCategoryRelations = await prisma.blogCategoryRelation.findMany({ orderBy: { assigned_at: "asc" } });
-    const jobCategories = await prisma.jobCategory.findMany({ orderBy: { created_at: "asc" } });
+    const podcasts = await prisma.podcast.findMany({
+      orderBy: { created_at: "asc" },
+    });
+    const companies = await prisma.myCompanies.findMany({
+      orderBy: { company_id: "asc" },
+    });
+    const projects = await prisma.project.findMany({
+      orderBy: { created_at: "asc" },
+    });
+    const blogs = await prisma.blog.findMany({
+      orderBy: { created_at: "asc" },
+    });
+    const blogCategoryRelations = await prisma.blogCategoryRelation.findMany({
+      orderBy: { assigned_at: "asc" },
+    });
+    const jobCategories = await prisma.jobCategory.findMany({
+      orderBy: { created_at: "asc" },
+    });
     const jobs = await prisma.job.findMany({ orderBy: { created_at: "asc" } });
-    const jobCategoryRelations = await prisma.jobCategoryRelation.findMany({ orderBy: { assigned_at: "asc" } });
-    const contactUs = await prisma.contactUs.findMany({ orderBy: { submitted_at: "asc" } });
+    const jobCategoryRelations = await prisma.jobCategoryRelation.findMany({
+      orderBy: { assigned_at: "asc" },
+    });
+    const contactUs = await prisma.contactUs.findMany({
+      orderBy: { submitted_at: "asc" },
+    });
 
     const backupData = {
       version: "2.0",
@@ -85,10 +111,12 @@ async function exportFullBackup() {
 
     const totalRecords = Object.values(recordCounts).reduce(
       (sum, count) => sum + count,
-      0
+      0,
     );
 
-    console.log(`\n✅ Database export complete: ${totalRecords} total records found across 15 models.`);
+    console.log(
+      `\n✅ Database export complete: ${totalRecords} total records found across 15 models.`,
+    );
     console.table(recordCounts);
 
     // Setup output directory
@@ -101,7 +129,10 @@ async function exportFullBackup() {
     const latestZipPath = path.join(outputDir, `latest-backup.zip`);
 
     // Write raw JSON backup
-    const jsonBuffer = Buffer.from(JSON.stringify(backupData, null, 2), "utf-8");
+    const jsonBuffer = Buffer.from(
+      JSON.stringify(backupData, null, 2),
+      "utf-8",
+    );
     await writeFile(jsonPath, jsonBuffer);
     console.log(`📄 Saved JSON dump to: ${jsonPath}`);
 
@@ -119,8 +150,12 @@ async function exportFullBackup() {
       zip.addLocalFolder(storagePath, "storage");
       assetsCount = zip
         .getEntries()
-        .filter((e) => e.entryName.startsWith("storage/") && !e.isDirectory).length;
-      console.log(`🖼️ Added ${assetsCount} physical assets from: ${storagePath}`);
+        .filter(
+          (e) => e.entryName.startsWith("storage/") && !e.isDirectory,
+        ).length;
+      console.log(
+        `🖼️ Added ${assetsCount} physical assets from: ${storagePath}`,
+      );
     } else {
       console.log(`⚠️ No public/storage folder found at: ${storagePath}`);
     }
@@ -135,7 +170,7 @@ async function exportFullBackup() {
     };
     zip.addFile(
       "manifest.json",
-      Buffer.from(JSON.stringify(manifest, null, 2), "utf-8")
+      Buffer.from(JSON.stringify(manifest, null, 2), "utf-8"),
     );
 
     // Write zip to disk
