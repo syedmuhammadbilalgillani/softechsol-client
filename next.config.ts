@@ -48,7 +48,7 @@ const nextConfig: NextConfig = {
   
   // Modern browser support - optimize package imports
   experimental: {
-    middlewareClientMaxBodySize: "100mb",
+    proxyClientMaxBodySize: "100mb",
     optimizePackageImports: [
       'lucide-react', 
       '@radix-ui/react-accordion', 
