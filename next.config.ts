@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
         hostname: "admin.softechsol.com",
       },
     ],
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
@@ -45,27 +45,27 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   // Enable compression
   compress: true,
-  
+
   // Modern browser support - optimize package imports
   experimental: {
     proxyClientMaxBodySize: "100mb",
     optimizePackageImports: [
-      'lucide-react', 
-      '@radix-ui/react-accordion', 
-      '@radix-ui/react-dialog',
-      'framer-motion',
+      "lucide-react",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-dialog",
+      "framer-motion",
     ],
   },
-  
+
   // Target modern browsers only
   transpilePackages: [],
-  
+
   // Explicitly use Turbopack (Next.js 16 default)
   turbopack: {},
-  
+
   // Power optimizations
   poweredByHeader: false,
-  
+
   // React strict mode for better performance
   reactStrictMode: true,
 

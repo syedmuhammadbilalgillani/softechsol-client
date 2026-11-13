@@ -32,3 +32,4 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
+
