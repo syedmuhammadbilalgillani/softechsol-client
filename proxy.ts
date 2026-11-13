@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
-  // Only run middleware logic on /admin and protected API routes
+  // Only run proxy logic on /admin and protected API routes
   if (pathname.startsWith("/admin") || pathname === "/api/backup") {
     const isSignInPage = pathname === "/admin/signin";
 
@@ -33,7 +33,7 @@ export async function middleware(req: NextRequest) {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json(
           { error: "Unauthorized access" },
-          { status: 401 }
+          { status: 401 },
         );
       }
 
@@ -47,9 +47,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/admin/:path*",
-    "/api/backup/:path*",
-  ],
+  matcher: ["/admin/:path*", "/api/backup/:path*"],
 };
-
