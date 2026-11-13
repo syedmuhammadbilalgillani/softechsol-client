@@ -7,6 +7,7 @@ import { Blog } from "@/constants/types";
 import { DOMAIN_URL, STORAGE_URL } from "@/constants/url";
 import {
   fetchBlogBySlug,
+  fetchBlogs,
   fetchBlogsByCategory,
   fetchCategories,
 } from "@/lib/apis";
@@ -15,8 +16,29 @@ import { Calendar, ChevronLeft, Clock, User } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
+import DOMPurify from "isomorphic-dompurify";
+
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const blogs = await fetchBlogs();
+    const params: Array<{ category: string; detail: string }> = [];
+    for (const b of blogs) {
+      if (b.slug && b.categories) {
+        for (const c of b.categories) {
+          if (c.category?.slug) {
+            params.push({ category: c.category.slug, detail: b.slug });
+          }
+        }
+      }
+    }
+    return params;
+  } catch (error) {
+    logger.error("Error generating static params for blog details:", error);
+    return [];
+  }
+}
 
 // Generate metadata for blog detail page
 export async function generateMetadata({
@@ -340,7 +362,9 @@ const BlogDetailPage = async ({
             <div
               id="article-content"
               className="entry-content"
-              dangerouslySetInnerHTML={{ __html: blog?.content }}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(blog?.content || ""),
+              }}
             />
           </section>
         </article>

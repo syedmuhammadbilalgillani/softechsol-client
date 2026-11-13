@@ -10,6 +10,8 @@ import { HeartHandshake, Lightbulb, ShieldCheck } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "About Us",
   description:
@@ -48,8 +50,7 @@ export const metadata: Metadata = {
 };
 
 const About = async () => {
-  // const teams = await fetchTeams();
-  // logger.info(teams, "teams");
+  const teams = await fetchTeams();
   return (
     <main className="bg-white">
       <header
@@ -234,7 +235,7 @@ const About = async () => {
         {/* <AboutValuesSection data={data} /> */}
 
         {/* Team Section */}
-        {/* <AboutTeamSection teams={teams} /> */}
+        {teams && teams.length > 0 && <AboutTeamSection teams={teams} />}
       </div>{" "}
     </main>
   );

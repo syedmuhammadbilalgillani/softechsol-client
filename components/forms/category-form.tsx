@@ -1,0 +1,164 @@
+"use client";
+import { cn } from "@/lib/utils";
+import logger from "@/utils/logger";
+import axios from "axios";
+import { PencilIcon, Plus, PlusIcon } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DynamicForm, FieldConfig } from "@/components/dynamic-form"; // Adjust import based on your project structure
+import { Category } from "@/lib/types";
+import { useSession } from "next-auth/react";
+
+const CategoryForm = ({
+  category,
+  className,
+}: {
+  category?: Category;
+  className?: string;
+}) => {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+  logger.debug(session, "session");
+  // Form field configuration
+  const formFields: FieldConfig[] = [
+    {
+      name: "name",
+      label: "Category Name",
+      type: "input",
+      required: true,
+      placeholder: "Enter category name",
+    },
+    {
+      name: "slug",
+      label: "Slug",
+      type: "input",
+      required: true,
+      placeholder: "Enter category slug",
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "textarea",
+      required: true,
+      placeholder: "Enter category description",
+    },
+    {
+      name: "color",
+      label: "Category Color (e.g., #3B82F6)",
+      type: "input",
+      required: true,
+      placeholder: "Enter category color",
+    },
+    {
+      name: "icon",
+      label: "Category Icon (e.g., 💻 or icon name)",
+      type: "input",
+      required: true,
+      placeholder: "Enter category icon",
+    },
+    {
+      name: "meta_title",
+      label: "Meta Title (Optional)",
+      type: "input",
+      placeholder: "Enter meta title",
+    },
+    {
+      name: "meta_description",
+      label: "Meta Description (Optional)",
+      type: "input",
+      placeholder: "Enter meta description",
+    },
+    // Uncomment if parent category select is needed
+    // {
+    //   name: "parent_id",
+    //   label: "Parent Category (Optional)",
+    //   type: "select",
+    //   options: categories.map((category) => ({
+    //     label: category.name,
+    //     value: category.category_id.toString(),
+    //   })),
+    //   placeholder: "Select a parent category",
+    // },
+  ];
+
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+
+    try {
+      const payload = {
+        // user_id: session?.user?.id,
+        category_id: category?.category_id,
+        ...data,
+      };
+      const response = category
+        ? await axios.put(`/api/category`, payload)
+        : await axios.post("/api/category", data);
+
+      if (response.status === 201) {
+        toast.success(
+          category
+            ? "Category updated successfully!"
+            : "Category created successfully!"
+        );
+        router.refresh();
+        setOpen(false);
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+      logger.debug(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className={cn(className, "")}>
+          {category ? (
+            <PencilIcon className="w-4 h-4" />
+          ) : (
+            <PlusIcon className="w-4 h-4" />
+          )}
+          {category ? "" : "Add"}
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
+            {category ? "Update Category" : "Create Category"}
+          </DialogTitle>
+        </DialogHeader>
+        <DynamicForm
+          fields={formFields}
+          onSubmit={onSubmit}
+          defaultValues={category}
+          formId="category"
+          isUpdateMode={!!category}
+          submitButton={
+            <Button type="submit" form="category" disabled={loading}>
+              {loading
+                ? "Submitting..."
+                : category
+                ? "Update Category"
+                : "Create Category"}
+            </Button>
+          }
+        />
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default CategoryForm;

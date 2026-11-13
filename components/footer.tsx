@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { MAP_URL, socialMediaLinks } from "@/constants/url";
 import { Mail, MailIcon, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
@@ -25,7 +26,12 @@ export const handleClick =
     }, 500);
   };
 const Footer = () => {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   const quickLinks = [
     { label: "Home", href: "/" },

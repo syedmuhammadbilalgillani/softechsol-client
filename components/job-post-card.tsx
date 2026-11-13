@@ -2,6 +2,7 @@ import { Job } from "@/app/generated/prisma/client";
 import ArrowRight from "./svgs/arrow-right";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
+import DOMPurify from "isomorphic-dompurify";
 
 const JobPostCard = ({ job, variants }: { job: Job; variants?: Variants }) => {
   if (!job) return null;
@@ -26,7 +27,7 @@ const JobPostCard = ({ job, variants }: { job: Job; variants?: Variants }) => {
           <div
             className="text-gray-700 line-clamp-3"
             dangerouslySetInnerHTML={{
-              __html: job?.description || "<p>No description available</p>",
+              __html: DOMPurify.sanitize(job?.description || "<p>No description available</p>"),
             }}
           />
         </footer>

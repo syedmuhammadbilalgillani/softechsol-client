@@ -103,6 +103,10 @@ const Navbar = () => {
   // Determine if navbar should be transparent (only on home page when not scrolled)
   const shouldBeTransparent = isTransparent && (!isHomePage || !isScrolled);
 
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <>
       <nav

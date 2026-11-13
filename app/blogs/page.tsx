@@ -10,6 +10,8 @@ import { Blog } from "@/constants/types";
 import { DOMAIN_URL, STORAGE_URL } from "@/constants/url";
 import { Metadata } from "next";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Blog & Articles  ",
   description:

@@ -7,6 +7,8 @@ import { Metadata } from "next";
 import { Job } from "../generated/prisma/client";
 import CareersClient from "@/components/careers-client";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Careers | Join Our Team  ",
   description:

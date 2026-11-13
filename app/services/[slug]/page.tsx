@@ -8,9 +8,19 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import DOMPurify from "isomorphic-dompurify";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const categories = await fetchServiceCategories();
+    return categories.map((c) => ({ slug: c.slug }));
+  } catch (error) {
+    logger.error(error, "Error generating static params for service categories");
+    return [];
+  }
+}
 
 const resolveImageUrl = (url?: string | null) => {
   if (!url) return "/placeholder.svg";
@@ -245,7 +255,7 @@ const ServiceCategoryPage = async ({
                     {service.description && (
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: service.description,
+                          __html: DOMPurify.sanitize(service.description),
                         }}
                       ></div>
                     )}

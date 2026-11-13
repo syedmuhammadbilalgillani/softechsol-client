@@ -10,8 +10,17 @@ import { DOMAIN_URL } from "@/constants/url";
 import { Blog } from "@/constants/types";
 import { unstable_cache } from "next/cache";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const categories = await fetchCategories();
+    return categories.map((c) => ({ category: c.slug }));
+  } catch (error) {
+    logger.error("Error generating static params for blog categories:", error);
+    return [];
+  }
+}
 
 // Generate metadata for category page
 export async function generateMetadata({

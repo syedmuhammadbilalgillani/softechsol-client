@@ -361,6 +361,54 @@ export const fetchJobs = (slug?: string) => {
   )();
 };
 
+export const fetchJobBySlug = (slug: string) => {
+  return unstable_cache(
+    async () => {
+      try {
+        return await prisma.job.findFirst({
+          where: {
+            slug,
+            status: "PUBLISHED",
+          },
+          include: {
+            categories: {
+              select: {
+                category: {
+                  select: {
+                    name: true,
+                    slug: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+      } catch (error) {
+        logger.error(error, `Error fetching job by slug: ${slug}`);
+        return null;
+      }
+    },
+    [`job-${slug}`],
+    { revalidate: REVALIDATE_SECONDS, tags: ["jobs"] }
+  )();
+};
+
+export const fetchAllJobSlugs = unstable_cache(
+  async () => {
+    try {
+      return await prisma.job.findMany({
+        where: { status: "PUBLISHED" },
+        select: { slug: true },
+      });
+    } catch (error) {
+      logger.error(error, "Error fetching all job slugs");
+      return [];
+    }
+  },
+  ["all-job-slugs"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["jobs"] }
+);
+
 export const fetchPodcasts = unstable_cache(
   async () =>
     await prisma.podcast.findMany({

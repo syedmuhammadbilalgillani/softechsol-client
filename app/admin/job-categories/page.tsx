@@ -1,0 +1,45 @@
+import JobCategoryForm from "@/components/forms/job-category-form";
+import { PageHeader } from "@/components/page-header";
+import prisma from "@/lib/prisma";
+import logger from "@/utils/logger";
+import JobCategoriesPage from "./job-categories-page";
+import { JobCategory } from "@/app/generated/prisma/client";
+import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 100;
+
+export const metadata: Metadata = {
+  title: "Job Categories Management - Softech Solutions",
+  description: "Manage job categories for organizing job listings",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+const JobCategoriesPageComponent = async () => {
+  const categories = await prisma.jobCategory.findMany({
+    orderBy: {
+      created_at: "asc",
+    },
+  });
+  logger.info(categories, "job categories");
+
+  return (
+    <div className="p-5">
+      <div className="flex justify-between items-center gap-5">
+        <PageHeader
+          heading="Job Categories"
+          paragraph="Manage your job categories"
+        />
+        <JobCategoryForm className="w-fit" />
+      </div>
+      <div className="mt-4">
+        <JobCategoriesPage categories={categories as any} />
+      </div>
+    </div>
+  );
+};
+
+export default JobCategoriesPageComponent;

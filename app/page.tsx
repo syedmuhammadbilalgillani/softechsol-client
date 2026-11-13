@@ -26,6 +26,8 @@ const FaqsSection = dynamic(() => import("@/components/faqs-section"), {
   loading: () => <Spinner />,
 });
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Home",
   description:

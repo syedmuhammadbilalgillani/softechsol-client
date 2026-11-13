@@ -1,10 +1,12 @@
 "use client";
 
 import { ArrowUp } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
 const ScrollToTop = () => {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const ScrollToTop = () => {
     });
   };
 
-  if (!isVisible) {
+  if (pathname?.startsWith("/admin") || !isVisible) {
     return null;
   }
 

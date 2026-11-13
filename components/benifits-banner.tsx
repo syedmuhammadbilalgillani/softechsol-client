@@ -13,6 +13,44 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 
+const AnimatedCounter = ({ value }: { value: number }) => {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const motionValue = useMotionValue(0);
+  const springValue = useSpring(motionValue, {
+    damping: 60,
+    stiffness: 100,
+  });
+  const displayValue = useMotionValue(0);
+
+  useEffect(() => {
+    if (isInView) {
+      motionValue.set(value);
+    }
+  }, [motionValue, isInView, value]);
+
+  useEffect(() => {
+    const unsubscribe = springValue.on("change", (latest) => {
+      displayValue.set(Math.round(latest));
+    });
+    return unsubscribe;
+  }, [springValue, displayValue]);
+
+  return (
+    <motion.p
+      ref={ref}
+      className="text-5xl text-primary font-semibold"
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={
+        isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }
+      }
+      transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+    >
+      <motion.span>{displayValue}</motion.span>%
+    </motion.p>
+  );
+};
+
 const BenifitsBanner = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -72,45 +110,6 @@ const BenifitsBanner = () => {
         ease: "easeOut",
       },
     },
-  };
-
-  // Add this component for the animated counter
-  const AnimatedCounter = ({ value }: { value: number }) => {
-    const ref = useRef<HTMLParagraphElement>(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
-    const motionValue = useMotionValue(0);
-    const springValue = useSpring(motionValue, {
-      damping: 60,
-      stiffness: 100,
-    });
-    const displayValue = useMotionValue(0);
-
-    useEffect(() => {
-      if (isInView) {
-        motionValue.set(value);
-      }
-    }, [motionValue, isInView, value]);
-
-    useEffect(() => {
-      const unsubscribe = springValue.on("change", (latest) => {
-        displayValue.set(Math.round(latest));
-      });
-      return unsubscribe;
-    }, [springValue, displayValue]);
-
-    return (
-      <motion.p
-        ref={ref}
-        className="text-5xl text-primary font-semibold"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={
-          isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }
-        }
-        transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-      >
-        <motion.span>{displayValue}</motion.span>%
-      </motion.p>
-    );
   };
 
   return (

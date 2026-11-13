@@ -3,6 +3,8 @@ import { fetchPodcasts } from "@/lib/apis";
 import { Metadata } from "next";
 import LearnWithUsPage from "@/components/learn-with-us-page";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Learn With Us",
   description:

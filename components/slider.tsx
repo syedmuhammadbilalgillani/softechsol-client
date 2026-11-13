@@ -35,11 +35,15 @@ export const Slider: React.FC<SliderProps> = ({
   ];
 
   useEffect(() => {
-    setStart(true);
-    // Auto-detect text direction if not manually set
-    const dir =
-      direction || document.documentElement.getAttribute("dir") || "ltr";
-    setScrollDirection(dir === "rtl" ? "rtl" : "ltr");
+    const frame = requestAnimationFrame(() => {
+      setStart(true);
+      // Auto-detect text direction if not manually set
+      const dir =
+        direction || document.documentElement.getAttribute("dir") || "ltr";
+      setScrollDirection(dir === "rtl" ? "rtl" : "ltr");
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, [direction]);
 
   return (
