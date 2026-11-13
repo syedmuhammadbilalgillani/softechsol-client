@@ -5,8 +5,8 @@ import type { NextRequest } from "next/server";
 export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
-  // Only run proxy logic on /admin and protected API routes
-  if (pathname.startsWith("/admin") || pathname === "/api/backup") {
+  // Only run proxy logic on /admin
+  if (pathname.startsWith("/admin")) {
     const isSignInPage = pathname === "/admin/signin";
 
     const secret = process.env.NEXTAUTH_SECRET;
@@ -47,5 +47,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/backup/:path*"],
+  matcher: ["/admin/:path*"],
 };
