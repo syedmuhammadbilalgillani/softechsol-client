@@ -32,7 +32,7 @@ const MIME_TYPES: Record<string, string> = {
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> }
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
   try {
     const { path: pathSegments } = await params;
@@ -56,16 +56,20 @@ export async function GET(
       });
       return NextResponse.json(
         { success: false, error: "Invalid path" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // If file doesn't exist locally, attempt remote fallback from live server
     if (!existsSync(fullPath)) {
       const remoteFallbackUrl = `https://admin.softechsol.com/api/storage/${pathSegments.join("/")}`;
-      logger.info(`Fetching missing storage file from remote fallback: ${remoteFallbackUrl}`);
+      logger.info(
+        `Fetching missing storage file from remote fallback: ${remoteFallbackUrl}`,
+      );
       try {
-        const remoteRes = await fetch(remoteFallbackUrl, { signal: AbortSignal.timeout(10000) });
+        const remoteRes = await fetch(remoteFallbackUrl, {
+          signal: AbortSignal.timeout(10000),
+        });
         if (remoteRes.ok) {
           const arrayBuf = await remoteRes.arrayBuffer();
           await mkdir(path.dirname(fullPath), { recursive: true });
@@ -85,7 +89,7 @@ export async function GET(
       });
       return NextResponse.json(
         { success: false, error: "File not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -113,7 +117,7 @@ export async function GET(
   } catch (error: unknown) {
     logger.error(
       "Error serving storage file: " +
-        (error instanceof Error ? error.message : String(error))
+        (error instanceof Error ? error.message : String(error)),
     );
 
     return NextResponse.json(
@@ -121,8 +125,7 @@ export async function GET(
         success: false,
         error: "Failed to serve file",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-
