@@ -8,11 +8,11 @@ import { mkdir, readFile, writeFile } from "fs/promises";
 async function importFullBackup() {
   const startTime = Date.now();
   console.log("==================================================");
-  console.log("🚀 Starting Full Database & Assets Import");
+  console.log("[INFO] Starting Full Database & Assets Import");
   console.log("==================================================");
 
   if (!process.env.DATABASE_URL) {
-    console.error("❌ Error: DATABASE_URL environment variable is not set.");
+    console.error("[ERROR] DATABASE_URL environment variable is not set.");
     process.exit(1);
   }
 
@@ -35,12 +35,12 @@ async function importFullBackup() {
 
   if (!inputPath || !existsSync(inputPath)) {
     console.error(
-      `❌ Error: Backup file not found. Usage: pnpm import-backup <path-to-zip-or-json>\nChecked: ${inputPath || "no path specified"}`
+      `[ERROR] Backup file not found. Usage: pnpm import-backup <path-to-zip-or-json>\nChecked: ${inputPath || "no path specified"}`
     );
     process.exit(1);
   }
 
-  console.log(`📂 Using backup archive: ${inputPath}`);
+  console.log(`[FILE] Using backup archive: ${inputPath}`);
 
   let backupData: any = null;
   let assetsCount = 0;
@@ -50,7 +50,7 @@ async function importFullBackup() {
     : path.join(process.cwd(), "public", "storage");
 
   if (inputPath.endsWith(".zip")) {
-    console.log("📦 Reading ZIP archive...");
+    console.log("[INFO] Reading ZIP archive...");
     const zip = new AdmZip(inputPath);
 
     // Find database.json
@@ -64,19 +64,19 @@ async function importFullBackup() {
         );
 
     if (!dbEntry) {
-      console.error("❌ Error: database.json not found inside zip archive.");
+      console.error("[ERROR] database.json not found inside zip archive.");
       process.exit(1);
     }
 
     try {
       backupData = JSON.parse(zip.readAsText(dbEntry));
     } catch (e: any) {
-      console.error("❌ Error parsing database.json:", e.message);
+      console.error("[ERROR] Error parsing database.json:", e.message);
       process.exit(1);
     }
 
     // Extract storage assets
-    console.log(`🖼️ Extracting assets to: ${targetStoragePath}`);
+    console.log(`[INFO] Extracting assets to: ${targetStoragePath}`);
     await mkdir(targetStoragePath, { recursive: true });
 
     for (const entry of zip.getEntries()) {
@@ -88,18 +88,18 @@ async function importFullBackup() {
         assetsCount++;
       }
     }
-    console.log(`✅ Extracted ${assetsCount} physical assets.`);
+    console.log(`[OK] Extracted ${assetsCount} physical assets.`);
   } else if (inputPath.endsWith(".json")) {
-    console.log("📄 Reading JSON dump file...");
+    console.log("[INFO] Reading JSON dump file...");
     const content = await readFile(inputPath, "utf-8");
     backupData = JSON.parse(content);
   } else {
-    console.error("❌ Error: Unsupported file format. Please provide a .zip or .json file.");
+    console.error("[ERROR] Unsupported file format. Please provide a .zip or .json file.");
     process.exit(1);
   }
 
   if (!backupData || !backupData.data) {
-    console.error("❌ Error: Invalid backup data structure. Expected 'data' object.");
+    console.error("[ERROR] Invalid backup data structure. Expected 'data' object.");
     process.exit(1);
   }
 
@@ -109,7 +109,7 @@ async function importFullBackup() {
   });
 
   try {
-    console.log("\n🔄 Restoring database records in dependency order (Transaction)...");
+    console.log("\n[INFO] Restoring database records in dependency order (Transaction)...");
 
     const result = await prisma.$transaction(
       async (tx) => {
@@ -126,8 +126,6 @@ async function importFullBackup() {
         await tx.blog.deleteMany({});
         await tx.job.deleteMany({});
         await tx.jobCategory.deleteMany({});
-        await tx.service.deleteMany({});
-        await tx.serviceCategory.deleteMany({});
         await tx.team.deleteMany({});
         await tx.podcast.deleteMany({});
         await tx.myCompanies.deleteMany({});
@@ -208,51 +206,6 @@ async function importFullBackup() {
             }
           }
           importResults.created.blogCategories = backupData.data.blogCategories.length;
-        }
-
-        // 5. Import Service Categories
-        if (backupData.data.serviceCategories?.length > 0) {
-          for (const sc of backupData.data.serviceCategories) {
-            try {
-              await tx.serviceCategory.create({
-                data: {
-                  id: sc.id,
-                  slug: sc.slug,
-                  name: sc.name,
-                  description: sc.description || "",
-                  shortDescription: sc.shortDescription || null,
-                  image_id: sc.image_id || sc.imageId || null,
-                  createdAt: new Date(sc.createdAt),
-                  updatedAt: new Date(sc.updatedAt),
-                },
-              });
-            } catch (err: any) {
-              importResults.errors.push(`ServiceCategory ${sc.slug}: ${err.message}`);
-            }
-          }
-          importResults.created.serviceCategories = backupData.data.serviceCategories.length;
-        }
-
-        // 6. Import Services
-        if (backupData.data.services?.length > 0) {
-          for (const s of backupData.data.services) {
-            try {
-              await tx.service.create({
-                data: {
-                  id: s.id,
-                  title: s.title,
-                  description: s.description || null,
-                  image_id: s.image_id || s.imageId || null,
-                  categoryId: s.categoryId,
-                  createdAt: new Date(s.createdAt),
-                  updatedAt: new Date(s.updatedAt),
-                },
-              });
-            } catch (err: any) {
-              importResults.errors.push(`Service ${s.title}: ${err.message}`);
-            }
-          }
-          importResults.created.services = backupData.data.services.length;
         }
 
         // 7. Import Teams
@@ -506,19 +459,19 @@ async function importFullBackup() {
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 
     console.log("\n==================================================");
-    console.log("🎉 DATABASE & ASSETS IMPORT COMPLETED SUCCESSFULLY!");
+    console.log("[SUCCESS] DATABASE & ASSETS IMPORT COMPLETED SUCCESSFULLY!");
     console.log("==================================================");
-    console.log(`📊 Records Created:  ${totalCreated}`);
-    console.log(`🖼️ Assets Extracted: ${assetsCount}`);
-    console.log(`⏱️ Duration:         ${duration}s`);
+    console.log(`Records Created:  ${totalCreated}`);
+    console.log(`Assets Extracted: ${assetsCount}`);
+    console.log(`Duration:         ${duration}s`);
     if (result.errors.length > 0) {
-      console.log(`⚠️ Errors / Warnings: ${result.errors.length}`);
+      console.log(`[WARN] Errors / Warnings: ${result.errors.length}`);
       console.table(result.errors.slice(0, 10));
     }
     console.table(result.created);
     console.log("==================================================\n");
   } catch (error) {
-    console.error("❌ Import failed:", error);
+    console.error("[ERROR] Import failed:", error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();

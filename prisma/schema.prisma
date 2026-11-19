@@ -36,8 +36,6 @@ model GalleryItem {
   companyFeaturedImages      MyCompanies[]      @relation("CompanyFeaturedImage")
   projectImage               Project[]          @relation("ProjectImage")
   teamFeaturedImages         Team[]             @relation("TeamFeaturedImage")
-  serviceCategoryImages      ServiceCategory[]  @relation("ServiceCategoryImage")
-  serviceImages              Service[]          @relation("ServiceImage")
   podcastImages              Podcast[]          @relation("PodcastImage")
   
   @@index([url])
@@ -166,33 +164,6 @@ model Project {
 
 
 
-model ServiceCategory {
-  id        Int       @id @default(autoincrement())
-  name      String
-  description String? @default("")
-  shortDescription String?
-  slug      String    @unique
-  image     GalleryItem? @relation("ServiceCategoryImage", fields: [image_id], references: [id], onDelete: SetNull)
-  image_id  String?
-  services  Service[]
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
-
-model Service {
-  id          Int              @id @default(autoincrement())
-  title       String
-  description String?
-  image     GalleryItem? @relation("ServiceImage", fields: [image_id], references: [id], onDelete: SetNull)
-  image_id  String?
-  categoryId  Int
-  category    ServiceCategory  @relation(fields: [categoryId], references: [id])
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  contactSubmissions ContactUs[]
-}
-
 model Team {
   id          Int      @id @default(autoincrement())
   title       String
@@ -210,16 +181,11 @@ model Team {
   updatedAt   DateTime @updatedAt
 }
 
-
-
-
-
 model ContactUs {
   contact_id   Int       @id @default(autoincrement())
   name         String
   email        String
   phone        String?
-  service      Service?  @relation(fields: [service_id], references: [id], onDelete: SetNull)
   service_id   Int?
   status       String    @default("NEW")
   submitted_at DateTime  @default(now())
@@ -229,7 +195,6 @@ model ContactUs {
   @@index([status])
   @@index([submitted_at])
   @@index([email])
-  @@index([service_id])
 }
 
 // Job Categories (used as tags)

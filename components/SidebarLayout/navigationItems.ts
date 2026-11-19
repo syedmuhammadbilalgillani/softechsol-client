@@ -8,8 +8,6 @@ import {
   Tag,
   Type,
   Radio,
-  Layers,
-  Wrench,
   Users,
   Database,
   Mail,
@@ -59,18 +57,6 @@ export const navigation = [
         title: "Projects",
         url: "/admin/projects",
         icon: Folder,
-        isActive: false,
-      },
-      {
-        title: "Service Categories",
-        url: "/admin/services/category",
-        icon: Layers,
-        isActive: false,
-      },
-      {
-        title: "Services",
-        url: "/admin/services",
-        icon: Wrench,
         isActive: false,
       },
       {

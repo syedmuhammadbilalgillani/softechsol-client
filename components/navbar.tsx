@@ -121,12 +121,12 @@ const Navbar = () => {
         className={`fixed top-0 left-0 right-0 z-50 ${
           isScrolled
             ? "bg-white/20 backdrop-blur-sm fixed top-0 left-0 right-0 z-50"
-            : `bg-transparent`
+            : `bg-white`
         }`}
       >
-        <div className="flex justify-between items-center max-w-[85vw] mx-auto py-3">
+        <div className="flex justify-between items-center max-w-[85vw] mx-auto py-2">
           <Link rel="preload" href="/" aria-label="Home">
-            <Image src="/logo.svg" alt="logo" width={50} height={50} />
+            <Image src="/logo.svg" alt="logo" width={45} height={45} />
           </Link>
           <div className="hidden md:flex items-center gap-5">
             <ul className="flex gap-5">
@@ -135,7 +135,7 @@ const Navbar = () => {
                   <Link
                     href={link.href}
                     className={`text-sm font-medium ${
-                      shouldBeTransparent ? "text-white" : "text-gray-950"
+                      shouldBeTransparent ? "text-darkblue" : "text-gray-950"
                     }`}
                     aria-label={link.label}
                   >
@@ -153,11 +153,7 @@ const Navbar = () => {
             onClick={() => setopen(true)}
             aria-label="Open Menu"
           >
-            <MenuIcon
-              className={`w-8 h-8 ${
-                shouldBeTransparent ? "text-white" : "text-gray-950"
-              }`}
-            />
+            <MenuIcon className="w-8 h-8 text-gray-950" />
           </button>
         </div>
       </nav>

@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   } = await request.json();
   logger.info(is_active, "is_active from route");
   try {
-    // 🔹 Check for existing category with same name or slug
+    // Check for existing category with same name or slug
     const existingCategory = await prisma.blogCategory.findFirst({
       where: {
         OR: [{ name }, { slug }],
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 🔹 Create new category
+    // Create new category
     const category = await prisma.blogCategory.create({
       data: {
         name,
@@ -94,7 +94,7 @@ export async function PUT(request: Request) {
   } = await request.json();
   logger.info(is_active, "is_active from route");
   try {
-    // 🔹 Check for existing category with same name or slug
+    // Check for existing category with same name or slug
     const existingCategory = await prisma.blogCategory.findFirst({
       where: {
         category_id: category_id,
@@ -110,7 +110,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    // 🔹 Create new category
+    // Update category
     const category = await prisma.blogCategory.update({
       where: {
         category_id: category_id,

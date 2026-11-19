@@ -2,12 +2,14 @@
 import logger from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import nodemailer from "nodemailer";
+import { getAllServicesList } from "@/constants/services";
 
 // Email templates (keeping existing templates)
 const getHREmailTemplate = (data: {
   name: string;
   email: string;
   phone: string | null;
+  company: string | null;
   message: string | null;
   service: string | null;
 }) => {
@@ -81,13 +83,24 @@ const getHREmailTemplate = (data: {
 <body>
     <div class="container">
         <div class="header">
-            <h1>📧 New Contact Form Submission</h1>
+            <h1>New Contact Form Submission</h1>
         </div>
         
         <div class="info-section">
             <span class="info-label">Name:</span>
             <div class="info-value">${data.name}</div>
         </div>
+
+        ${
+          data.company
+            ? `
+        <div class="info-section">
+            <span class="info-label">Company / Organization:</span>
+            <div class="info-value">${data.company}</div>
+        </div>
+        `
+            : ""
+        }
         
         <div class="info-section">
             <span class="info-label">Email:</span>
@@ -208,7 +221,7 @@ const getUserEmailTemplate = (data: { name: string }) => {
 <body>
     <div class="container">
         <div class="header">
-            <h1>✨ Thank You, ${data.name}!</h1>
+            <h1>Thank You, ${data.name}!</h1>
         </div>
         
         <div class="content">
@@ -310,7 +323,8 @@ const createTransporter = () => {
 const MAX_FIELD_LENGTHS = {
   name: 100,
   email: 254, // RFC 5321 limit
-  phone: 20,
+  phone: 35,
+  company: 150,
   message: 5000,
 } as const;
 
@@ -347,6 +361,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 
 export const ContactAction = async (formData: FormData) => {
   const name = formData.get("name") as string;
+  const company = formData.get("company") as string | null;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string | null;
   const message = formData.get("message") as string | null;
@@ -385,6 +400,12 @@ export const ContactAction = async (formData: FormData) => {
       error: `Name must be less than ${MAX_FIELD_LENGTHS.name} characters`,
     };
   }
+  if (company && company.length > MAX_FIELD_LENGTHS.company) {
+    return {
+      success: false,
+      error: `Company must be less than ${MAX_FIELD_LENGTHS.company} characters`,
+    };
+  }
   if (email.length > MAX_FIELD_LENGTHS.email) {
     return {
       success: false,
@@ -410,7 +431,7 @@ export const ContactAction = async (formData: FormData) => {
     /<script|javascript:|onerror=|onload=/i, // XSS attempts
   ];
 
-  const allFields = [name, email, phone, message].filter(Boolean).join(" ");
+  const allFields = [name, company, email, phone, message].filter(Boolean).join(" ");
   for (const pattern of suspiciousPatterns) {
     if (pattern.test(allFields)) {
       logger.warn("Suspicious input pattern detected", { pattern: pattern.toString() });
@@ -421,16 +442,20 @@ export const ContactAction = async (formData: FormData) => {
     }
   }
 
-  // Convert service to integer if provided
-  const serviceId = service && service !== "" ? parseInt(service, 10) : null;
+  // Resolve service name from static list if provided
+  const serviceStr = service && service.trim() !== "" ? service.trim() : null;
+  const foundService = serviceStr
+    ? getAllServicesList().find((s) => s.id === serviceStr)
+    : null;
+  const serviceName = foundService?.title || serviceStr || null;
 
-  // Validate service ID if provided
-  if (serviceId !== null && isNaN(serviceId)) {
-    return {
-      success: false,
-      error: "Invalid service selection",
-    };
-  }
+  const combinedNotes = [
+    company?.trim() ? `Company: ${company.trim()}` : null,
+    serviceName ? `Selected Service: ${serviceName}` : null,
+    message?.trim() || null,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
 
   try {
     // Save to database
@@ -439,28 +464,12 @@ export const ContactAction = async (formData: FormData) => {
         name: name.trim(),
         email: email.trim().toLowerCase(),
         phone: phone?.trim() || null,
-        notes: message?.trim() || null,
-        service_id: serviceId,
+        notes: combinedNotes || null,
+        service_id: null,
         status: "NEW",
       },
     });
-    logger.debug(serviceId, "serviceId");
-    
-    // Get service name if service_id exists
-    let serviceName = null;
-    if (serviceId) {
-      try {
-        const serviceData = await prisma.service.findUnique({
-          where: { id: serviceId },
-          select: { title: true },
-        });
-        logger.debug(serviceData, "serviceData");
-        serviceName = serviceData?.title || null;
-        logger.debug(serviceName, "serviceName");
-      } catch (error) {
-        logger.error("Error fetching service name:", error);
-      }
-    }
+    logger.debug(serviceName, "selected serviceName");
 
     // Send emails
     let transporter;
@@ -485,6 +494,7 @@ export const ContactAction = async (formData: FormData) => {
     // Prepare email data
     const emailData = {
       name: name.trim(),
+      company: company?.trim() || null,
       email: email.trim(),
       phone: phone?.trim() || null,
       message: message?.trim() || null,

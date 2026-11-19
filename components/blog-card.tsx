@@ -3,6 +3,7 @@ import ImageWrapper from "./image-wrapper";
 import { Blog } from "@/constants/types";
 import { GalleryItem } from "@/app/generated/prisma";
 import { STORAGE_URL } from "@/constants/url";
+import { ArrowRight } from "lucide-react";
 
 type BlogCardProps = {
   data: Blog;
@@ -71,9 +72,9 @@ const BlogCard = ({ data }: BlogCardProps) => {
           <Link
             href={blogHref}
             rel="preload"
-            className="text-sm font-medium text-primary hover:underline"
+            className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1.5"
           >
-            Read more →
+            Read more <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>

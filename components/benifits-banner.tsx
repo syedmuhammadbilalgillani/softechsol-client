@@ -39,7 +39,7 @@ const AnimatedCounter = ({ value }: { value: number }) => {
   return (
     <motion.p
       ref={ref}
-      className="text-5xl text-primary font-semibold"
+      className="text-5xl text-[#0054a0] font-bold"
       initial={{ opacity: 0, scale: 0.5 }}
       animate={
         isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }
@@ -140,7 +140,7 @@ const BenifitsBanner = () => {
             variants={itemVariants as Variants}
           >
             <motion.div
-              className="border border-gray-400 rounded-xl px-5 py-10"
+              className="border border-slate-200/90 rounded-2xl p-6 sm:p-8 bg-white shadow-sm"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -149,15 +149,15 @@ const BenifitsBanner = () => {
               {[
                 {
                   src: "/team/1.png",
-                  label: "Brand Identity",
+                  label: "Custom Web Platform",
                 },
                 {
                   src: "/team/2.png",
-                  label: "Website Redesign",
+                  label: "iOS & Android App",
                 },
                 {
                   src: "/team/3.png",
-                  label: "Wire-Frame Design ",
+                  label: "Automated Workflow",
                 },
               ].map((item, index) => (
                 <motion.div
@@ -168,54 +168,50 @@ const BenifitsBanner = () => {
                   whileInView="visible"
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02, x: 5 }}
-                  className={`flex relative z-1 items-center justify-between gap-2 border p-2 py-3 border-gray-400 bg-white rounded-lg shadow-xl cursor-pointer transition-shadow ${
-                    index === 1 ? "-rotate-3" : ""
+                  className={`flex relative z-1 items-center justify-between gap-2 border p-3 border-slate-200 bg-white rounded-xl shadow-md cursor-pointer transition-shadow mb-3 ${
+                    index === 1 ? "-rotate-2" : ""
                   } ${index === 2 ? "z-2" : ""}`}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <motion.div
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.6 }}
                     >
                       <Image
                         src={item.src}
-                        className="rounded-full w-10 h-10"
+                        className="rounded-full w-9 h-9 object-cover border border-slate-200"
                         alt={`${item.label} icon`}
                         width={100}
                         height={100}
                       />
                     </motion.div>
-                    <p>{item.label}</p>
+                    <p className="text-sm font-semibold text-gray-900">{item.label}</p>
                   </div>
                   <motion.div
-                    className="bg-[#A4FA8F] text-green-900 px-4 py-1 text-sm rounded-full"
-                    whileHover={{ scale: 1.1 }}
+                    className="bg-emerald-50 text-emerald-700 border border-emerald-200/80 px-3 py-1 text-xs font-semibold rounded-full"
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    Completed
+                    Delivered
                   </motion.div>
                 </motion.div>
               ))}
               <motion.div
-                className="space-y-1 pt-5"
+                className="space-y-2 pt-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4, duration: 0.6 }}
               >
-                <h4 className="text-xl font-bold">Rapid Turnaround</h4>
-                <p>
-                  Experience rapid delivery with precision & uncompromising
-                  quality
+                <h4 className="text-xl font-bold text-gray-900">Rapid 2-Week Sprints</h4>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Experience fast milestone delivery with weekly live staging demos and uncompromising engineering quality.
                 </p>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Button asChild className="px-10" variant="outline">
-                    <Link href={`/services`}>Read More</Link>
+                <div className="pt-2">
+                  <Button asChild className="border-slate-300 text-slate-800 hover:bg-slate-50 font-medium" variant="outline">
+                    <Link href={`/services`}>Explore All Services</Link>
                   </Button>
-                </motion.div>
+                </div>
               </motion.div>
             </motion.div>
           </motion.section>
@@ -232,9 +228,9 @@ const BenifitsBanner = () => {
             >
               <Image
                 src="/benifits_hero.jpg"
-                alt="A hero image showcasing the benefits"
+                alt="SoftechSol engineering and client outcomes"
                 fill
-                className="rounded-xl object-cover"
+                className="rounded-2xl object-cover border border-slate-200/80 shadow-md"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 quality={85}
               />
@@ -246,70 +242,74 @@ const BenifitsBanner = () => {
             variants={containerVariants}
           >
             <motion.div
-              className="border border-gray-400 rounded-xl px-6 py-6 h-1/2"
+              className="border border-slate-200/90 bg-white shadow-sm rounded-2xl px-6 py-6 h-1/2 flex flex-col justify-between"
               variants={statCardVariants as Variants}
-              whileHover={{ scale: 1.03, y: -5 }}
+              whileHover={{ scale: 1.02, y: -4 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <h4 className="text-lg font-semibold mb-5">
-                Client Satisfaction Rate
-              </h4>
-              <AnimatedCounter value={98} />
-              <p className="text-sm text-gray-600">
-                We lead to customer success; we design journeys that convert.
+              <div>
+                <h4 className="text-base font-bold text-gray-900 mb-2">
+                  Client Satisfaction Rate
+                </h4>
+                <AnimatedCounter value={98} />
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed mt-2">
+                Delivered on time with clean code, zero lock-in, and 30-day warranty.
               </p>
             </motion.div>
 
             <motion.div
-              className="border border-gray-400 rounded-xl px-6 py-6 h-1/2"
+              className="border border-slate-200/90 bg-white shadow-sm rounded-2xl px-6 py-6 h-1/2 flex flex-col justify-between"
               variants={statCardVariants as Variants}
-              whileHover={{ scale: 1.03, y: -5 }}
+              whileHover={{ scale: 1.02, y: -4 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <h4 className="text-lg font-semibold mb-5">Trusted Worldwide</h4>
-              <motion.div
-                className="flex items-center -space-x-2"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={containerVariants}
-              >
-                {[
-                  { src: "/team/4.png", label: "USA" },
-                  { src: "/team/5.png", label: "UK" },
-                  { src: "/team/6.png", label: "Australia" },
-                  { src: "/team/7.png", label: "Canada" },
-                  { src: "/team/8.png", label: "India" },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    variants={{
-                      hidden: { opacity: 0, scale: 0 },
-                      visible: {
-                        opacity: 1,
-                        scale: 1,
-                        transition: {
-                          delay: index * 0.1,
-                          type: "spring",
-                          stiffness: 200,
+              <div>
+                <h4 className="text-base font-bold text-gray-900 mb-3">Trusted Worldwide</h4>
+                <motion.div
+                  className="flex items-center -space-x-2"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={containerVariants}
+                >
+                  {[
+                    { src: "/team/4.png", label: "USA" },
+                    { src: "/team/5.png", label: "UK" },
+                    { src: "/team/6.png", label: "Australia" },
+                    { src: "/team/7.png", label: "Canada" },
+                    { src: "/team/8.png", label: "Pakistan" },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={index}
+                      variants={{
+                        hidden: { opacity: 0, scale: 0 },
+                        visible: {
+                          opacity: 1,
+                          scale: 1,
+                          transition: {
+                            delay: index * 0.1,
+                            type: "spring",
+                            stiffness: 200,
+                          },
                         },
-                      },
-                    }}
-                    whileHover={{ scale: 1.2, zIndex: 10 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <Image
-                      className="rounded-full"
-                      src={item.src}
-                      alt={`${item.label} flag`}
-                      width={35}
-                      height={35}
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-              <p className="text-sm text-gray-600">
-                Building creative solutions for clients in 20+ countries.
+                      }}
+                      whileHover={{ scale: 1.2, zIndex: 10 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                    >
+                      <Image
+                        className="rounded-full border-2 border-white shadow-xs"
+                        src={item.src}
+                        alt={`${item.label} flag`}
+                        width={35}
+                        height={35}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed mt-2">
+                Building custom software solutions for clients across 20+ countries.
               </p>
             </motion.div>
           </motion.section>

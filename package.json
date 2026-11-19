@@ -22,7 +22,6 @@
     "lint": "eslint",
     "analyze": "ANALYZE=true next build",
     "create-admin": "tsx scripts/create-admin.ts",
-    "seed:services": "tsx scripts/seed-service-categories.ts",
     "export-backup": "tsx scripts/export-full-backup.ts",
     "import-backup": "tsx scripts/import-full-backup.ts",
     "postinstall": "prisma generate"
@@ -104,7 +103,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-google-recaptcha": "^2.1.9",
-    "baseline-browser-mapping": "^2.10.40",
+    "baseline-browser-mapping": "^2.11.38",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "prisma": "^6.19.0",

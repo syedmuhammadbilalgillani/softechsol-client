@@ -5,8 +5,7 @@ import TestimonialSection from "@/components/testimonial-section";
 import { Button } from "@/components/ui/button";
 import { data } from "@/constants/data";
 import { DOMAIN_URL } from "@/constants/url";
-import { fetchCategoriesWithServices } from "@/lib/apis";
-import logger from "@/lib/logger";
+import { getAllServiceCategories } from "@/constants/services";
 import { Briefcase } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -18,14 +17,14 @@ export const metadata: Metadata = {
   description:
     "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services including web development, mobile app development, custom software solutions, and digital transformation services.",
   openGraph: {
-    title: "Services  ",
+    title: "Services | SoftechSol",
     description:
       "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services including web development, mobile app development, and custom software solutions.",
     url: `${DOMAIN_URL}/services`,
     siteName: "SoftechSol",
     images: [
       {
-        url: `${DOMAIN_URL}/home_hero.jpg`,
+        url: `${DOMAIN_URL}/hero_section.webp`,
         width: 1200,
         height: 630,
         alt: "SoftechSol Services",
@@ -35,10 +34,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Services  ",
+    title: "Services | SoftechSol",
     description:
       "Comprehensive software solutions all in one place. Explore SoftechSol's wide range of services.",
-    images: [`${DOMAIN_URL}/home_hero.jpg`],
+    images: [`${DOMAIN_URL}/hero_section.webp`],
     creator: "@SoftechSol",
   },
   robots: {
@@ -50,8 +49,8 @@ export const metadata: Metadata = {
   },
 };
 
-const ServicesPage = async () => {
-  const categories = await fetchCategoriesWithServices();
+const ServicesPage = () => {
+  const categories = getAllServiceCategories();
 
   const hasCategories =
     categories && Array.isArray(categories) && categories.length > 0;

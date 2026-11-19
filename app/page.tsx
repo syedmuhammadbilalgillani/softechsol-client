@@ -1,5 +1,7 @@
 import AboutBanner from "@/components/about-banner";
 import HeroSection from "@/components/hero-section";
+import ClientTrustStrip from "@/components/client-trust-strip";
+import HomeCtaBanner from "@/components/home-cta-banner";
 import { DOMAIN_URL } from "@/constants/url";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -7,13 +9,13 @@ import { Suspense } from "react";
 import Spinner from "@/components/spinner";
 
 // Lazy load below-the-fold components
-const BenifitsBanner = dynamic(() => import("@/components/benifits-banner"), {
+const ServicesSection = dynamic(() => import("@/components/services-section"), {
   loading: () => <Spinner />,
 });
 const ProjectSection = dynamic(() => import("@/components/project-section"), {
   loading: () => <Spinner />,
 });
-const ServicesSection = dynamic(() => import("@/components/services-section"), {
+const BenifitsBanner = dynamic(() => import("@/components/benifits-banner"), {
   loading: () => <Spinner />,
 });
 const TestimonialSection = dynamic(
@@ -73,13 +75,32 @@ const Home = () => {
         Softechsol
       </h1>
       <Suspense>
+        {/* 1. Hero 6-Service Slider */}
         <HeroSection />
+
+        {/* 2. Client Trust Strip (Premier Salt, US Civilgenix, GCE) */}
+        <ClientTrustStrip />
+
+        {/* 3. About Us (Anti-Fluff Manifesto) */}
         <AboutBanner />
-        <BenifitsBanner />
-        <ProjectSection />
+
+        {/* 4. Services Overview (The 6 Core Pillars) */}
         <ServicesSection />
+
+        {/* 5. Recent Projects (Proof of Work) */}
+        <ProjectSection />
+
+        {/* 6. Benefits & Stats (Turnaround & 98% Satisfaction) */}
+        <BenifitsBanner />
+
+        {/* 7. Our Promise / Values Slider */}
         <TestimonialSection />
+
+        {/* 8. Frequently Asked Questions */}
         <FaqsSection />
+
+        {/* 9. High-Impact Closing CTA Banner */}
+        <HomeCtaBanner />
       </Suspense>
     </>
   );

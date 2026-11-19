@@ -62,7 +62,7 @@ const CategoryForm = ({
     },
     {
       name: "icon",
-      label: "Category Icon (e.g., 💻 or icon name)",
+      label: "Category Icon (e.g. icon name or SVG)",
       type: "input",
       required: true,
       placeholder: "Enter category icon",

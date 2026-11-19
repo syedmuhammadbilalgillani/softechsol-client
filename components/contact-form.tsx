@@ -1,40 +1,74 @@
 "use client";
 import { ContactAction } from "@/actions/contact";
-import { Service } from "@/app/generated/prisma";
 import React, { useState, useRef } from "react";
 import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
-import ServiceSelector from "./service-selector";
+import ServiceSelector, { ServiceOption } from "./service-selector";
 import { Button } from "./ui/button";
+import { ShieldCheck, Clock, Send, Loader2, Sparkles } from "lucide-react";
 
 // DoS protection: Maximum field lengths
 const MAX_FIELD_LENGTHS = {
   name: 100,
+  company: 150,
   email: 254, // RFC 5321 limit
-  phone: 20,
+  phone: 35,
   message: 5000,
 } as const;
 
-const ContactForm = ({ services }: { services: Service[] }) => {
+const COUNTRY_CODES = [
+  { code: "+1", label: "+1 (US / CA)" },
+  { code: "+92", label: "+92 (PK)" },
+  { code: "+971", label: "+971 (UAE)" },
+  { code: "+44", label: "+44 (UK)" },
+  { code: "+966", label: "+966 (KSA)" },
+  { code: "+61", label: "+61 (AU)" },
+  { code: "+49", label: "+49 (DE)" },
+  { code: "+33", label: "+33 (FR)" },
+  { code: "+974", label: "+974 (QA)" },
+  { code: "+965", label: "+965 (KW)" },
+  { code: "+968", label: "+968 (OM)" },
+  { code: "+91", label: "+91 (IN)" },
+  { code: "+65", label: "+65 (SG)" },
+  { code: "", label: "Other" },
+];
+
+const ContactForm = ({ services }: { services: ServiceOption[] }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitAttempts, setSubmitAttempts] = useState(0);
-  const MAX_SUBMIT_ATTEMPTS = 5; // Prevent rapid-fire submissions
-  const SUBMIT_COOLDOWN_MS = 60000; // 1 minute cooldown after max attempts
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const MAX_SUBMIT_ATTEMPTS = 5;
+  const SUBMIT_COOLDOWN_MS = 60000;
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  
+
   // Get reCAPTCHA site key
   const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   const validateFormData = (formData: FormData): string | null => {
     const name = formData.get("name") as string;
+    const company = formData.get("company") as string | null;
     const email = formData.get("email") as string;
     const phone = formData.get("phone") as string | null;
     const message = formData.get("message") as string | null;
 
+    if (!name || !name.trim()) {
+      return "Please enter your name.";
+    }
+    if (!email || !email.trim()) {
+      return "Please enter your email address.";
+    }
+    if (!message || !message.trim()) {
+      return "Please tell us what you'd like to build or improve.";
+    }
+
     // Check field lengths
     if (name && name.length > MAX_FIELD_LENGTHS.name) {
       return `Name must be less than ${MAX_FIELD_LENGTHS.name} characters`;
+    }
+    if (company && company.length > MAX_FIELD_LENGTHS.company) {
+      return `Company must be less than ${MAX_FIELD_LENGTHS.company} characters`;
     }
     if (email && email.length > MAX_FIELD_LENGTHS.email) {
       return `Email must be less than ${MAX_FIELD_LENGTHS.email} characters`;
@@ -46,13 +80,13 @@ const ContactForm = ({ services }: { services: Service[] }) => {
       return `Message must be less than ${MAX_FIELD_LENGTHS.message} characters`;
     }
 
-    // Check for suspicious patterns (basic DoS detection)
+    // Suspicious pattern check
     const suspiciousPatterns = [
-      /(.)\1{50,}/, // Repeated characters (e.g., "aaaaaaaa...")
-      /<script|javascript:|onerror=|onload=/i, // XSS attempts
+      /(.)\1{50,}/,
+      /<script|javascript:|onerror=|onload=/i,
     ];
 
-    const allFields = [name, email, phone, message].filter(Boolean).join(" ");
+    const allFields = [name, company, email, phone, message].filter(Boolean).join(" ");
     for (const pattern of suspiciousPatterns) {
       if (pattern.test(allFields)) {
         return "Invalid input detected. Please check your submission.";
@@ -65,7 +99,7 @@ const ContactForm = ({ services }: { services: Service[] }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Rate limiting: Check cooldown period
+    // Rate limiting check
     const now = Date.now();
     if (submitAttempts >= MAX_SUBMIT_ATTEMPTS) {
       const timeSinceLastSubmit = now - lastSubmitTime;
@@ -78,21 +112,20 @@ const ContactForm = ({ services }: { services: Service[] }) => {
         );
         return;
       } else {
-        // Reset attempts after cooldown
         setSubmitAttempts(0);
       }
     }
 
-    // Get reCAPTCHA token
+    // Check reCAPTCHA
     if (!recaptchaSiteKey) {
       toast.error("reCAPTCHA is not configured. Please contact support.");
       setIsSubmitting(false);
       return;
     }
-    
+
     const recaptchaToken = recaptchaRef.current?.getValue();
     if (!recaptchaToken) {
-      toast.error("Please complete the reCAPTCHA verification");
+      toast.error("Please complete the reCAPTCHA verification below.");
       return;
     }
 
@@ -100,8 +133,18 @@ const ContactForm = ({ services }: { services: Service[] }) => {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    
-    // Add reCAPTCHA token to form data
+
+    // Format phone with country code
+    const fullPhone = phoneNumber.trim()
+      ? `${selectedCountryCode ? `${selectedCountryCode} ` : ""}${phoneNumber.trim()}`
+      : "";
+    if (fullPhone) {
+      formData.set("phone", fullPhone);
+    } else {
+      formData.delete("phone");
+    }
+
+    // Append reCAPTCHA token
     formData.append("recaptchaToken", recaptchaToken);
 
     // Client-side validation
@@ -117,20 +160,22 @@ const ContactForm = ({ services }: { services: Service[] }) => {
       const result = await ContactAction(formData);
 
       if (result.success) {
-        toast.success("Form submitted successfully!");
-        form.reset(); // Reset form on success
-        recaptchaRef.current?.reset(); // Reset reCAPTCHA
-        setSubmitAttempts(0); // Reset attempts on success
+        toast.success("Thank you! We received your message and will reply within 24 hours.");
+        form.reset();
+        setPhoneNumber("");
+        setSelectedCountryCode("+1");
+        recaptchaRef.current?.reset();
+        setSubmitAttempts(0);
         setLastSubmitTime(now);
       } else {
-        toast.error(result.error || "Failed to submit form");
-        recaptchaRef.current?.reset(); // Reset reCAPTCHA on error
+        toast.error(result.error || "Failed to submit. Please try again.");
+        recaptchaRef.current?.reset();
         setSubmitAttempts((prev) => prev + 1);
         setLastSubmitTime(now);
       }
     } catch (error) {
-      toast.error("An unexpected error occurred. Please try again.");
-      recaptchaRef.current?.reset(); // Reset reCAPTCHA on error
+      toast.error("An unexpected error occurred. You can also message us directly on WhatsApp.");
+      recaptchaRef.current?.reset();
       setSubmitAttempts((prev) => prev + 1);
       setLastSubmitTime(now);
     } finally {
@@ -139,77 +184,141 @@ const ContactForm = ({ services }: { services: Service[] }) => {
   };
 
   return (
-    <form className="grid md:grid-cols-2 grid-cols-1 gap-5" onSubmit={handleSubmit}>
+    <form className="grid grid-cols-1 md:grid-cols-2 gap-5" onSubmit={handleSubmit}>
+      {/* Full Name */}
       <div className="col-span-1">
-        <label htmlFor="name" className="block text-sm font-medium text-white">
-          Name
+        <label
+          htmlFor="name"
+          className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5"
+        >
+          Your Name <span className="text-primary">*</span>
         </label>
         <input
           type="text"
           id="name"
           name="name"
-          placeholder="Enter your name"
-          className="mt-1 block bg-white w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+          placeholder="e.g. Alex Morgan"
+          className="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-gray-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
           maxLength={MAX_FIELD_LENGTHS.name}
           required
         />
       </div>
 
+      {/* Company / Business Name */}
       <div className="col-span-1">
-        <label htmlFor="email" className="block text-sm font-medium text-white">
-          Email
+        <label
+          htmlFor="company"
+          className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5"
+        >
+          Company or Business Name
+        </label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          placeholder="e.g. Acme Corp (optional)"
+          className="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-gray-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+          maxLength={MAX_FIELD_LENGTHS.company}
+        />
+      </div>
+
+      {/* Email Address */}
+      <div className="col-span-1">
+        <label
+          htmlFor="email"
+          className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5"
+        >
+          Email Address <span className="text-primary">*</span>
         </label>
         <input
           type="email"
           id="email"
           name="email"
-          placeholder="Enter your email"
-          className="mt-1 block bg-white w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+          placeholder="alex@company.com"
+          className="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-gray-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-          title="Please enter a valid email address (e.g., example@domain.com)"
+          title="Please enter a valid email address"
           maxLength={MAX_FIELD_LENGTHS.email}
           required
         />
       </div>
 
-      <div className=" col-span-1">
-        <label htmlFor="phone" className="block text-sm font-medium text-white">
-          Phone
+      {/* Phone with Country Code */}
+      <div className="col-span-1">
+        <label
+          htmlFor="phone-input"
+          className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5"
+        >
+          Phone / WhatsApp Number
         </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          placeholder="Enter your phone"
-          className="mt-1 block bg-white w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-          pattern="[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}"
-          title="Please enter a valid phone number (e.g., +1-234-567-8900, (123) 456-7890, or 123-456-7890)"
-          maxLength={MAX_FIELD_LENGTHS.phone}
-        />
+        <div className="flex gap-2">
+          <select
+            value={selectedCountryCode}
+            onChange={(e) => setSelectedCountryCode(e.target.value)}
+            className="w-32 bg-white border border-slate-300 rounded-lg px-2.5 py-2.5 text-gray-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all cursor-pointer shrink-0"
+            aria-label="Country Code"
+          >
+            {COUNTRY_CODES.map((item) => (
+              <option key={item.label} value={item.code} className="bg-white text-gray-900">
+                {item.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="tel"
+            id="phone-input"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="555 123 4567"
+            className="flex-1 min-w-0 bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-gray-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            maxLength={25}
+          />
+        </div>
       </div>
 
-      <ServiceSelector services={services} />
+      {/* Service Selector */}
+      <div className="col-span-1 md:col-span-2">
+        <ServiceSelector services={services} />
+      </div>
 
-      <div className="md:col-span-2 col-span-1">
+      {/* What do you want to build? */}
+      <div className="col-span-1 md:col-span-2">
         <label
           htmlFor="message"
-          className="block text-sm font-medium text-white"
+          className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5"
         >
-          Message
+          Tell us about what you want to build or improve <span className="text-primary">*</span>
         </label>
         <textarea
           id="message"
           name="message"
-          placeholder="Enter your message"
-          className="mt-1 block bg-white w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-          rows={5}
+          placeholder="Describe your idea in simple words. What does your business do, what are you trying to build, or what problem can we help you solve?"
+          className="w-full bg-white border border-slate-300 rounded-lg p-3.5 text-gray-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y"
+          rows={4}
           maxLength={MAX_FIELD_LENGTHS.message}
           required
         />
       </div>
 
+      {/* Trust & Reassurance Badges */}
+      <div className="col-span-1 md:col-span-2 flex flex-wrap items-center gap-4 py-2.5 border-y border-slate-200 text-xs text-gray-600">
+        <div className="flex items-center gap-1.5">
+          <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
+          <span>Your Idea Stays 100% Private (NDA Available)</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Clock className="w-4 h-4 text-primary shrink-0" />
+          <span>Reply Within 1 Business Day</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Sparkles className="w-4 h-4 text-primary shrink-0" />
+          <span>Free, Friendly Consultation</span>
+        </div>
+      </div>
+
+      {/* reCAPTCHA */}
       {recaptchaSiteKey ? (
-        <div className="md:col-span-2 col-span-1 flex justify-center">
+        <div className="col-span-1 md:col-span-2 flex justify-center py-1">
           <ReCAPTCHA
             ref={recaptchaRef}
             sitekey={recaptchaSiteKey}
@@ -217,17 +326,33 @@ const ContactForm = ({ services }: { services: Service[] }) => {
           />
         </div>
       ) : (
-        <div className="md:col-span-2 col-span-1">
-          <p className="text-yellow-500 text-sm text-center">
-            reCAPTCHA is not configured. Form submission may be limited.
-          </p>
+        <div className="col-span-1 md:col-span-2 text-center text-xs text-amber-600">
+          reCAPTCHA is not configured in this environment.
         </div>
       )}
 
-      <div className="md:col-span-2 col-span-1">
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
+      {/* Submit Button */}
+      <div className="col-span-1 md:col-span-2 space-y-2">
+        <Button
+          type="submit"
+          className="w-full py-3.5 px-6 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium text-base shadow-md shadow-primary/20 hover:shadow-primary/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Sending Your Message...</span>
+            </>
+          ) : (
+            <>
+              <span>Send Message</span>
+              <Send className="w-4 h-4" />
+            </>
+          )}
         </Button>
+        <p className="text-center text-[11px] text-gray-500">
+          No pushy sales calls. A senior member of our team will review your message and reply personally.
+        </p>
       </div>
     </form>
   );

@@ -5,6 +5,7 @@ import JobPostCard from "@/components/job-post-card";
 import { AnimatePresence, motion, useAnimate, Variants } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 interface Category {
   slug: string;
@@ -172,9 +173,9 @@ const CareersClient = ({ categories, jobs }: CareersClientProps) => {
               onClick={() => handleCategoryClick(null)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-primary hover:underline text-sm md:text-base"
+              className="text-primary hover:underline text-sm md:text-base inline-flex items-center gap-1"
             >
-              View All Jobs →
+              View All Jobs <ArrowRight className="w-4 h-4" />
             </motion.button>
           )}
         </div>

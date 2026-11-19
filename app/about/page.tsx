@@ -1,23 +1,29 @@
 import AboutStatsSection from "@/components/about-stats-section";
 import AboutTeamSection from "@/components/about-team-section";
-import DocumentIcon from "@/components/svgs/doc";
-import LeavesIcon from "@/components/svgs/leaves";
-import UserStarIcon from "@/components/svgs/userstar";
+import ClientTrustStrip from "@/components/client-trust-strip";
+import Heading from "@/components/heading";
+import HomeCtaBanner from "@/components/home-cta-banner";
 import { DOMAIN_URL } from "@/constants/url";
 import { fetchTeams } from "@/lib/apis";
-import logger from "@/lib/logger";
-import { HeartHandshake, Lightbulb, ShieldCheck } from "lucide-react";
+import {
+  CheckCircle2,
+  HeartHandshake,
+  Lightbulb,
+  ShieldCheck,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "About Us | SoftechSol",
   description:
-    "Meet the team at SoftechSol - real people building real software solutions. No corporate fluff, just honest work and results that matter. 500+ brands helped, 5+ years of experience, 98% client satisfaction.",
+    "Meet the team at SoftechSol - real people building real software solutions. No corporate fluff, just honest work and results that matter. 50+ projects delivered, 7+ years of experience, 98% client satisfaction.",
   openGraph: {
-    title: "About Us  ",
+    title: "About Us | SoftechSol",
     description:
       "Real people building real software solutions. No corporate fluff, just honest work and results that matter.",
     url: `${DOMAIN_URL}/about`,
@@ -34,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Us  ",
+    title: "About Us | SoftechSol",
     description:
       "Real people building real software solutions. No corporate fluff, just honest work and results that matter.",
     images: [`${DOMAIN_URL}/abouthero.jpg`],
@@ -51,192 +57,226 @@ export const metadata: Metadata = {
 
 const About = async () => {
   const teams = await fetchTeams();
+
   return (
     <main className="bg-white">
-      <header
-        className="bg-cover bg-center   w-full"
-        style={{ backgroundImage: "url('/about/about_hero.webp')" }}
-      >
-        <div className="md:py-[20dvh] py-[15dvh] text-center px-5 max-w-3xl mx-auto space-y-4">
-          <h1>Empowering Smarter Tech-Decisions for a Secure Business</h1>
-          <p className="text-lg text-muted-foreground">
-            At Softechsol, we make digital transformation accessible. From
-            custom software and AI automation to web development and marketing,
-            we help businesses grow with clarity, precision, and technical
-            expertise
+      {/* 1. HERO HEADER WITH PATTERN SVG BACKGROUND */}
+      <header className="relative bg-[#0c1227] text-white pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden border-b border-slate-800">
+        {/* Ambient brand glow in the center so pattern lights up */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[#0054a0]/25 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-[350px] h-[350px] bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Standout Pattern background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg
+            className="absolute inset-0 h-full w-full text-sky-400/35"
+            aria-hidden="true"
+          >
+            <pattern
+              id="hero-pattern"
+              patternUnits="userSpaceOnUse"
+              width="52"
+              height="90"
+              patternTransform="scale(0.85)"
+            >
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                d="m0,15 26-15 26,15v30l-26,15-26-15zM26,60v30"
+              />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#hero-pattern)" />
+          </svg>
+          {/* Subtle bottom fade to blend smoothly */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0c1227]/30 via-transparent to-[#0c1227]" />
+        </div>
+
+        <div className="container mx-auto px-4 md:px-8 relative z-10 text-center max-w-4xl space-y-5">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0054a0]/20 text-sky-200 border border-[#0054a0]/40 text-xs font-semibold uppercase tracking-wider">
+            About SoftechSol
+          </span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+            Engineers &amp; Builders Creating Software That{" "}
+            <span className="text-sky-400">Drives Real Business Growth</span>
+          </h1>
+          <p className="text-slate-300 text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+            We partner directly with ambitious businesses and founders to engineer
+            high-speed web platforms, mobile apps, and automated workflows —
+            with zero agency fluff, transparent milestone pricing, and 100% code ownership.
           </p>
         </div>
       </header>
+
+      {/* 2. REAL CLIENT TRUST STRIP */}
+      <ClientTrustStrip />
+
       <div className="main mt-0">
-        {/* Who We Are Section */}
-        <article className="mb-20">
+        {/* 3. WHO WE ACTUALLY ARE SECTION */}
+        <article className="py-12 md:py-16">
           <section
-            className="grid lg:grid-cols-2 grid-cols-1 md:gap-10 gap-6 py-[8dvh] items-center justify-center w-full"
+            className="grid lg:grid-cols-2 grid-cols-1 md:gap-12 gap-8 items-center justify-center w-full"
             aria-labelledby="who-we-are"
           >
-            <div>
+            <div className="space-y-4">
+              <Heading title="Our Origin Story" />
               <h2
                 id="who-we-are"
-                className="text-3xl md:text-4xl font-bold mb-6 text-foreground"
+                className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight"
               >
                 Who We Actually Are
               </h2>
-              <p className="text-lg leading-relaxed mb-6 text-foreground/90">
-                Let&apos;s be honest-we started SoftechSol because we were tired
+              <p className="text-base md:text-lg leading-relaxed text-gray-600">
+                Let&apos;s be honest — we started SoftechSol because we were tired
                 of seeing businesses get overcharged for software that
                 doesn&apos;t work. Some of us spent years in big agencies
                 watching clients pay six figures for websites that broke in a
-                month. Others came from startups where we learned to build fast,
-                but also learned what actually matters.
+                month. Others came from high-growth startups where we learned to build fast,
+                deliver lean, and focus on what actually moves the needle.
               </p>
 
-              <p className="text-lg leading-relaxed mb-6 text-foreground/90">
-                So we put together a small team of 7 people who actually care.
-                No account managers who don&apos;t know code. No sales teams
-                promising the moon. Just developers, designers, and strategists
-                who talk to you directly and build things that actually work.
+              <p className="text-base md:text-lg leading-relaxed text-gray-600">
+                So we put together a dedicated team of engineers and designers who actually care.
+                No account managers playing telephone. No sales reps making impossible promises.
+                Just technical leads and designers who talk to you directly and build software
+                that works reliably from Day 1.
               </p>
             </div>
 
-            <div className="relative w-full h-full">
+            <div className="relative w-full aspect-square max-w-[480px] mx-auto rounded-2xl overflow-hidden shadow-lg border border-slate-200">
               <Image
                 src="/about/teambanner.webp"
-                alt="About Us"
-                width={500}
-                className="rounded-xl shadow  place-self-center "
-                height={500}
+                alt="SoftechSol team members collaborate on engineering solutions"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 480px"
               />
             </div>
           </section>
-          <div className=" col-span-full grid md:grid-cols-3 gap-5 grid-cols-1">
+
+          {/* 3 Value Pillars */}
+          <div className="mt-10 grid md:grid-cols-3 gap-6 grid-cols-1">
             {[
               {
-                icon: <LeavesIcon className="size-9" />,
-                bold: "Built for Growth",
-                text: "Designed to scale with your needs, from startups to enterprises.",
+                icon: <TrendingUp className="w-6 h-6 text-primary" />,
+                bold: "Built for Scalability",
+                text: "Engineered from day one to handle high traffic and scale with your business without costly rewrites.",
               },
               {
-                icon: <UserStarIcon className="size-9" />,
-                bold: "Backed by Professionals",
-                text: "A team of experts who understands your challenges",
+                icon: <Users className="w-6 h-6 text-primary" />,
+                bold: "Direct Technical Access",
+                text: "Speak directly with the senior engineers and designers building your product — not non-technical middlemen.",
               },
               {
-                icon: <ShieldCheck className="size-9" />,
-                bold: "Driven by Trust",
-                text: "A team of experts who understands your challenges",
+                icon: <ShieldCheck className="w-6 h-6 text-primary" />,
+                bold: "100% Code & Asset Ownership",
+                text: "Every line of code, design file, and server credential belongs entirely to you upon completion. Zero vendor lock-in.",
               },
             ].map((item) => (
               <div
                 key={item.bold}
-                className="bg-primary/5 shadow rounded-lg p-4 space-y-3"
+                className="bg-slate-50/80 border border-slate-200/90 rounded-2xl p-6 space-y-3 shadow-xs hover:border-primary/40 hover:bg-white transition-all duration-300"
               >
-                <div>{item.icon}</div>
-                <div className="text-lg">
-                  <strong>{item.bold}</strong> -{" "}
-                  <span className="text-muted-foreground">{item.text}</span>
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  {item.icon}
+                </div>
+                <div className="text-base">
+                  <strong className="text-gray-900 block mb-1 text-lg">
+                    {item.bold}
+                  </strong>
+                  <span className="text-gray-600 leading-relaxed text-sm md:text-base">
+                    {item.text}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
         </article>
 
-        <div className="">
-          <h2 className="text-center mb-6">Our Core Values</h2>
-          <div className="grid lg:grid-cols-3 grid-cols-1 gap-5">
-            <div className="col-span-1 space-y-5">
-              <div className="bg-primary/5 space-y-3 rounded-xl shadow p-5">
-                <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
-                  <DocumentIcon className="size-8 text-primary" />
+        {/* 4. CORE VALUES SECTION */}
+        <section aria-labelledby="core-values-heading" className="py-12 md:py-16">
+          <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
+            <Heading title="Our Core Values" className="justify-center" />
+            <h2
+              id="core-values-heading"
+              className="text-3xl md:text-4xl font-bold text-gray-900"
+            >
+              Built on Trust &amp; Engineering Discipline
+            </h2>
+            <p className="text-gray-600 text-base md:text-lg">
+              How we work, collaborate, and deliver lasting value on every engagement.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 items-center">
+            {/* Left 2 Values */}
+            <div className="col-span-1 space-y-6">
+              <div className="bg-slate-50/80 border border-slate-200/90 space-y-3 rounded-2xl shadow-xs p-6 hover:border-primary/40 hover:bg-white transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-semibold">Transparency</h3>
-                <p className="text-lg text-muted-foreground">
-                  Clear, honest, and straightforward communication.
+                <h3 className="text-xl font-bold text-gray-900">Transparency</h3>
+                <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                  Clear, honest communication at every 2-week sprint checkpoint. Weekly live demo builds and zero surprise invoices.
                 </p>
               </div>
-              <div className="bg-primary/5 space-y-3 rounded-xl shadow p-5">
-                <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
-                  <Lightbulb className="size-8 text-primary" />
+
+              <div className="bg-slate-50/80 border border-slate-200/90 space-y-3 rounded-2xl shadow-xs p-6 hover:border-primary/40 hover:bg-white transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <Lightbulb className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-semibold">Innovation</h3>
-                <p className="text-lg text-muted-foreground">
-                  Constantly improving with technology that works for you.
+                <h3 className="text-xl font-bold text-gray-900">Engineering Excellence</h3>
+                <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                  Modern, battle-tested technologies that keep your digital products fast, secure, and easily maintainable.
                 </p>
               </div>
             </div>
-            <div className="col-span-1 h-[444px] w-full relative">
+
+            {/* Center Image */}
+            <div className="col-span-1 h-[420px] w-full relative rounded-2xl overflow-hidden shadow-md border border-slate-200">
               <Image
                 src="/about/aboutgrid.webp"
                 fill
-                alt="Core Values"
-                className="rounded-xl shadow h-full w-full object-center object-cover"
+                alt="SoftechSol engineering and teamwork values"
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 400px"
               />
             </div>
-            <div className="col-span-1 space-y-5">
-              <div className="bg-primary/5 space-y-3 rounded-xl shadow p-5">
-                <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
-                  <ShieldCheck className="size-8 text-primary" />
+
+            {/* Right 2 Values */}
+            <div className="col-span-1 space-y-6">
+              <div className="bg-slate-50/80 border border-slate-200/90 space-y-3 rounded-2xl shadow-xs p-6 hover:border-primary/40 hover:bg-white transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-semibold">Security</h3>
-                <p className="text-lg text-muted-foreground">
-                  Your business data is encrypted and protected 24/7.
+                <h3 className="text-xl font-bold text-gray-900">Security &amp; Privacy</h3>
+                <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                  Enterprise-grade data encryption, automated daily backups, and strict privacy protection around the clock.
                 </p>
               </div>
-              <div className="bg-primary/5 space-y-3 rounded-xl shadow p-5">
-                <div className="bg-linear-to-r from-darkblue/30 to-primary/30 rounded-full p-3  w-fit ">
-                  <HeartHandshake className="size-8 text-primary" />
+
+              <div className="bg-slate-50/80 border border-slate-200/90 space-y-3 rounded-2xl shadow-xs p-6 hover:border-primary/40 hover:bg-white transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <HeartHandshake className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-semibold">Customer First</h3>
-                <p className="text-lg text-muted-foreground">
-                  Our professionals build every feature with your needs in mind.
+                <h3 className="text-xl font-bold text-gray-900">Long-Term Partnership</h3>
+                <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                  We measure success by your business outcomes and long-term uptime, backed by our 30-day post-launch warranty.
                 </p>
               </div>
             </div>
           </div>
-        </div>
-        {/* Stats Section */}
+        </section>
+
+        {/* 5. STATS SECTION */}
         <AboutStatsSection />
 
-        {/* Mission Section */}
-        {/* <article className="mb-20 mt-20">
-          <section
-            className="prose prose-lg max-w-none neditor-html"
-            aria-labelledby="our-mission"
-          >
-            <header className="mb-8">
-              <h2
-                id="our-mission"
-                className="text-3xl md:text-4xl font-bold mb-4 text-foreground"
-              >
-                What We&apos;re Trying to Do Here
-              </h2>
-              <h3 className="text-2xl md:text-3xl font-semibold text-primary mb-6">
-                Good Software Shouldn&apos;t Cost a Fortune
-              </h3>
-            </header>
-
-            <p className="text-lg leading-relaxed mb-8 text-foreground/90">
-              Look, we&apos;ve all been there. You need a website or an app, and
-              the quotes you get are either way too expensive or way too cheap
-              (and you know the cheap ones will break). We think there&apos;s a
-              middle ground: solid software that works, doesn&apos;t cost an arm
-              and a leg, and you can actually understand what you&apos;re paying
-              for.
-            </p>
-
-            <p className="text-lg leading-relaxed mb-8 text-foreground/90">
-              That&apos;s what we build-web apps, mobile apps, business systems
-              that actually help you run your business better. Not the flashiest
-              thing in the world, but reliable, affordable, and built to last.
-            </p>
-          </section>
-        </article> */}
-
-        {/* Values Section */}
-        {/* <AboutValuesSection data={data} /> */}
-
-        {/* Team Section */}
+        {/* 6. TEAM SECTION */}
         {teams && teams.length > 0 && <AboutTeamSection teams={teams} />}
-      </div>{" "}
+      </div>
+
+      {/* 7. CLOSING CTA BANNER */}
+      <HomeCtaBanner />
     </main>
   );
 };

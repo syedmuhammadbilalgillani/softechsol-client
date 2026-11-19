@@ -63,16 +63,6 @@ export async function GET(request: Request) {
           orderBy: { created_at: "asc" },
         }),
 
-        // 4. Service Categories (depends on GalleryItem)
-        serviceCategories: await prismaBackup.serviceCategory.findMany({
-          orderBy: { createdAt: "asc" },
-        }),
-
-        // 5. Services (depends on ServiceCategory and GalleryItem)
-        services: await prismaBackup.service.findMany({
-          orderBy: { createdAt: "asc" },
-        }),
-
         // 6. Teams (depends on GalleryItem)
         teams: await prismaBackup.team.findMany({
           orderBy: { createdAt: "asc" },
@@ -133,8 +123,6 @@ export async function GET(request: Request) {
       galleryItems: backupData.data.galleryItems.length,
       users: backupData.data.users.length,
       blogCategories: backupData.data.blogCategories.length,
-      serviceCategories: backupData.data.serviceCategories.length,
-      services: backupData.data.services.length,
       teams: backupData.data.teams.length,
       podcasts: backupData.data.podcasts.length,
       companies: backupData.data.companies.length,
@@ -434,8 +422,6 @@ export async function POST(request: Request) {
           await tx.blog.deleteMany({});
           await tx.job.deleteMany({});
           await tx.jobCategory.deleteMany({});
-          await tx.service.deleteMany({});
-          await tx.serviceCategory.deleteMany({});
           await tx.team.deleteMany({});
           await tx.podcast.deleteMany({});
           await tx.myCompanies.deleteMany({});
@@ -609,96 +595,6 @@ export async function POST(request: Request) {
               throw new Error(
                 `Failed to import Blog Categories: ${error.message}`
               );
-            }
-          }
-
-          // 4. Import Service Categories
-          if (backupData.data.serviceCategories?.length > 0) {
-            logger.info("[Backup API] Importing Service Categories", {
-              count: backupData.data.serviceCategories.length,
-            });
-            try {
-              await tx.$executeRawUnsafe(
-                `ALTER SEQUENCE "ServiceCategory_id_seq" RESTART WITH 1`
-              );
-
-              for (const category of backupData.data.serviceCategories) {
-                try {
-                  await tx.serviceCategory.create({
-                    data: {
-                      id: category.id,
-                      name: category.name,
-                      slug: category.slug,
-                      description: category.description || "",
-                      shortDescription: category.shortDescription || null,
-                      image_id: category.image_id || category.imageId || null,
-                      createdAt: new Date(category.createdAt),
-                      updatedAt: new Date(category.updatedAt),
-                    },
-                  });
-                } catch (catError: any) {
-                  logger.warn(
-                    "[Backup API] Failed to import service category",
-                    {
-                      id: category.id,
-                      error: catError.message,
-                    }
-                  );
-                  importResults.errors.push(
-                    `ServiceCategory ${category.id}: ${catError.message}`
-                  );
-                }
-              }
-              importResults.created.serviceCategories =
-                backupData.data.serviceCategories.length;
-            } catch (error: any) {
-              logger.error(
-                "[Backup API] Error importing Service Categories",
-                error
-              );
-              throw new Error(
-                `Failed to import Service Categories: ${error.message}`
-              );
-            }
-          }
-
-          // 5. Import Services
-          if (backupData.data.services?.length > 0) {
-            logger.info("[Backup API] Importing Services", {
-              count: backupData.data.services.length,
-            });
-            try {
-              await tx.$executeRawUnsafe(
-                `ALTER SEQUENCE "Service_id_seq" RESTART WITH 1`
-              );
-
-              for (const service of backupData.data.services) {
-                try {
-                  await tx.service.create({
-                    data: {
-                      id: service.id,
-                      title: service.title,
-                      description: service.description,
-                      image_id: service.image_id || service.imageId || null,
-                      categoryId: service.categoryId,
-                      createdAt: new Date(service.createdAt),
-                      updatedAt: new Date(service.updatedAt),
-                    },
-                  });
-                } catch (serviceError: any) {
-                  logger.warn("[Backup API] Failed to import service", {
-                    id: service.id,
-                    error: serviceError.message,
-                  });
-                  importResults.errors.push(
-                    `Service ${service.id}: ${serviceError.message}`
-                  );
-                }
-              }
-              importResults.created.services = backupData.data.services.length;
-            } catch (error: any) {
-              logger.error("[Backup API] Error importing Services", error);
-              throw new Error(`Failed to import Services: ${error.message}`);
             }
           }
 

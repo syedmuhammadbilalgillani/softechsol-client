@@ -1,10 +1,10 @@
 import { MetadataRoute } from "next";
 import { DOMAIN_URL } from "@/constants/url";
+import { getAllServiceCategories } from "@/constants/services";
 import {
-  fetchProjects,
   fetchBlogs,
   fetchCategories,
-  fetchServiceCategories,
+  fetchAllJobSlugs,
 } from "@/lib/apis";
 import logger from "@/lib/logger";
 
@@ -75,23 +75,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic service category pages
-  let serviceCategoryPages: MetadataRoute.Sitemap = [];
-
-  try {
-    const serviceCategories = await fetchServiceCategories();
-
-    if (Array.isArray(serviceCategories)) {
-      serviceCategoryPages = serviceCategories.map((category) => ({
-        url: `${baseUrl}/services/${category.slug}`,
-        lastModified: category.updatedAt ? new Date(category.updatedAt) : new Date(),
-        changeFrequency: "weekly" as const,
-        priority: 0.8,
-      }));
-    }
-  } catch (error) {
-    logger.error("Error fetching service categories for sitemap:", error);
-  }
+  // Static service category pages from constant data
+  const serviceCategories = getAllServiceCategories();
+  const serviceCategoryPages: MetadataRoute.Sitemap = serviceCategories.map(
+    (category) => ({
+      url: `${baseUrl}/services/${category.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })
+  );
 
   // Dynamic blog pages
   let blogPages: MetadataRoute.Sitemap = [];
@@ -135,10 +128,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     logger.error("Error fetching blogs for sitemap:", error);
   }
 
+  // Dynamic career job pages
+  let careerPages: MetadataRoute.Sitemap = [];
+  try {
+    const jobs = await fetchAllJobSlugs();
+    if (Array.isArray(jobs)) {
+      careerPages = jobs.map((job) => ({
+        url: `${baseUrl}/careers/${job.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      }));
+    }
+  } catch (error) {
+    logger.error("Error fetching careers for sitemap:", error);
+  }
+
   return [
     ...staticPages,
     ...serviceCategoryPages,
     ...blogCategoryPages,
     ...blogPages,
+    ...careerPages,
   ];
 }

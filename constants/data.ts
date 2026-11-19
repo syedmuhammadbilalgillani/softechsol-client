@@ -42,29 +42,29 @@ export const whyChooseUs = [
 
 export const faqs = [
   {
-    question: "What services does your company offer?",
+    question: "What services does SoftechSol provide?",
     answer:
-      "We offer a wide range of services including web development, graphic design, branding, digital marketing, and more. Our team specializes in creating tailored solutions to meet your business needs.",
+      "We engineer custom digital solutions across six core practices: Custom Web Development, Mobile App Development (iOS & Android), Business Workflow Automation, Agentic AI & Custom Chatbots, UI/UX Product Design, and Cloud Deployment & 24/7 Maintenance. Everything is custom-built with 100% code ownership.",
   },
   {
     question: "Can you provide examples of your previous work?",
     answer:
-      "Yes! Our portfolio showcases a variety of projects we’ve worked on, including websites, logos, branding campaigns, and digital marketing strategies. Feel free to browse through our portfolio to see the results of our past collaborations.",
+      "Yes! Our portfolio showcases custom platforms, operational portals, and applications built for growing businesses like Premier Salt, US Civilgenix, Samuel K. Golden, and GCE. You can explore our featured work on our Projects page.",
   },
   {
-    question: "How do I get started with a project?",
+    question: "How do we get started on a project?",
     answer:
-      "Simply reach out to us via the contact form on our website or email us directly. We’ll schedule an initial consultation to discuss your goals, timelines, and how we can help bring your vision to life.",
+      "Simply book a free discovery call or reach out via WhatsApp. You'll speak directly with a senior technical lead—not a commission-driven salesperson—to discuss your requirements, budget, and timeline.",
   },
   {
-    question: "What is the typical project timeline?",
+    question: "What is your typical project timeline?",
     answer:
-      "Project timelines vary depending on the complexity of the work. Generally, we aim to complete most projects within 4-8 weeks. We’ll provide a more detailed timeline after our initial consultation.",
+      "Timelines depend on scope: a standard company website is delivered in 2 to 3 weeks, while custom mobile apps, software portals, and workflow automations typically take 4 to 8 weeks in transparent 2-week agile sprints with weekly live demo builds.",
   },
   {
-    question: "Do you offer ongoing support after project completion?",
+    question: "Do you offer post-launch support and maintenance?",
     answer:
-      "Yes, we offer maintenance and support packages to ensure that your project continues to run smoothly. Whether it’s updating content, fixing bugs, or implementing new features, we’re here to help after launch.",
+      "Yes! Every project includes a 30-day post-launch warranty with bug fixes included. We also offer monthly care plans covering automated daily backups, security patching, and server monitoring so your systems run smoothly 24/7.",
   },
 ];
 

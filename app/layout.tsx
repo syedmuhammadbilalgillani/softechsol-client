@@ -133,8 +133,9 @@ export default function RootLayout({
         {/* Preload critical image */}
         <link
           rel="preload"
-          href="/home_hero.jpg"
+          href="/hero_section.webp"
           as="image"
+          type="image/webp"
           fetchPriority="high"
         />
 

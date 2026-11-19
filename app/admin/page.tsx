@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   FileText,
-  Wrench,
+  Users,
   FolderGit2,
   Briefcase,
   Mail,
@@ -26,14 +26,14 @@ export const metadata: Metadata = {
 export default async function AdminDashboardPage() {
   const [
     blogsCount,
-    servicesCount,
+    teamsCount,
     projectsCount,
     jobsCount,
     newInquiriesCount,
     galleryCount,
   ] = await Promise.all([
     prisma.blog.count().catch(() => 0),
-    prisma.service.count().catch(() => 0),
+    prisma.team.count().catch(() => 0),
     prisma.project.count().catch(() => 0),
     prisma.job.count().catch(() => 0),
     prisma.contactUs.count({ where: { status: "NEW" } }).catch(() => 0),
@@ -49,10 +49,10 @@ export default async function AdminDashboardPage() {
       color: "text-blue-600 bg-blue-50",
     },
     {
-      title: "Services",
-      count: servicesCount,
-      icon: Wrench,
-      href: "/admin/services",
+      title: "Team Members",
+      count: teamsCount,
+      icon: Users,
+      href: "/admin/teams",
       color: "text-emerald-600 bg-emerald-50",
     },
     {

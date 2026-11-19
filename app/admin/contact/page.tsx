@@ -17,19 +17,12 @@ export const metadata: Metadata = {
 };
 
 const ContactPage = async () => {
-  const servicesData = await prisma.contactUs.findMany({
-    include: {
-      service: true,
+  const contactsData = await prisma.contactUs.findMany({
+    orderBy: {
+      submitted_at: "desc",
     },
   });
-  logger.debug(servicesData, "service data");
-  const services = await prisma.service.findMany({
-    select: {
-      id: true,
-      title: true,
-    },
-  });
-  logger.debug(services, "services");
+  logger.debug(contactsData, "contacts data");
   return (
     <div className="p-5">
       <PageHeader heading="Contact Forms" paragraph="View and manage contact form submissions" />

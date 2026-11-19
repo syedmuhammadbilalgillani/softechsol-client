@@ -41,18 +41,18 @@ const AboutTeamSection = ({
       viewport={{ once: true, margin: "-100px" }}
       variants={containerVariants}
     >
-      <motion.div variants={itemVariants}>
+      <motion.div variants={itemVariants} className="space-y-2">
         <Heading as="h2" title="Our Team" />
+        <h3 className="text-3xl md:text-4xl font-bold text-gray-900">
+          Meet the Minds Behind the Code
+        </h3>
+        <p className="text-gray-600 text-base md:text-lg max-w-xl">
+          Experienced software engineers and designers dedicated to building reliable digital solutions.
+        </p>
       </motion.div>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7">
-        {teams.map((team, index) => (
-          <div
-            key={team.id}
-            // variants={itemVariants}
-            // whileHover={{ scale: 1.02, y: -5 }}
-            // transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            // className={`  `}
-          >
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7 pt-4">
+        {teams.map((team) => (
+          <div key={team.id}>
             <TeamCard
               data={{
                 ...team,

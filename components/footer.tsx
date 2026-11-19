@@ -43,10 +43,12 @@ const Footer = () => {
   ];
 
   const services = [
-    { label: "Web Development", href: "/services" },
-    { label: "Mobile App Development", href: "/services" },
-    { label: "Software Solutions", href: "/services" },
-    { label: "Digital Transformation", href: "/services" },
+    { label: "Web Development", href: "/services/web-development" },
+    { label: "Mobile App Development", href: "/services/mobile-development" },
+    { label: "Workflow Automation", href: "/services/business-automation" },
+    { label: "Agentic AI & Chatbots", href: "/services/agentic-ai" },
+    { label: "UI/UX & Product Design", href: "/services/ui-ux-design" },
+    { label: "Cloud & DevOps Support", href: "/services/deployment-and-maintenance" },
   ];
 
   const socialLinks = [

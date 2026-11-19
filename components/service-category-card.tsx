@@ -43,25 +43,26 @@ const ServiceCategoryCard = ({
         <Link
           href={categoryHref}
           aria-label={`View ${name} services`}
-          className={`relative min-h-65 overflow-hidden bg-gray-100 lg:min-h-110 ${
+          className={`relative min-h-70 lg:min-h-110 flex items-center justify-center overflow-hidden bg-slate-50 p-6 sm:p-8 lg:p-10 ${
             imageFirst ? "lg:order-1" : "lg:order-2"
           }`}
         >
           {image ? (
-            <Image
-              src={url}
-              alt={image.altText || name}
-              fill
-              className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority={false}
-            />
+            <div className="relative w-full h-full min-h-60 sm:min-h-75 lg:min-h-90 flex items-center justify-center">
+              <Image
+                src={url}
+                alt={image.altText || name}
+                fill
+                className="object-contain object-center transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority={false}
+              />
+            </div>
           ) : (
             <div className="flex h-full w-full items-center justify-center">
               <Layers className="h-16 w-16 text-gray-300" aria-hidden="true" />
             </div>
           )}
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-darkblue/25 to-transparent" />
         </Link>
 
         {/* Content */}

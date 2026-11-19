@@ -101,7 +101,7 @@ export default function BackupRestore() {
 
     // Show confirmation dialog
     const confirmed = window.confirm(
-      "⚠️ WARNING: This will overwrite or restore existing data in the database!\n\n" +
+      "WARNING: This will overwrite or restore existing data in the database!\n\n" +
         (isZip ? "Uploaded assets will be extracted into public/storage/.\n\n" : "") +
         "Are you sure you want to proceed?"
     );
