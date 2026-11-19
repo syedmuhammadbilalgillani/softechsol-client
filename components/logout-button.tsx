@@ -18,7 +18,7 @@ export default function LogoutButton() {
 
   return (
     <button
-      onClick={() => signOut({ callbackUrl: "/auth/signin" })}
+      onClick={() => signOut({ callbackUrl: "/admin/signin" })}
       className="bg-red-500 text-white px-4 pb-1 rounded hover:bg-red-600 transition block w-full text-left"
     >
       Logout

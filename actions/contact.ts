@@ -338,6 +338,12 @@ async function verifyRecaptcha(token: string): Promise<{ valid: boolean; error?:
   }
 
   try {
+    // In development mode, allow test token bypass
+    if (process.env.NODE_ENV === "development" && (token === "dev-bypass-token" || token === "test")) {
+      console.log("[Contact Form Server] Dev bypass token accepted in development mode.");
+      return { valid: true };
+    }
+
     console.log("[Contact Form Server] Verifying reCAPTCHA token with Google API...");
     const response = await fetch(
       "https://www.google.com/recaptcha/api/siteverify",
@@ -358,6 +364,13 @@ async function verifyRecaptcha(token: string): Promise<{ valid: boolean; error?:
         ? data["error-codes"].join(", ")
         : "verification-failed";
       console.warn("[Contact Form Server] Google reCAPTCHA verification failed! Error codes:", errCodes);
+
+      // In local development, Google often rejects localhost with "hostname-mismatch"
+      if (process.env.NODE_ENV === "development" && data["error-codes"]?.includes("hostname-mismatch")) {
+        console.warn("[Contact Form Server] Allowing submission in development mode despite Google hostname-mismatch.");
+        return { valid: true };
+      }
+
       return { valid: false, error: `reCAPTCHA verification failed (${errCodes}). Please try again.` };
     }
     return { valid: true };

@@ -3,6 +3,7 @@
 import { ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -144,66 +145,36 @@ export function NavMain({
   );
 }
 export const SidebarFooterMenu = () => {
-  // const router = useRouter();
-  // const user = useUserStore((state) => state.user) as User | null;
-  // const clearTenant = useTenantStore((state) => state.clearTenant);
-  // const clearUser = useUserStore((state) => state.clearUser);
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // const handleLogout = useCallback(async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     const res = await Logout();
-  //     toast.success(res.message);
-  //     clearTenant();
-  //     clearUser();
-  //     Cookies.remove("accessToken");
-  //     Cookies.remove("user-storage");
-  //     Cookies.remove("tenant-storage");
-
-  //     router.push("/");
-  //     localStorage.clear();
-  //     setTimeout(() => {
-  //       setIsLoading(false);
-  //     }, 200);
-  //   } catch (error: unknown) {
-  //     setIsLoading(false);
-  //     const errorMessage =
-  //       error instanceof Error ? error.message : "Unknown error";
-  //     toast.error(`Error during logout ${errorMessage}`);
-  //   }
-  // }, [router, clearUser, clearTenant]);
+  const { data: session } = useSession();
+  const displayName = session?.user?.name || session?.user?.email || "Admin";
 
   return (
-    <>
-      {/* <Spinner isLoading={isLoading} /> */}
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="text-nowrap">
-                  {/* <User2 /> {user?.firstName ?? ""} {user?.lastName ?? ""} */}
-                  <ChevronUp className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-full"
-              >
-                <LogoutButton />
-
-                {/* <DropdownMenuItem></DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem> */}
-                {/* <DropdownMenuItem onClick={handleLogout}>
-                  Sign out
-                </DropdownMenuItem> */}
-                {/* <DropdownMenuItem></DropdownMenuItem> */}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
-    </>
+    <SidebarFooter>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton className="text-nowrap flex items-center justify-between">
+                <div className="flex items-center gap-2 overflow-hidden">
+                  <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shrink-0">
+                    {displayName.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="truncate text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {displayName}
+                  </span>
+                </div>
+                <ChevronUp className="ml-auto w-4 h-4 shrink-0" />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" className="w-56 p-2">
+              <div className="px-2 py-1.5 text-xs text-gray-500 border-b mb-1">
+                Signed in as <span className="font-semibold text-gray-800">{displayName}</span>
+              </div>
+              <LogoutButton />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarFooter>
   );
 };
