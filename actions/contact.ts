@@ -329,12 +329,12 @@ const MAX_FIELD_LENGTHS = {
 } as const;
 
 // Verify reCAPTCHA token
-async function verifyRecaptcha(token: string): Promise<boolean> {
+async function verifyRecaptcha(token: string): Promise<{ valid: boolean; error?: string }> {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
   if (!secretKey) {
     console.error("[Contact Form Server] RECAPTCHA_SECRET_KEY is missing from environment variables!");
-    return false;
+    return { valid: false, error: "reCAPTCHA is not configured on the server." };
   }
 
   try {
@@ -354,12 +354,16 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     console.log("[Contact Form Server] Google reCAPTCHA response:", data);
 
     if (data.success !== true) {
-      console.warn("[Contact Form Server] Google reCAPTCHA verification failed! Error codes:", data["error-codes"]);
+      const errCodes = Array.isArray(data["error-codes"])
+        ? data["error-codes"].join(", ")
+        : "verification-failed";
+      console.warn("[Contact Form Server] Google reCAPTCHA verification failed! Error codes:", errCodes);
+      return { valid: false, error: `reCAPTCHA verification failed (${errCodes}). Please try again.` };
     }
-    return data.success === true;
+    return { valid: true };
   } catch (error: any) {
     console.error("[Contact Form Server] reCAPTCHA verification exception:", error?.message || error);
-    return false;
+    return { valid: false, error: `reCAPTCHA network error: ${error?.message || "Connection failed"}` };
   }
 }
 
@@ -393,12 +397,12 @@ export const ContactAction = async (formData: FormData) => {
     };
   }
 
-  const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
-  if (!isRecaptchaValid) {
-    console.warn(`[Contact Form Server] reCAPTCHA rejected for user email: "${email}"`);
+  const recaptchaCheck = await verifyRecaptcha(recaptchaToken);
+  if (!recaptchaCheck.valid) {
+    console.warn(`[Contact Form Server] reCAPTCHA rejected for user email "${email}": ${recaptchaCheck.error}`);
     return {
       success: false,
-      error: "reCAPTCHA verification failed. Please try again.",
+      error: recaptchaCheck.error || "reCAPTCHA verification failed. Please try again.",
     };
   }
 
@@ -552,10 +556,10 @@ export const ContactAction = async (formData: FormData) => {
     console.log("================== [Contact Form Process Complete: SUCCESS] ==================\n");
     return { success: true, response };
   } catch (error: any) {
-    console.error("[Contact Form Server] Fatal submission error:", error.message || error);
+    console.error("[Contact Form Server] Fatal submission error:", error?.message || error);
     return {
       success: false,
-      error: "Failed to submit contact form. Please try again.",
+      error: error?.message || "Failed to submit contact form. Please try again.",
     };
   }
 };
