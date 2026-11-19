@@ -7,8 +7,7 @@ import {
   decode as defaultDecode,
   encode as defaultEncode,
 } from "next-auth/jwt";
-import dotenv from "dotenv";
-dotenv.config();
+
 const attemptBackendLogin = async (email: string, password: string) => {
   const cleanEmail = email.trim();
   console.log(`[NextAuth Server] Login attempt for email: "${cleanEmail}"`);
