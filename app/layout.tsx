@@ -130,15 +130,6 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
-        {/* Preload critical image */}
-        <link
-          rel="preload"
-          href="/hero_section.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
-
         {/* Preconnect to external resources */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />

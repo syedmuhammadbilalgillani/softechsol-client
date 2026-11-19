@@ -333,11 +333,12 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
   if (!secretKey) {
-    logger.error("RECAPTCHA_SECRET_KEY is not configured");
+    console.error("[Contact Form Server] RECAPTCHA_SECRET_KEY is missing from environment variables!");
     return false;
   }
 
   try {
+    console.log("[Contact Form Server] Verifying reCAPTCHA token with Google API...");
     const response = await fetch(
       "https://www.google.com/recaptcha/api/siteverify",
       {
@@ -350,16 +351,22 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     );
 
     const data = await response.json();
-    logger.debug(data, "reCAPTCHA verification response");
+    console.log("[Contact Form Server] Google reCAPTCHA response:", data);
 
+    if (data.success !== true) {
+      console.warn("[Contact Form Server] Google reCAPTCHA verification failed! Error codes:", data["error-codes"]);
+    }
     return data.success === true;
-  } catch (error) {
-    logger.error("reCAPTCHA verification error:", error);
+  } catch (error: any) {
+    console.error("[Contact Form Server] reCAPTCHA verification exception:", error?.message || error);
     return false;
   }
 }
 
 export const ContactAction = async (formData: FormData) => {
+  const timestamp = new Date().toISOString();
+  console.log(`\n================== [Contact Form Submission ${timestamp}] ==================`);
+
   const name = formData.get("name") as string;
   const company = formData.get("company") as string | null;
   const email = formData.get("email") as string;
@@ -368,8 +375,18 @@ export const ContactAction = async (formData: FormData) => {
   const service = formData.get("service") as string | null;
   const recaptchaToken = formData.get("recaptchaToken") as string;
 
+  console.log("[Contact Form Server] Form fields received:", {
+    name,
+    email,
+    phone,
+    company,
+    service,
+    hasRecaptchaToken: Boolean(recaptchaToken),
+  });
+
   // Verify reCAPTCHA
   if (!recaptchaToken) {
+    console.warn("[Contact Form Server] Submission rejected: reCAPTCHA token is missing");
     return {
       success: false,
       error: "reCAPTCHA verification is required",
@@ -378,7 +395,7 @@ export const ContactAction = async (formData: FormData) => {
 
   const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
   if (!isRecaptchaValid) {
-    logger.warn("reCAPTCHA verification failed", { email });
+    console.warn(`[Contact Form Server] reCAPTCHA rejected for user email: "${email}"`);
     return {
       success: false,
       error: "reCAPTCHA verification failed. Please try again.",
@@ -459,6 +476,7 @@ export const ContactAction = async (formData: FormData) => {
 
   try {
     // Save to database
+    console.log("[Contact Form Server] Inserting contact inquiry into database...");
     const response = await prisma.contactUs.create({
       data: {
         name: name.trim(),
@@ -469,14 +487,16 @@ export const ContactAction = async (formData: FormData) => {
         status: "NEW",
       },
     });
-    logger.debug(serviceName, "selected serviceName");
+    console.log(`[Contact Form Server] Database entry created successfully! contact_id: ${response.contact_id}`);
 
     // Send emails
     let transporter;
     try {
+      console.log("[Contact Form Server] Setting up SMTP transport...");
       transporter = createTransporter();
+      console.log("[Contact Form Server] SMTP transport ready");
     } catch (transporterError: any) {
-      logger.error("SMTP Configuration Error:", transporterError.message);
+      console.error("[Contact Form Server] SMTP Config Error:", transporterError.message);
       // Still save to database even if email fails
       return {
         success: true,
@@ -500,37 +520,39 @@ export const ContactAction = async (formData: FormData) => {
       message: message?.trim() || null,
       service: serviceName,
     };
-    logger.info(emailData, "emailData");
     
     // Send email to HR
     try {
-      await transporter.sendMail({
+      console.log(`[Contact Form Server] Sending alert email to HR (${hrEmail})...`);
+      const hrResult = await transporter.sendMail({
         from: `"${companyName}" <${fromEmail}>`,
         to: hrEmail,
         subject: `New Contact Form Submission from ${name.trim()}`,
         html: getHREmailTemplate(emailData),
       });
-      logger.info("HR email sent successfully");
-    } catch (emailError) {
-      logger.error("Error sending HR email:", emailError);
+      console.log(`[Contact Form Server] HR email sent successfully! MessageId: ${hrResult.messageId}`);
+    } catch (emailError: any) {
+      console.error("[Contact Form Server] Failed to send HR email:", emailError.message || emailError);
     }
 
     // Send confirmation email to user
     try {
-      await transporter.sendMail({
+      console.log(`[Contact Form Server] Sending confirmation email to user (${email.trim()})...`);
+      const userResult = await transporter.sendMail({
         from: `"${companyName}" <${fromEmail}>`,
         to: email.trim(),
         subject: `Thank You for Contacting ${companyName}`,
         html: getUserEmailTemplate({ name: name.trim() }),
       });
-      logger.info("User confirmation email sent successfully");
-    } catch (emailError) {
-      logger.error("Error sending user confirmation email:", emailError);
+      console.log(`[Contact Form Server] Confirmation email sent successfully to user! MessageId: ${userResult.messageId}`);
+    } catch (emailError: any) {
+      console.error("[Contact Form Server] Failed to send user confirmation email:", emailError.message || emailError);
     }
 
+    console.log("================== [Contact Form Process Complete: SUCCESS] ==================\n");
     return { success: true, response };
-  } catch (error) {
-    logger.error("Contact form submission error:", error);
+  } catch (error: any) {
+    console.error("[Contact Form Server] Fatal submission error:", error.message || error);
     return {
       success: false,
       error: "Failed to submit contact form. Please try again.",

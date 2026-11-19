@@ -5,26 +5,42 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const attemptBackendLogin = async (email: string, password: string) => {
-  const user = await prisma.user.findUnique({
-    where: { email },
+  const cleanEmail = email.trim();
+  console.log(`[NextAuth Server] Login attempt for email: "${cleanEmail}"`);
+
+  let user = await prisma.user.findUnique({
+    where: { email: cleanEmail },
   });
 
+  // Fallback to case-insensitive lookup
   if (!user) {
-    logger.error("User not found for email");
+    user = await prisma.user.findFirst({
+      where: {
+        email: {
+          equals: cleanEmail,
+          mode: "insensitive",
+        },
+      },
+    });
+  }
+
+  if (!user) {
+    console.error(`[NextAuth Server] Auth failed: No user found in database with email "${cleanEmail}"`);
     return null;
   }
 
   if (!user.is_active) {
-    logger.error("User inactive");
+    console.error(`[NextAuth Server] Auth failed: User "${cleanEmail}" (ID: ${user.user_id}) is marked inactive`);
     return null;
   }
 
   const passwordMatches = await bcrypt.compare(password, user.password);
   if (!passwordMatches) {
-    logger.error("Password mismatch");
+    console.error(`[NextAuth Server] Auth failed: Password mismatch for user "${cleanEmail}"`);
     return null;
   }
 
+  console.log(`[NextAuth Server] Auth SUCCESS: User "${cleanEmail}" verified (Role: ${user.role})`);
   return user;
 };
 
@@ -43,7 +59,7 @@ export const authOptions: NextAuthOptions = {
           const password = credentials?.password ?? "";
 
           if (!email || !password) {
-            logger.error("Missing email or password");
+            console.error("[NextAuth Server] Missing credentials: Email or password was not provided");
             return null;
           }
 

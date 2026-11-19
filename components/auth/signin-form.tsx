@@ -63,27 +63,41 @@ export default function SignInForm() {
     setError("");
     setLoading(true);
 
+    console.log("[Auth Client] Attempting sign-in for:", email.trim());
+
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        email,
+        email: email.trim(),
         password,
         callbackUrl,
       });
 
-      logger.debug("Sign-in response", res);
+      console.log("[Auth Client] Sign-in response received:", {
+        status: res?.status,
+        ok: res?.ok,
+        error: res?.error,
+        url: res?.url,
+      });
 
       if (res?.error) {
+        console.error("[Auth Client] Sign-in failed:", res.error);
         logger.error("Sign-in error", res.error);
-        setError(res.error || "Invalid credentials. Please check your email and password.");
+        if (res.status === 401 || res.error === "CredentialsSignin") {
+          setError("Invalid email or password. Please verify your login credentials.");
+        } else {
+          setError(res.error || "Authentication failed. Please check your credentials.");
+        }
       } else if (res?.ok) {
+        console.log("[Auth Client] Sign-in successful! Redirecting to:", callbackUrl);
         logger.info("Sign-in successful, redirecting to", callbackUrl);
         router.push(callbackUrl);
         router.refresh();
       }
     } catch (err) {
+      console.error("[Auth Client] Sign-in exception:", err);
       logger.error("Sign-in exception", err);
-      setError("An error occurred during sign-in. Please try again.");
+      setError("An unexpected error occurred during sign-in. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -170,15 +184,9 @@ export default function SignInForm() {
           </form>
         </CardContent>
 
-        <CardFooter className="flex flex-col items-center space-y-4 pt-4">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link
-              href="/auth/signup"
-              className="font-semibold text-blue-600 hover:text-blue-700 hover:underline transition-colors"
-            >
-              Sign up
-            </Link>
+        <CardFooter className="flex flex-col items-center space-y-2 pt-4 border-t border-gray-100">
+          <p className="text-xs text-gray-500 text-center">
+            Restricted access. Only authorized Softech Solutions administrators may log in.
           </p>
         </CardFooter>
       </Card>

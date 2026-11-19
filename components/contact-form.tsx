@@ -150,14 +150,25 @@ const ContactForm = ({ services }: { services: ServiceOption[] }) => {
     // Client-side validation
     const validationError = validateFormData(formData);
     if (validationError) {
+      console.warn("[Contact Form Client] Validation error:", validationError);
       toast.error(validationError);
       setIsSubmitting(false);
       recaptchaRef.current?.reset();
       return;
     }
 
+    console.log("[Contact Form Client] Submitting contact form...", {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: fullPhone,
+      company: formData.get("company"),
+      service: formData.get("service"),
+      hasToken: Boolean(recaptchaToken),
+    });
+
     try {
       const result = await ContactAction(formData);
+      console.log("[Contact Form Client] ContactAction response:", result);
 
       if (result.success) {
         toast.success("Thank you! We received your message and will reply within 24 hours.");
@@ -168,12 +179,14 @@ const ContactForm = ({ services }: { services: ServiceOption[] }) => {
         setSubmitAttempts(0);
         setLastSubmitTime(now);
       } else {
+        console.error("[Contact Form Client] Submission failed:", result.error);
         toast.error(result.error || "Failed to submit. Please try again.");
         recaptchaRef.current?.reset();
         setSubmitAttempts((prev) => prev + 1);
         setLastSubmitTime(now);
       }
     } catch (error) {
+      console.error("[Contact Form Client] Unexpected submission exception:", error);
       toast.error("An unexpected error occurred. You can also message us directly on WhatsApp.");
       recaptchaRef.current?.reset();
       setSubmitAttempts((prev) => prev + 1);
