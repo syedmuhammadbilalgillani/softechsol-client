@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import logger from "@/lib/logger";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { decode as defaultDecode, encode as defaultEncode } from "next-auth/jwt";
 
 const attemptBackendLogin = async (email: string, password: string) => {
   const cleanEmail = email.trim();
@@ -92,6 +93,23 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24, // 24 hours
+  },
+  jwt: {
+    maxAge: 60 * 60 * 24, // 24 hours
+    async encode(params) {
+      return defaultEncode(params);
+    },
+    async decode(params) {
+      try {
+        return await defaultDecode(params);
+      } catch (err: any) {
+        console.warn(
+          "[NextAuth Server] Stale or invalid session token (decryption failed). Safely resetting session cookie.",
+          err?.message
+        );
+        return null;
+      }
+    },
   },
   callbacks: {
     async jwt({ token, user }) {
