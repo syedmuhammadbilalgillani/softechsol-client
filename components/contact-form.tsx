@@ -249,7 +249,6 @@ const ContactForm = ({ services }: { services: ServiceOption[] }) => {
           name="email"
           placeholder="alex@company.com"
           className="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-gray-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
           title="Please enter a valid email address"
           maxLength={MAX_FIELD_LENGTHS.email}
           required

@@ -33,29 +33,28 @@ export default function SignInForm() {
   useEffect(() => {
     if (status === "authenticated" && session) {
       logger.info("User already authenticated, redirecting to dashboard");
-      router.push(callbackUrl);
+      window.location.href = callbackUrl;
     }
-  }, [status, session, router, callbackUrl]);
+  }, [status, session, callbackUrl]);
 
   // Show loading while checking session
-  if (status === "loading") {
+  if (status === "loading" || status === "authenticated") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 px-4">
         <Card className="w-full max-w-md shadow-2xl border border-gray-200">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center justify-center space-y-4 py-8">
               <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-              <p className="text-sm text-gray-600">Checking authentication...</p>
+              <p className="text-sm text-gray-600">
+                {status === "authenticated"
+                  ? "Redirecting to Admin Portal..."
+                  : "Checking authentication..."}
+              </p>
             </div>
           </CardContent>
         </Card>
       </div>
     );
-  }
-
-  // Don't render form if authenticated (will redirect)
-  if (status === "authenticated") {
-    return null;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,8 +90,7 @@ export default function SignInForm() {
       } else if (res?.ok) {
         console.log("[Auth Client] Sign-in successful! Redirecting to:", callbackUrl);
         logger.info("Sign-in successful, redirecting to", callbackUrl);
-        router.push(callbackUrl);
-        router.refresh();
+        window.location.href = callbackUrl;
       }
     } catch (err) {
       console.error("[Auth Client] Sign-in exception:", err);
