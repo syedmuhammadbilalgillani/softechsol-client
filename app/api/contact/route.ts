@@ -148,16 +148,41 @@ export async function POST(req: Request) {
       );
     }
 
-    const contactSubmission = await prisma.contactUs.create({
-      data: {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        phone: phone?.trim() || null,
-        service_id: service_id ? Number(service_id) : null,
-        notes: notes?.trim() || null,
-        status: status ? String(status).toUpperCase() : "NEW",
-      },
-    });
+    let contactSubmission;
+    try {
+      contactSubmission = await prisma.contactUs.create({
+        data: {
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          phone: phone?.trim() || null,
+          service_id: service_id ? Number(service_id) : null,
+          notes: notes?.trim() || null,
+          status: status ? String(status).toUpperCase() : "NEW",
+        },
+      });
+    } catch (createErr: any) {
+      if (createErr?.code === "P2002" || String(createErr?.message).includes("contact_id")) {
+        console.warn("[API Contact POST] Auto-healing contact_id sequence and retrying...");
+        await prisma.$executeRawUnsafe(`
+          SELECT setval(
+            pg_get_serial_sequence('"ContactUs"', 'contact_id'),
+            COALESCE((SELECT MAX(contact_id) FROM "ContactUs"), 1)
+          );
+        `);
+        contactSubmission = await prisma.contactUs.create({
+          data: {
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            phone: phone?.trim() || null,
+            service_id: service_id ? Number(service_id) : null,
+            notes: notes?.trim() || null,
+            status: status ? String(status).toUpperCase() : "NEW",
+          },
+        });
+      } else {
+        throw createErr;
+      }
+    }
 
     return NextResponse.json(
       { success: true, contact: contactSubmission },
