@@ -1,42 +1,40 @@
-// Honest, company-voice value statements shown in the "Our Promise" slider.
-// These are claims we make about how we work — not customer reviews. Replace
-// this section with real client testimonials once they are collected.
+// Honest, humanized value statements shown in the "Our Promise" section.
 export const whyChooseUs = [
   {
+    step: "01",
+    phase: "Clear Planning",
     icon: "clock",
-    title: "On-Time, Every Time",
+    title: "Guaranteed Dates, No Excuses",
     description:
-      "We treat deadlines as commitments. Clear milestones and steady progress mean your project ships when we say it will.",
+      "When we commit to a launch date, we stick to it. We break your project into weekly milestones so you always know what is being built and when it will ship.",
+    deliverable: "Fixed Milestones & On-Time Launch",
   },
   {
-    icon: "rocket",
-    title: "Built to Scale",
-    description:
-      "Clean, modern, well-tested code that keeps performing smoothly as your product, traffic, and business grow.",
-  },
-  {
+    step: "02",
+    phase: "Direct Access",
     icon: "message",
-    title: "Real Communication",
+    title: "Real Talks, Zero Tech Jargon",
     description:
-      "A responsive team that keeps you in the loop at every stage, so you always know exactly where your project stands.",
+      "You talk directly with the people building your software, not pushy salespeople. We explain everything in plain English and keep you updated every week.",
+    deliverable: "Direct WhatsApp & Team Access",
   },
   {
-    icon: "target",
-    title: "Focused on Results",
-    description:
-      "From first idea to launch, we care about outcomes that move your business forward, not just shipping features.",
-  },
-  {
+    step: "03",
+    phase: "Full Ownership",
     icon: "shield",
-    title: "Quality You Can Rely On",
+    title: "You Own 100% of Your Code",
     description:
-      "Every build goes through careful testing and review, so what you get is stable, secure, and ready for the real world.",
+      "From day one, all code, designs, and credentials belong entirely to you. No recurring agency licenses, no hostage accounts, and zero vendor lock-in.",
+    deliverable: "100% Code & Asset Ownership",
   },
   {
+    step: "04",
+    phase: "Ongoing Care",
     icon: "users",
-    title: "A Partner, Not a Vendor",
+    title: "We Don't Disappear After Launch",
     description:
-      "We work as an extension of your team, invested in your success long after the project goes live.",
+      "Going live is just the beginning. We stay by your side with free post-launch support and guidance so your business never gets stuck with unexpected bugs.",
+    deliverable: "30-Day Free Warranty & Support",
   },
 ];
 

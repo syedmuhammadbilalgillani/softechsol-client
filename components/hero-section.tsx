@@ -72,7 +72,7 @@ const HERO_SLIDES: HeroSlide[] = [
     primaryCtaHref: "/services/web-development",
     secondaryCtaText: "Get a Free Quote",
     secondaryCtaHref: "/contact",
-    imageSrc: "",
+    imageSrc: "/services/Web_Development_Services.webp",
   },
   {
     id: "mobile-development",
@@ -92,7 +92,7 @@ const HERO_SLIDES: HeroSlide[] = [
     primaryCtaHref: "/services/mobile-development",
     secondaryCtaText: "Discuss Your App Idea",
     secondaryCtaHref: "/contact",
-    imageSrc: "",
+    imageSrc: "/services/Mobile_App_Development_Showcase.webp",
   },
   {
     id: "business-automation",
@@ -112,7 +112,7 @@ const HERO_SLIDES: HeroSlide[] = [
     primaryCtaHref: "/services/business-automation",
     secondaryCtaText: "Automate Your Workflow",
     secondaryCtaHref: "/contact",
-    imageSrc: "",
+    imageSrc: "/services/Business_Workflow_Automation_Dashboard.webp",
   },
   {
     id: "agentic-ai",
@@ -132,7 +132,7 @@ const HERO_SLIDES: HeroSlide[] = [
     primaryCtaHref: "/services/agentic-ai",
     secondaryCtaText: "Build Custom AI",
     secondaryCtaHref: "/contact",
-    imageSrc: "",
+    imageSrc: "/services/AI_Agent_Ecosystem_Dashboard.webp",
   },
   {
     id: "ui-ux-design",
@@ -152,7 +152,7 @@ const HERO_SLIDES: HeroSlide[] = [
     primaryCtaHref: "/services/ui-ux-design",
     secondaryCtaText: "Request Design Review",
     secondaryCtaHref: "/contact",
-    imageSrc: "",
+    imageSrc: "/services/UI_UX_Design_Prototyping_Workspace.webp",
   },
   {
     id: "deployment-and-maintenance",
@@ -172,7 +172,7 @@ const HERO_SLIDES: HeroSlide[] = [
     primaryCtaHref: "/services/deployment-and-maintenance",
     secondaryCtaText: "Get Infrastructure Help",
     secondaryCtaHref: "/contact",
-    imageSrc: "",
+    imageSrc: "/services/Cloud_DevOps_Dashboard_Workspace.webp",
   },
 ];
 
@@ -610,13 +610,14 @@ const HeroSection = () => {
               {/* RIGHT COLUMN: Visual Graphic (Custom Image or Fallback) */}
               <div className="lg:col-span-5 flex items-center justify-center">
                 {activeSlide.imageSrc ? (
-                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-slate-700/60">
+                  <div className="relative w-full aspect-[4/3] flex items-center justify-center">
                     <Image
                       src={activeSlide.imageSrc}
                       alt={activeSlide.title}
                       fill
                       priority
-                      className="object-contain"
+                      className="object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105"
+                      sizes="(max-width: 1024px) 100vw, 500px"
                     />
                   </div>
                 ) : (
