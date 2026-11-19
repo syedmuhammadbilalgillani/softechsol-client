@@ -492,18 +492,45 @@ export const ContactAction = async (formData: FormData) => {
     .join("\n\n");
 
   try {
-    // Save to database
+    // Save to database with automatic sequence auto-healing if needed
     console.log("[Contact Form Server] Inserting contact inquiry into database...");
-    const response = await prisma.contactUs.create({
-      data: {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        phone: phone?.trim() || null,
-        notes: combinedNotes || null,
-        service_id: null,
-        status: "NEW",
-      },
-    });
+    let response;
+    try {
+      response = await prisma.contactUs.create({
+        data: {
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          phone: phone?.trim() || null,
+          notes: combinedNotes || null,
+          service_id: null,
+          status: "NEW",
+        },
+      });
+    } catch (createErr: any) {
+      // Auto-heal sequence if P2002 conflict happens on contact_id (common after manual DB imports)
+      if (createErr?.code === "P2002" || String(createErr?.message).includes("contact_id")) {
+        console.warn("[Contact Form Server] Sequence desync detected on contact_id. Auto-healing sequence and retrying...");
+        await prisma.$executeRawUnsafe(`
+          SELECT setval(
+            pg_get_serial_sequence('"ContactUs"', 'contact_id'),
+            COALESCE((SELECT MAX(contact_id) FROM "ContactUs"), 1)
+          );
+        `);
+        response = await prisma.contactUs.create({
+          data: {
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            phone: phone?.trim() || null,
+            notes: combinedNotes || null,
+            service_id: null,
+            status: "NEW",
+          },
+        });
+        console.log("[Contact Form Server] Auto-healed sequence successfully! New contact_id:", response.contact_id);
+      } else {
+        throw createErr;
+      }
+    }
     console.log(`[Contact Form Server] Database entry created successfully! contact_id: ${response.contact_id}`);
 
     // Send emails

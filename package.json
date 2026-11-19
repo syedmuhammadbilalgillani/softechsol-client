@@ -22,6 +22,7 @@
     "lint": "eslint",
     "analyze": "ANALYZE=true next build",
     "create-admin": "tsx scripts/create-admin.ts",
+    "fix-sequences": "tsx scripts/fix-sequences.ts",
     "export-backup": "tsx scripts/export-full-backup.ts",
     "import-backup": "tsx scripts/import-full-backup.ts",
     "postinstall": "prisma generate"
