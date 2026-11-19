@@ -3,8 +3,12 @@ import bcrypt from "bcryptjs";
 import logger from "@/lib/logger";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { decode as defaultDecode, encode as defaultEncode } from "next-auth/jwt";
-
+import {
+  decode as defaultDecode,
+  encode as defaultEncode,
+} from "next-auth/jwt";
+import dotenv from "dotenv";
+dotenv.config();
 const attemptBackendLogin = async (email: string, password: string) => {
   const cleanEmail = email.trim();
   console.log(`[NextAuth Server] Login attempt for email: "${cleanEmail}"`);
@@ -26,22 +30,30 @@ const attemptBackendLogin = async (email: string, password: string) => {
   }
 
   if (!user) {
-    console.error(`[NextAuth Server] Auth failed: No user found in database with email "${cleanEmail}"`);
+    console.error(
+      `[NextAuth Server] Auth failed: No user found in database with email "${cleanEmail}"`,
+    );
     return null;
   }
 
   if (!user.is_active) {
-    console.error(`[NextAuth Server] Auth failed: User "${cleanEmail}" (ID: ${user.user_id}) is marked inactive`);
+    console.error(
+      `[NextAuth Server] Auth failed: User "${cleanEmail}" (ID: ${user.user_id}) is marked inactive`,
+    );
     return null;
   }
 
   const passwordMatches = await bcrypt.compare(password, user.password);
   if (!passwordMatches) {
-    console.error(`[NextAuth Server] Auth failed: Password mismatch for user "${cleanEmail}"`);
+    console.error(
+      `[NextAuth Server] Auth failed: Password mismatch for user "${cleanEmail}"`,
+    );
     return null;
   }
 
-  console.log(`[NextAuth Server] Auth SUCCESS: User "${cleanEmail}" verified (Role: ${user.role})`);
+  console.log(
+    `[NextAuth Server] Auth SUCCESS: User "${cleanEmail}" verified (Role: ${user.role})`,
+  );
   return user;
 };
 
@@ -60,7 +72,9 @@ export const authOptions: NextAuthOptions = {
           const password = credentials?.password ?? "";
 
           if (!email || !password) {
-            console.error("[NextAuth Server] Missing credentials: Email or password was not provided");
+            console.error(
+              "[NextAuth Server] Missing credentials: Email or password was not provided",
+            );
             return null;
           }
 
@@ -105,7 +119,7 @@ export const authOptions: NextAuthOptions = {
       } catch (err: any) {
         console.warn(
           "[NextAuth Server] Stale or invalid session token (decryption failed). Safely resetting session cookie.",
-          err?.message
+          err?.message,
         );
         return null;
       }
@@ -141,7 +155,9 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/admin/signin",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret:
+    process.env.NEXTAUTH_SECRET ||
+    "dhjsagiuey872y3cydhasie8q72YYXE872YEXYIAUSHX",
   debug: process.env.NODE_ENV === "development",
   cookies: {
     sessionToken: {
@@ -155,4 +171,3 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
-
