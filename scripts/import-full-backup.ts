@@ -452,6 +452,33 @@ async function importFullBackup() {
       { timeout: 300000, maxWait: 60000 }
     );
 
+    // Sync PostgreSQL auto-increment sequences so new inserts don't fail with P2002
+    console.log("[INFO] Syncing PostgreSQL auto-increment sequences...");
+    const seqTables = [
+      { table: "ContactUs", col: "contact_id" },
+      { table: "User", col: "user_id" },
+      { table: "Blog", col: "blog_id" },
+      { table: "BlogCategory", col: "category_id" },
+      { table: "Job", col: "job_id" },
+      { table: "JobCategory", col: "category_id" },
+      { table: "Project", col: "project_id" },
+      { table: "Team", col: "id" },
+      { table: "MyCompanies", col: "company_id" },
+    ];
+    for (const { table, col } of seqTables) {
+      try {
+        await prisma.$queryRawUnsafe(`
+          SELECT setval(
+            pg_get_serial_sequence('"${table}"', '${col}'),
+            COALESCE((SELECT MAX("${col}") FROM "${table}"), 1)
+          );
+        `);
+      } catch (err: any) {
+        // Ignore sequence error if column doesn't use sequence
+      }
+    }
+    console.log("[OK] All PostgreSQL sequences synced.");
+
     const totalCreated = Object.values(result.created).reduce(
       (sum, count) => sum + count,
       0
