@@ -16,9 +16,9 @@
     ]
   },
   "scripts": {
-    "dev": "node init && next dev",
-    "build": "node init && prisma generate && next build",
-    "start": "node init && next start -p 3004",
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start -p 3004",
     "lint": "eslint",
     "analyze": "ANALYZE=true next build",
     "create-admin": "tsx scripts/create-admin.ts",
